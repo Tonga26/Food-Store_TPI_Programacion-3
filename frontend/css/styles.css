@@ -1,0 +1,259 @@
+/* REGLAS GENERALES*/
+:root { 
+    --color-primario: #ff6347;
+    --color-fondo: #f0f0f0;
+    --color-texto: #333;
+    --color-blanco: #fff;
+    --color-borde: #ddd;
+    --color-focus: #ff4500;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-fondo);
+    font-family: Arial, Helvetica, sans-serif; 
+}
+
+/* ESTRUCTURA PRINCIPAL */
+
+.page-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    column-gap: 20px;
+    row-gap: 0px;
+}
+
+.header, .footer {
+    grid-column: 1 / -1;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    padding: 0.4rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+}
+
+/* MENÚ PRINCIPAL */
+
+.nav__menu {
+    display: flex;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    justify-content: space-between;
+    list-style: none;
+    align-items: center;
+}
+
+.nav__item {
+    padding: 0.5rem;
+}
+
+.nav__item a {
+    text-decoration: none;
+    color: var(--color-texto);
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav__item a:hover {
+    color: var(--color-focus);
+}
+
+/* BARRA LATERAL DE CATEGORIAS */
+
+.sidebar {
+    background-color: var(--color-blanco);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.sidebar__title {
+    color: var(--color-primario);
+    border-bottom: 2px solid var(--color-borde);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.sidebar__categories {
+    list-style: none;
+}
+
+.sidebar__category-item a {
+    text-decoration: none;
+    color: var(--color-texto);
+    font-weight: bold;
+    display: block;
+    padding: 10px 0;
+}
+
+.sidebar__category-item a:hover {
+    color: var(--color-focus);
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.container__main {
+    padding-top: 20px;
+}
+
+/* FORMULARIO DE BÚSQUEDA */
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-form__label {
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.search-form__input:focus {
+    border: 1px solid var(--color-focus);   
+}
+
+.search-form__btn {
+    padding: 8px 15px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form__btn:focus {
+    background-color: var(--color-focus);
+}
+
+/* CONTENEDOR DE PRODUCTOS */
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.products__title {
+    width: 100%;
+    text-align: center;
+    color: var(--color-primario);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-blanco);
+    width: 260px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card__img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.product-card__name {
+    color: var(--color-texto);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-card__description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.product-card__price {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--color-texto);
+}
+
+.product-card__btn-details, 
+.product-card__btn-add {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 8px;
+}
+
+.product-card__btn-details {
+    background-color: transparent;
+    color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+}
+
+.product-card__btn-details:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.product-card__btn-add {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.product-card__btn-add:hover {
+    background-color: var(--color-focus);
+}
+
+/* FOOTER */
+
+.footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.footer__rights {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.footer__contact {
+    font-weight: bold;
+}
+
+.footer__contact a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Food Store</title>
+</head>
+
+<body>
+    <div class="page-layout">
+        <header class="header">
+            <h1 class="header__title">🍔 Food Store</h1>
+
+            <!-- Menú principal -->
+            <nav class="header__nav">
+                <ul class="nav__menu">
+                    <li class="nav__item"><a href="#">Inicio</a></li>
+                    <li class="nav__item"><a href="#">Mis Pedidos</a></li>
+                    <li class="nav__item"><a href="#">Carrito</a></li>
+                    <li class="nav__item"><a href="./admin.html">Panel Admin</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!--Barra lateral -->
+        <aside class="sidebar">
+            <h2 class="sidebar__title">Categorias</h2>
+            <ul class="sidebar__categories" id="lista-categorias"></ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="container__main">
+            <!-- Buscador -->
+            <form class="search-form" action="#" method="#">
+                <label class="search-form__label" for="buscarProducto">Buscar producto:</label>
+                <input class="search-form__input" id="buscarProducto" type="text" placeholder="Ej. Hamburguesa">
+                <button class="search-form__btn" type="submit">Buscar</button>
+            </form>
+            <!-- Grilla de productos -->
+            <section class="products" id="contenedor-productos">
+                <h2 class="products__title">Productos Destacados</h2>
+            </section>
+        </main>
+
+        <!--Pie de página-->
+        <footer class="footer">
+            <p class="footer__rights">&copy; 2026 Food Store. Todos los derechos reservados.</p>
+            <p class="footer__contact">Contacto: <a class="footer__contact-email" href="#">info@foodstore.com</a></p>
+        </footer>
+    </div>
+    <script src="./js/data.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
