@@ -41,4 +41,66 @@ Sigue estos pasos para levantar el servidor de desarrollo localmente:
 
 1. Clona el repositorio en tu máquina:
    ```bash
-   git clone [https://github.com/Tonga26/Food-Store_TPI_Programacion-3.git](https://github.com/Tonga26/Food-Store_TPI_Programacion-3.git)
+   git clone https://github.com/Tonga26/Food-Store_TPI_Programacion-3.git
+
+2. Ingresa al directorio del frontend:
+   ```bash
+   cd "Food-Store_TPI_Programacion-3/frontend"
+
+3. Instala las dependencias del proyecto:
+   ```bash
+   pnpm install
+
+4. Levanta el servidor de desarrollo:
+   ```bash
+   pnpm dev
+
+5. La aplicación estará disponible en http://localhost:5173.
+
+## 📖 Documentación de la API
+
+🚧 En desarrollo. Esta sección se completará en las próximas fases del proyecto cuando se integre el backend con Spring Boot y se configure Swagger/OpenAPI.
+
+## 🧪 Testing
+
+🚧 En desarrollo. Las pruebas unitarias y de integración se implementarán en los próximos Sprints.
+
+## 📁 Estructura de Carpetas
+   ```Plaintext
+   📦 PROYECTO FOOD STORE
+    ┣ 📂 frontend/
+    ┃ ┣ 📂 src/
+    ┃ ┃ ┣ 📂 assets/       # Imágenes, logos e iconos
+    ┃ ┃ ┣ 📂 css/          # Hojas de estilo modulares (admin.css, styles.css)
+    ┃ ┃ ┣ 📂 pages/        # Vistas de la aplicación separadas por dominio
+    ┃ ┃ ┃ ┣ 📂 admin/      # Panel de control (admin.html, admin.ts)
+    ┃ ┃ ┃ ┣ 📂 auth/       # Login y Registro (login.html, registro.html)
+    ┃ ┃ ┃ ┗ 📂 client/     # Tienda y Catálogo (index.html, main.ts)
+    ┃ ┃ ┣ 📂 types/        # Definiciones e Interfaces TypeScript (user.ts)
+    ┃ ┃ ┗ 📂 utils/        # Lógica reutilizable, persistencia y guards
+    ┃ ┣ 📜 .gitignore      # Archivos ignorados por Git
+    ┃ ┣ 📜 index.html      # Entry point (Redirección configurada por Vite)
+    ┃ ┣ 📜 package.json    # Configuración de dependencias y scripts
+    ┃ ┗ 📜 vite.config.ts  # Configuración del empaquetador
+    ┗ 📜 README.md         # Este archivo
+   ```
+
+## 🗺️ Roadmap / Próximos Pasos
+
+[x] Fase 1: Maquetación estática (HTML/CSS).
+
+[x] Fase 2: Interactividad básica y DOM con Vanilla JS.
+
+[x] Fase 3: Migración a Vite + TypeScript.
+
+[ ] Sprint Actual: Implementar Tipado Fuerte (Interfaces) y protección de rutas.
+
+[ ] Sprint Back-1: Configuración de Spring Boot, Entidad Base y Repositorios.
+
+[ ] Sprint Back-2: Desarrollo de API REST para Usuarios y Productos.
+
+[ ] Sprint Final: Integración Frontend-Backend y gestión de Carrito/Pedidos.
+
+## ✉️ Autor y Desarrollador: Gastón Giorgio
+
+Institución: Universidad Tecnológica Nacional (UTN) - Tecnicatura Universitaria en Programación.
