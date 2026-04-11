@@ -66,24 +66,28 @@ Sigue estos pasos para levantar el servidor de desarrollo localmente:
 🚧 En desarrollo. Las pruebas unitarias y de integración se implementarán en los próximos Sprints.
 
 ## 📁 Estructura de Carpetas
-   ```Plaintext
-   📦 PROYECTO FOOD STORE
-    ┣ 📂 frontend/
-    ┃ ┣ 📂 src/
-    ┃ ┃ ┣ 📂 assets/       # Imágenes, logos e iconos
-    ┃ ┃ ┣ 📂 css/          # Hojas de estilo modulares (admin.css, styles.css)
-    ┃ ┃ ┣ 📂 pages/        # Vistas de la aplicación separadas por dominio
-    ┃ ┃ ┃ ┣ 📂 admin/      # Panel de control (admin.html, admin.ts)
-    ┃ ┃ ┃ ┣ 📂 auth/       # Login y Registro (login.html, registro.html)
-    ┃ ┃ ┃ ┗ 📂 client/     # Tienda y Catálogo (index.html, main.ts)
-    ┃ ┃ ┣ 📂 types/        # Definiciones e Interfaces TypeScript (user.ts)
-    ┃ ┃ ┗ 📂 utils/        # Lógica reutilizable, persistencia y guards
-    ┃ ┣ 📜 .gitignore      # Archivos ignorados por Git
-    ┃ ┣ 📜 index.html      # Entry point (Redirección configurada por Vite)
-    ┃ ┣ 📜 package.json    # Configuración de dependencias y scripts
-    ┃ ┗ 📜 vite.config.ts  # Configuración del empaquetador
-    ┗ 📜 README.md         # Este archivo
-   ```
+```text
+📦 PROYECTO FOOD STORE
+ ┣ 📂 frontend/
+ ┃ ┣ 📂 public/          # Archivos estáticos públicos
+ ┃ ┣ 📂 src/
+ ┃ ┃ ┣ 📂 assets/        # Imágenes y recursos multimedia
+ ┃ ┃ ┣ 📂 css/           # Hojas de estilo modulares
+ ┃ ┃ ┣ 📂 pages/         # Vistas de la aplicación separadas por dominio
+ ┃ ┃ ┃ ┣ 📂 admin/       # Panel de control (admin.html, home.ts)
+ ┃ ┃ ┃ ┣ 📂 auth/        # Autenticación (login y registro con sus .html y .ts)
+ ┃ ┃ ┃ ┗ 📂 client/      # Tienda principal y Catálogo
+ ┃ ┃ ┣ 📂 types/         # Interfaces TypeScript (IUser.ts, Rol.ts)
+ ┃ ┃ ┣ 📂 utils/         # Lógica reutilizable (auth, data, localStorage, navigate)
+ ┃ ┃ ┣ 📜 main.ts        # Archivo principal de TypeScript
+ ┃ ┃ ┗ 📜 style.css      # Estilos globales base
+ ┃ ┣ 📜 .gitignore       # Archivos ignorados por Git
+ ┃ ┣ 📜 index.html       # Entry point principal (Redirección de Vite)
+ ┃ ┣ 📜 package.json     # Dependencias de Node.js y scripts
+ ┃ ┣ 📜 tsconfig.json    # Configuración del compilador TypeScript
+ ┃ ┣ 📜 vite.config.ts   # Configuración del servidor de desarrollo Vite
+ ┃ ┗ 📜 README.md        # Documentación del proyecto
+```
 
 ## 🗺️ Roadmap / Próximos Pasos
 
