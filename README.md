@@ -97,7 +97,7 @@ Sigue estos pasos para levantar el servidor de desarrollo localmente:
 
 [x] Fase 3: Migración a Vite + TypeScript.
 
-[ ] Sprint Actual: Implementar Tipado Fuerte (Interfaces) y protección de rutas.
+[X] Fase 4: Implementar Tipado Fuerte (Interfaces) y protección de rutas.
 
 [ ] Sprint Back-1: Configuración de Spring Boot, Entidad Base y Repositorios.
 
