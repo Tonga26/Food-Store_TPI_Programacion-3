@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../css/styles.css">
-    <title>Food Store</title>
+    <title>Food Store | Catálogo</title>
 </head>
-
 <body>
     <div class="page-layout">
         <header class="header">
             <h1 class="header__title">🍔 Food Store</h1>
-
-            <!-- Menú principal -->
             <nav class="header__nav">
                 <ul class="nav__menu">
-                    <li class="nav__item"><a href="#">Inicio</a></li>
-                    <li class="nav__item"><a href="#">Mis Pedidos</a></li>
-                    <li class="nav__item"><a href="#">Carrito</a></li>
-                    <li class="nav__item"><a href="../../admin/home/admin.html">Panel Admin</a></li>
-                    <li class="nav__item"><a href="#" id="logoutButton">Cerrar Sesión</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link nav__link--active">Inicio</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Mis Pedidos</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Carrito</a></li>
+                    <li class="nav__item"><a href="../../admin/home/admin.html" class="nav__link nav__link--admin">Panel Admin</a></li>
+                    <li class="nav__item"><a href="#" id="logoutButton" class="nav__link">Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </header>
 
-        <!--Barra lateral -->
         <aside class="sidebar">
-            <h2 class="sidebar__title">Categorias</h2>
-            <ul class="sidebar__categories" id="lista-categorias"></ul>
+            <h2 class="sidebar__title">Categorías</h2>
+            <ul class="sidebar__categories" id="lista-categorias">
+                </ul>
         </aside>
 
-        <!-- Contenido principal -->
-        <main class="container__main">
-            <!-- Buscador -->
-            <form class="search-form" action="#" method="#">
-                <label class="search-form__label" for="buscarProducto">Buscar producto:</label>
-                <input class="search-form__input" id="buscarProducto" type="text" placeholder="Ej. Hamburguesa">
-                <button class="search-form__btn" type="submit">Buscar</button>
-            </form>
-            <!-- Grilla de productos -->
-            <section class="products" id="contenedor-productos">
-                <h2 class="products__title">Productos Destacados</h2>
+        <main class="main-content">
+            <section class="search-section">
+                <form class="search-form">
+                    <div class="search-form__group">
+                        <input class="search-form__input" id="buscarProducto" type="text" placeholder="¿Qué vas a comer hoy?">
+                        <button class="search-form__btn" type="submit">🔍 Buscar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="products-section">
+                <h2 class="products-section__title">Nuestros Productos</h2>
+                <div class="products-grid" id="contenedor-productos">
+                    </div>
             </section>
         </main>
 
-        <!--Pie de página-->
         <footer class="footer">
-            <p class="footer__rights">&copy; 2026 Food Store. Todos los derechos reservados.</p>
-            <p class="footer__contact">Contacto: <a class="footer__contact-email" href="#">info@foodstore.com</a></p>
+            <div class="footer__content">
+                <p class="footer__rights">&copy; 2026 <strong>Food Store</strong>. Todos los derechos reservados.</p>
+                <p class="footer__contact">Contacto: <a class="footer__link" href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+            </div>
         </footer>
     </div>
     <script type="module" src="./home.ts"></script>
 </body>
-
 </html>
