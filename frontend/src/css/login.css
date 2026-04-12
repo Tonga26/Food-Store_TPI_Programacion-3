@@ -25,7 +25,7 @@ body {
     min-height: 100vh;
 }
 
-.login-form {
+.login-form, .registro-form {
     display: flex;
     flex-direction: column;
     background-color: var(--color-blanco);
@@ -36,7 +36,7 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.login-form h1 {
+.login-form h1, .registro-form h1 {
     color: var(--color-primario);
     text-align: center;
     text-transform: uppercase;
@@ -47,7 +47,7 @@ body {
     margin-bottom: 5px;
 }
 
-.login-form h2 {
+.login-form h2, .registro-form h2 {
     color: var(--color-texto);
     font-size: 18px;
     text-align: center;

@@ -1,12 +1,12 @@
-const categorias = ["Hamburguesas", "Pizzas", "Papas Fritas", "Bebidas"];
+export const categorias = ["Hamburguesas", "Pizzas", "Papas Fritas", "Bebidas"];
 
-const productos = [
+export const productos = [
     {
         id: 1,
         nombre: "Hamburguesa Triple",
         descripcion: "Triple carne, cheddar y bacon",
         precio: 25000,
-        imagen: "./assets/img/hamburguesa-triple.png",
+        imagen: "/src/assets/img/hamburguesa-triple.png",
         categoria: "Hamburguesas"
     },
     {
@@ -14,7 +14,7 @@ const productos = [
         nombre: "Pizza Muzzarella",
         descripcion: "Salsa casera y orégano",
         precio: 18000,
-        imagen: "./assets/img/pizza-muzzarella.png",
+        imagen: "/src/assets/img/pizza-muzzarella.png",
         categoria: "Pizzas"
     },
     {
@@ -22,7 +22,7 @@ const productos = [
         nombre: "Papas Fritas",
         descripcion: "Papas Fritas con extra cheddar",
         precio: 8000,
-        imagen: "./assets/img/papas-cheddar.png",
+        imagen: "/src/assets/img/papas-cheddar.png",
         categoria: "Papas Fritas"
     },
     {
@@ -30,7 +30,7 @@ const productos = [
         nombre: "Bebida",
         descripcion: "Bebida fresca",
         precio: 6000,
-        imagen: "./assets/img/bebida.png",
+        imagen: "/src/assets/img/bebida.png",
         categoria: "Bebidas"
     },
 ]

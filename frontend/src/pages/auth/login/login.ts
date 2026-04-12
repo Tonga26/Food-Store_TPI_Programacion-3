@@ -1,30 +1,51 @@
-import type { IUser } from "../../../types/IUser";
-import type { Rol } from "../../../types/Rol";
 import { navigate } from "../../../utils/navigate";
+import { getAllUsers, saveUser } from "../../../utils/localStorage";
 
-const form = document.getElementById("form") as HTMLFormElement;
-const inputEmail = document.getElementById("email") as HTMLInputElement;
-//const inputPassword = document.getElementById("password") as HTMLInputElement;
-const selectRol = document.getElementById("rol") as HTMLSelectElement;
+// Seleccionamos el formulario del DOM
+const formLogin = document.getElementById("login-form") as HTMLFormElement;
 
-form.addEventListener("submit", (e: SubmitEvent) => {
+// Le agregamos un evento que valide los datos ingresados (email y password)
+formLogin.addEventListener("submit", (e: SubmitEvent) => {
   e.preventDefault();
-  const valueEmail = inputEmail.value;
-  //const valuePassword = inputPassword.value;
-  const valueRol = selectRol.value as Rol;
 
-  if (valueRol === "admin") {
-    navigate("/src/pages/admin/home/home.html");
-  } else if (valueRol === "client") {
-    navigate("/src/pages/client/home/home.html");
+  // Obtenemos los valores ingresados en los input email y password
+  const inputEmail = (document.getElementById("email") as HTMLInputElement).value;
+  const inputPassword = (document.getElementById("password") as HTMLInputElement).value;
+
+  // 1. Obtenemos TODOS los usuarios registrados en la base de datos (el array "users")
+  const usersArray = getAllUsers();
+
+  // Si el array está vacío, significa que el sistema está en cero
+  if (usersArray.length === 0) {
+    alert("No se encontró ninguna cuenta en el sistema. Por favor, regístrate primero.");
+    return;
   }
 
-  const user: IUser = {
-    email: valueEmail,
-    role: valueRol,
-    loggedIn: true,
-  };
+  // 2. Buscamos en el array si hay algún usuario con ese email y esa contraseña
+  const foundUser = usersArray.find(
+    (user) => user.email === inputEmail && user.password === inputPassword
+  );
 
-  const parseUser = JSON.stringify(user);
-  localStorage.setItem("userData", parseUser);
+  // 3. Validamos el resultado de la búsqueda
+  if (foundUser) {
+    
+    // Si el usuario existe y las credenciales coinciden, lo activamos
+    foundUser.loggedIn = true;
+    
+    // Guardamos ESTE usuario específico en la caja fuerte de sesión ("userData")
+    saveUser(foundUser);
+
+    alert(`Bienvenido de vuelta, ${foundUser.nombre}`);
+
+    // Verificamos el rol que tiene el usuario logueado, y redirigimos automáticamente
+    if (foundUser.role === "admin") {
+      navigate("/src/pages/admin/home/admin.html");
+    } else {
+      navigate("/src/pages/client/home/index.html");
+    }
+
+  } else {
+    // Si la búsqueda no encontró a nadie, los datos son erróneos
+    alert("El email o la contraseña son incorrectos. Intentá nuevamente.");
+  }
 });
