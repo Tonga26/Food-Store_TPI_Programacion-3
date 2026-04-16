@@ -13,10 +13,10 @@ export const saveUserToDatabase = (user: IUser) => {
   localStorage.setItem("users", JSON.stringify(usersArray));
 }
 
-export const getAllUsers = (): IUser[] => {{
+export const getAllUsers = (): IUser[] => {
   const usersString = localStorage.getItem("users");
   return usersString ? JSON.parse(usersString) : [];
-}}
+}
 
 // --- GESTIÓN DE LA SESIÓN ACTIVA (Clave 'userData') ---
 export const saveUser = (user: IUser) => {

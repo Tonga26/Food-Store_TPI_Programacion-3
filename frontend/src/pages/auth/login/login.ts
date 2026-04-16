@@ -39,9 +39,9 @@ formLogin.addEventListener("submit", (e: SubmitEvent) => {
 
     // Verificamos el rol que tiene el usuario logueado, y redirigimos automáticamente
     if (foundUser.role === "admin") {
-      navigate("/src/pages/admin/home/admin.html");
+      navigate("/src/pages/admin/adminHome/admin.html");
     } else {
-      navigate("/src/pages/client/home/index.html");
+      navigate("/src/pages/store/home/home.html");
     }
 
   } else {

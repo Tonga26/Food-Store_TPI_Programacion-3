@@ -3,7 +3,7 @@ import type { Rol } from "../types/Rol";
 import { getUser, saveUser } from "./localStorage";
 import { navigate } from "./navigate";
 
-export const checkAuhtUser = (
+export const checkAuthUser = (
   redireccion1: string,
   redireccion2: string,
   rol: Rol

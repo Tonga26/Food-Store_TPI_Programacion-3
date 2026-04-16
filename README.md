@@ -75,7 +75,7 @@ Sigue estos pasos para levantar el servidor de desarrollo localmente:
  ┃ ┃ ┣ 📂 css/           # Hojas de estilo modulares
  ┃ ┃ ┣ 📂 pages/         # Vistas de la aplicación separadas por dominio
  ┃ ┃ ┃ ┣ 📂 admin/       # Panel de control (admin.html, home.ts)
- ┃ ┃ ┃ ┣ 📂 auth/        # Autenticación (login y registro con sus .html y .ts)
+ ┃ ┃ ┃ ┣ 📂 auth/        # Autenticación (login y register con sus .html y .ts)
  ┃ ┃ ┃ ┗ 📂 client/      # Tienda principal y Catálogo
  ┃ ┃ ┣ 📂 types/         # Interfaces TypeScript (IUser.ts, Rol.ts)
  ┃ ┃ ┣ 📂 utils/         # Lógica reutilizable (auth, data, localStorage, navigate)
