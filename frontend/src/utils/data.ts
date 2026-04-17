@@ -1,6 +1,6 @@
 // @ts-nocheck
 // src/utils/data.ts
-import type { Product } from "../types/Product";
+import type { IProduct } from "../types/IProduct";
 import type { ICategory } from "../types/ICategory";
 
 
@@ -49,7 +49,7 @@ const categorias: ICategory[] = [
   },
 ];
 
-export const PRODUCTS: Product[] = [
+export const PRODUCTS: IProduct[] = [
   {
     id: 1,
     eliminado: false,

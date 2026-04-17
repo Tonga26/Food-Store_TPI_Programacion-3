@@ -1,8 +1,8 @@
 import { checkAuthUser, logout } from "../../../utils/auth";
 import { getCategories, PRODUCTS } from "../../../utils/data";
-import type { Product } from "../../../types/Product";
+import type { IProduct } from "../../../types/IProduct";
 
-// Verifica si el usuario tiene permiso (rol client) para acceder a esta vista
+// VERIFICACIÓN DE PERMISOS Y AUTENTICACIÓN
 const initPage = () => {
   checkAuthUser(
     "/src/pages/auth/login/login.html",
@@ -12,24 +12,49 @@ const initPage = () => {
 };
 initPage();
 
+// CARGA DE DATOS EN MEMORIA
 const categorias = getCategories();
 const productos = PRODUCTS;
 
-const listaCategorias = document.getElementById("lista-categorias");
+// RENDERIZADO DEL MENÚ LATERAL Y FILTRADO POR CATEGORÍA
+const listaCategorias = document.getElementById("lista-categorias") as HTMLUListElement;
 
 if (listaCategorias) {
+
+  // BOTÓN "TODAS LAS CATEGORÍAS" (RESET)
+  const liTodas = document.createElement('li');
+  liTodas.innerHTML = `<a href="#">Todas las categorías</a>`;
+  liTodas.classList.add('sidebar__category-item');
+  
+  liTodas?.addEventListener('click', (e: Event) => {
+    e.preventDefault();
+    renderProducts(productos);
+  });
+
+  listaCategorias.appendChild(liTodas);
+
+  // BOTONES DINÁMICOS POR CATEGORÍA
   categorias.forEach(categoria => {
     const li = document.createElement('li');
     li.innerHTML = `<a href="#">${categoria.nombre}</a>`;
     li.classList.add('sidebar__category-item');
+
+    li?.addEventListener('click', (e: Event) => {
+      e.preventDefault();
+      const productosFiltrados = productos.filter(p =>
+        p.categorias.some(c => c.id === categoria.id)
+      );
+      renderProducts(productosFiltrados);
+    });
+
     listaCategorias.appendChild(li);
   });
 }
 
+// RENDERIZADO DE LA GRILLA DE PRODUCTOS
 const contenedorProductos = document.getElementById("contenedor-productos") as HTMLDivElement;
 
-// Renderiza dinámicamente las tarjetas de los productos en la grilla del DOM
-const renderProducts = (productosAMostrar: Product[]) => {
+const renderProducts = (productosAMostrar: IProduct[]) => {
   contenedorProductos.innerHTML = "";
 
   if (productosAMostrar.length === 0) {
@@ -50,8 +75,8 @@ const renderProducts = (productosAMostrar: Product[]) => {
     `;
 
     const boton = article.querySelector('.product-card__btn-add');
-    
-    // Muestra una alerta confirmando que el producto se agregó al carrito
+
+    // EVENTO DE AGREGAR AL CARRITO
     boton?.addEventListener('click', () => {
       alert(`${producto.nombre} se agregó al carrito correctamente.`);
     });
@@ -60,23 +85,23 @@ const renderProducts = (productosAMostrar: Product[]) => {
   });
 };
 
+// INICIALIZACIÓN DEL CATÁLOGO
 renderProducts(productos);
 
-const form = document.getElementById("search-form") as HTMLFormElement;
+// BÚSQUEDA Y FILTRADO EN TIEMPO REAL POR NOMBRE
 const searchinput = document.getElementById("buscarProducto") as HTMLInputElement;
 
-// Filtra los productos en tiempo real a medida que el usuario escribe en el input
 searchinput?.addEventListener("input", () => {
   const nombreBuscado = searchinput.value.toLowerCase().trim();
-  const filtrados = productos.filter(p => 
+  const filtrados = productos.filter(p =>
     p.nombre.toLowerCase().includes(nombreBuscado)
   );
   renderProducts(filtrados);
 });
 
+// EVENTO DE CIERRE DE SESIÓN (LOGOUT)
 const buttonLogout = document.getElementById("logoutButton") as HTMLButtonElement;
 
-// Cierra la sesión del usuario y lo redirige al login
 buttonLogout?.addEventListener("click", (e: Event) => {
   e.preventDefault();
   logout();
