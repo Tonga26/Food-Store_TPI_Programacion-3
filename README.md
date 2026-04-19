@@ -84,7 +84,7 @@ Las páginas y lógica del parcial están ubicadas dentro del directorio src/ re
  ┃ ┃ ┣ 📂 pages/         # Vistas de la aplicación
  ┃ ┃ ┃ ┣ 📂 admin/       # Panel de control (admin.html, home.ts, categories, orders, products)
  ┃ ┃ ┃ ┣ 📂 auth/        # Autenticación (login.html, register.html)
- ┃ ┃ ┃ ┣ 📂 client/      # Vistas específicas del cliente
+ ┃ ┃ ┃ ┣ 📂 client/      # Vistas específicas del cliente (próxmimamente)
  ┃ ┃ ┃ ┗ 📂 store/       # Catálogo principal (home), carrito (cart) y detalles 
  ┃ ┃ ┣ 📂 types/         # Interfaces TS (ICartItem, ICategory, IProduct, IUser, Rol)
  ┃ ┃ ┗ 📂 utils/         # Lógica reutilizable (auth, cart, data, localStorage, navigate)
