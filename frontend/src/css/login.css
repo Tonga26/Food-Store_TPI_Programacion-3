@@ -104,6 +104,34 @@ button:active {
     transform: translateY(0);
 }
 
+@media (max-width: 600px) {
+    .container {
+        padding: 12px;
+    }
+
+    .login-form {
+        padding: 28px 20px;
+        border-radius: 12px;
+    }
+
+    .login-form h1 {
+        font-size: 22px;
+    }
+
+    .login-form h2 {
+        font-size: 15px;
+        margin-bottom: 24px;
+    }
+
+    input, button {
+        font-size: 15px;
+    }
+
+    .registro {
+        margin-top: 20px;
+    }
+}
+
 .registro {
     text-align: center;
     font-size: 14px;
@@ -120,4 +148,65 @@ button:active {
 
 .registro a:hover {
     color: var(--color-focus);
+}
+
+/* ==========================================
+   SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
+   ========================================== */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+}
+
+/* ==========================================
+   SECCIÓN: DISEÑO INDIVIDUAL DE LA NOTIFICACIÓN
+   ========================================== */
+.toast-message {
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid var(--color-primario);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 250px;
+    animation: slideInRight 0.3s ease forwards;
+}
+
+/* ==========================================
+   SECCIÓN: ANIMACIONES DE ENTRADA Y SALIDA
+   ========================================== */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast-message.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }

@@ -1,5 +1,6 @@
 import { navigate } from "../../../utils/navigate";
 import { getAllUsers, saveUser } from "../../../utils/localStorage";
+import { mostrarToast } from "../../../utils/toast";
 
 // Seleccionamos el formulario del DOM
 const formLogin = document.getElementById("login-form") as HTMLFormElement;
@@ -17,7 +18,7 @@ formLogin.addEventListener("submit", (e: SubmitEvent) => {
 
   // Si el array está vacío, significa que el sistema está en cero
   if (usersArray.length === 0) {
-    alert("No se encontró ninguna cuenta en el sistema. Por favor, regístrate primero.");
+    mostrarToast("⚠️ No se encontró ninguna cuenta. Por favor, regístrate primero.");
     return;
   }
 
@@ -28,24 +29,26 @@ formLogin.addEventListener("submit", (e: SubmitEvent) => {
 
   // 3. Validamos el resultado de la búsqueda
   if (foundUser) {
-    
+
     // Si el usuario existe y las credenciales coinciden, lo activamos
     foundUser.loggedIn = true;
-    
+
     // Guardamos ESTE usuario específico en la caja fuerte de sesión ("userData")
     saveUser(foundUser);
 
-    alert(`Bienvenido de vuelta, ${foundUser.nombre}`);
+    mostrarToast(`✅ Bienvenido de vuelta, ${foundUser.nombre} ${foundUser.apellido}`);
 
     // Verificamos el rol que tiene el usuario logueado, y redirigimos automáticamente
-    if (foundUser.role === "admin") {
-      navigate("/src/pages/admin/adminHome/admin.html");
-    } else {
-      navigate("/src/pages/store/home/home.html");
-    }
+    setTimeout(() => {
+      if (foundUser.role === "admin") {
+        navigate("/src/pages/admin/adminHome/admin.html");
+      } else {
+        navigate("/src/pages/store/home/home.html");
+      }
+    }, 1500);
 
   } else {
     // Si la búsqueda no encontró a nadie, los datos son erróneos
-    alert("El email o la contraseña son incorrectos. Intentá nuevamente.");
+    mostrarToast("❌ El email o la contraseña son incorrectos. Intentá nuevamente.");
   }
 });

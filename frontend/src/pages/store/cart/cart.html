@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store | Carrito</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+
+<body>
+    <div class="page-layout">
+        <header class="header">
+            <h1 class="header__title">🍔 Food Store</h1>
+            <nav class="header__nav">
+                <ul class="nav__menu" id="nav-menu"></ul>
+            </nav>
+        </header>
+        <div class="cart-container" id="cart-content">
+
+            <section class="cart-left">
+                <h2>Tu Carrito</h2>
+                <p id="empty-message">Tu carrito está vacío. ¡Agregá algo rico!</p>
+                <ul id="cart-content-list" class="cart-list">
+                </ul>
+            </section>
+
+            <aside class="cart-right" id="cart-summary">
+                <h2>Resumen de Compra</h2>
+
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0</span>
+                </div>
+
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="total-numero">$0</span>
+                </div>
+
+                <button id="btn-pay" class="btn-checkout">Pagar</button>
+            </aside>
+
+        </div>
+
+        <footer class="footer">
+            <div class="footer__content">
+                <p class="footer__rights">&copy; 2026 <strong>Food Store</strong>. Todos los derechos reservados.</p>
+                <p class="footer__contact">Contacto: <a class="footer__link"
+                        href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="./cart.ts"></script>
+</body>
+
+</html>

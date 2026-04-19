@@ -170,3 +170,38 @@ footer {
     margin-top: 40px;
     font-size: 0.85rem;
 }
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px 20px;
+        text-align: center;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    section {
+        padding: 18px;
+    }
+
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .admin-form input,
+    .admin-form select,
+    .admin-form textarea {
+        font-size: 16px;
+    }
+}
