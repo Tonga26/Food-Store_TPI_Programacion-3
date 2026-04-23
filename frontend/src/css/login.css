@@ -16,7 +16,8 @@
 }
 
 body {
-    background-color: var(--color-fondo);
+    background-color: #ff9a6e;
+    background-image: linear-gradient(135deg, #ff6a3d 0%, #ffcc5c 100%);
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: var(--color-texto);
 }

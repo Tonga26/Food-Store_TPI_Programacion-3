@@ -73,10 +73,10 @@ const renderProducts = (productosAMostrar: IProduct[]) => {
     article.classList.add('product-card');
     article.innerHTML = `
       <img class="product-card__img" src="${producto.imagen}" alt="${producto.nombre}">
+      <span class="product-card__category">${producto.categorias[0]?.nombre || 'Sin categoría'}</span>
       <h3 class="product-card__name">${producto.nombre}</h3>
       <p class="product-card__description">${producto.descripcion}</p>
-      <p class="product-card__price">Precio: <strong>$ ${producto.precio}</strong></p>
-      <button class="product-card__btn-details">Ver Detalles</button>
+      <p class="product-card__price">$ ${producto.precio}</p>
       <button class="product-card__btn-add">Agregar al Carrito</button>
     `;
 

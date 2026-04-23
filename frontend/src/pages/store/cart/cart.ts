@@ -69,7 +69,7 @@ const renderCart = () => {
                     <p class="cart-item__quantity">${item.cantidad}</p>
                     <button class="btn-quantity btn-sumar">+</button>
                 </div>
-                <button class="btn-eliminar-item">Eliminar 🗑️</button>
+                <button class="btn-eliminar-item">🗑️</button>
                 <div class="cart-item__subtotal">
                   <p><strong>$${subtotalItem}</strong></p>
                 </div>
