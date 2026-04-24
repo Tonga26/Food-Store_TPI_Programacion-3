@@ -1,5 +1,5 @@
 import { checkAuthUser } from "../../../utils/auth";
-import { getCategories, PRODUCTS } from "../../../utils/data";
+import { getCategories, PRODUCTS } from "../../../data/data";
 import type { IProduct } from "../../../types/IProduct";
 import { addProductToCart } from "../../../utils/cart";
 import { mostrarToast } from "../../../utils/toast";

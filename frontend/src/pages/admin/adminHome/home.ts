@@ -1,5 +1,5 @@
 import { checkAuthUser } from "../../../utils/auth";
-import { PRODUCTS, getCategories } from "../../../utils/data";
+import { PRODUCTS, getCategories } from "../../../data/data";
 import { setupMenu } from "../../../utils/menu";
 
 // 1- VALIDA AUTENTICACION Y ROL ADMIN ANTES DE CARGAR LA VISTA

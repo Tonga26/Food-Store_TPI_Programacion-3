@@ -1,14 +1,14 @@
 # 🍔 Food Store - Sistema de Gestión de Pedidos
 
-![Estado](https://img.shields.io/badge/Estado-Evaluación_1_(TypeScript)-orange)
-![Tecnologías](https://img.shields.io/badge/Tecnologías-TypeScript_|_Vite_|_CSS3-blue)
+![Estado](https://img.shields.io/badge/Estado-Frontend_(TypeScript)-orange)
+![Tecnologías](https://img.shields.io/badge/Tecnologías-TypeScript_|_Vite_|_HTML_|_CSS3-blue)
 ![Materia](https://img.shields.io/badge/Materia-Programación_III_(UTN)-success)
 
 ## 📌 Descripción
 
 **Food Store** es un sistema integral de e-commerce orientado a la venta de comida, desarrollado para la materia Programación III. El sistema resuelve la necesidad de digitalizar la toma de pedidos, ofreciendo una experiencia fluida tanto para los clientes como para los administradores del negocio.
 
-Esta iteración del proyecto corresponde a la Evaluación 1, cuyo objetivo es evolucionar la interfaz hacia una aplicación frontend dinámica e interactiva. Para lograrlo, la plataforma incorpora mecánicas esenciales de e-commerce como el manejo de un carrito de compras local, exploración avanzada del catálogo mediante búsqueda y filtros, consolidando el uso y buenas prácticas de HTML, CSS, JavaScript y TypeScript.
+Esta etapa del proyecto está enfocada en el desarrollo del frontend, con el objetivo de evolucionar la interfaz hacia una aplicación dinámica e interactiva. Para lograrlo, la plataforma incorpora mecánicas esenciales de e-commerce como el manejo de un carrito de compras local, exploración avanzada del catálogo mediante búsqueda y filtros, consolidando el uso y buenas prácticas de HTML, CSS, JavaScript y TypeScript.
 
 ## ✨ Características Principales (Features)
 
@@ -80,6 +80,7 @@ Las páginas y lógica del parcial están ubicadas dentro del directorio src/ re
  ┃ ┣ 📂 public/          # Archivos estáticos
  ┃ ┣ 📂 src/
  ┃ ┃ ┣ 📂 assets/        # Imágenes y recursos multimedia
+ ┃ ┃ ┣ 📂 data/          # Datos mock del proyecto (productos y categorías)
  ┃ ┃ ┣ 📂 css/           # Hojas de estilo modulares
  ┃ ┃ ┣ 📂 pages/         # Vistas de la aplicación
  ┃ ┃ ┃ ┣ 📂 admin/       # Panel de control (admin.html, home.ts, categories, orders, products)
@@ -87,7 +88,7 @@ Las páginas y lógica del parcial están ubicadas dentro del directorio src/ re
  ┃ ┃ ┃ ┣ 📂 client/      # Vistas específicas del cliente (próxmimamente)
  ┃ ┃ ┃ ┗ 📂 store/       # Catálogo principal (home), carrito (cart) y detalles 
  ┃ ┃ ┣ 📂 types/         # Interfaces TS (ICartItem, ICategory, IProduct, IUser, Rol)
- ┃ ┃ ┗ 📂 utils/         # Lógica reutilizable (auth, cart, data, localStorage, navigate)
+ ┃ ┃ ┗ 📂 utils/         # Lógica reutilizable (auth, cart, localStorage, menu, navigate)
  ┃ ┣ 📜 index.html       # Entry point principal
  ┃ ┣ 📜 package.json     # Dependencias y scripts
  ┃ ┣ 📜 tsconfig.json    # Configuración de TypeScript

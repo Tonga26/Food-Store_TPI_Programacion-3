@@ -1,5 +1,5 @@
 // @ts-nocheck
-// src/utils/data.ts
+// src/data/data.ts
 import type { IProduct } from "../types/IProduct";
 import type { ICategory } from "../types/ICategory";
 
