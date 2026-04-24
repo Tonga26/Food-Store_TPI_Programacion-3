@@ -1,25 +1,6 @@
-:root {
-    --color-primario: #ff6347;
-    --color-fondo: #f8f9fa;
-    --color-texto: #2d3436;
-    --color-texto-suave: #636e72;
-    --color-blanco: #fff;
-    --color-borde: #ecf0f1;
-    --color-focus: #ff4500;
-    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 body {
     background-color: #ff9a6e;
     background-image: linear-gradient(135deg, #ff6a3d 0%, #ffcc5c 100%);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    color: var(--color-texto);
 }
 
 .container {
@@ -149,65 +130,4 @@ button:active {
 
 .registro a:hover {
     color: var(--color-focus);
-}
-
-/* ==========================================
-   SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
-   ========================================== */
-.toast-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 9999;
-}
-
-/* ==========================================
-   SECCIÓN: DISEÑO INDIVIDUAL DE LA NOTIFICACIÓN
-   ========================================== */
-.toast-message {
-    background-color: var(--color-blanco);
-    color: var(--color-texto);
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-left: 5px solid var(--color-primario);
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 250px;
-    animation: slideInRight 0.3s ease forwards;
-}
-
-/* ==========================================
-   SECCIÓN: ANIMACIONES DE ENTRADA Y SALIDA
-   ========================================== */
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.toast-message.fade-out {
-    animation: fadeOut 0.3s ease forwards;
-}
-
-@keyframes fadeOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
 }

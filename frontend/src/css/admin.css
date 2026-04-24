@@ -1,27 +1,12 @@
 :root {
-    --color-primario: #ff9147;
     --color-admin: #2c3e50;
     --color-edit: #27ae60;
     --color-delete: #e74c3c;
-    --color-fondo: #f4f7f6;
-    --color-texto: #333;
-    --color-blanco: #fff;
-    --color-borde: #dfe6e9;
-    --color-focus: #e67e22;
-}
-
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
 }
 
 body {
     background-color: var(--color-fondo);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--color-texto);
     padding: 20px;
-    line-height: 1.6;
 }
 
 header {
