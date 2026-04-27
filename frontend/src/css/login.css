@@ -1,8 +1,14 @@
+/* ==========================================
+   SECCIÓN: FONDO DE LA PÁGINA
+   ========================================== */
 body {
     background-color: #ff9a6e;
     background-image: linear-gradient(135deg, #ff6a3d 0%, #ffcc5c 100%);
 }
 
+/* ==========================================
+   SECCIÓN: CONTENEDOR PRINCIPAL 
+   ========================================== */
 .container {
     display: flex;
     justify-content: center;
@@ -11,6 +17,9 @@ body {
     padding: 20px;
 }
 
+/* ==========================================
+   SECCIÓN: TARJETA DEL FORMULARIO
+   ========================================== */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -22,6 +31,9 @@ body {
     box-shadow: var(--shadow-soft);
 }
 
+/* ==========================================
+   SECCIÓN: TIPOGRAFÍA (TÍTULOS Y ETIQUETAS)
+   ========================================== */
 .login-form h1 {
     color: var(--color-primario);
     text-align: center;
@@ -47,6 +59,9 @@ label {
     margin-bottom: 8px;
 }
 
+/* ==========================================
+   SECCIÓN: INPUTS Y SUS ESTADOS (UX)
+   ========================================== */
 input {
     width: 100%;
     padding: 12px 15px;
@@ -63,6 +78,9 @@ input:focus {
     box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.1);
 }
 
+/* ==========================================
+   SECCIÓN: BOTONES Y TACTILIDAD
+   ========================================== */
 button {
     width: 100%;
     padding: 14px;
@@ -86,6 +104,9 @@ button:active {
     transform: translateY(0);
 }
 
+/* ==========================================
+   SECCIÓN: DISEÑO RESPONSIVO (CELULARES)
+   ========================================== */
 @media (max-width: 600px) {
     .container {
         padding: 12px;
@@ -114,6 +135,9 @@ button:active {
     }
 }
 
+/* ==========================================
+   SECCIÓN: ENLACE FINAL (IR AL REGISTRO)
+   ========================================== */
 .registro {
     text-align: center;
     font-size: 14px;
