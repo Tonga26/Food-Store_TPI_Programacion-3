@@ -8,12 +8,12 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Entidades a mapear -->
-        <class>ar.edu.tup.programacion3.entities.Base</class>
-        <class>ar.edu.tup.programacion3.entities.Categoria</class>
-        <class>ar.edu.tup.programacion3.entities.DetallePedido</class>
-        <class>ar.edu.tup.programacion3.entities.Pedido</class>
-        <class>ar.edu.tup.programacion3.entities.Producto</class>
-        <class>ar.edu.tup.programacion3.entities.Usuario</class>
+        <class>com.utn.foodstore.entities.Base</class>
+        <class>com.utn.foodstore.entities.Categoria</class>
+        <class>com.utn.foodstore.entities.DetallePedido</class>
+        <class>com.utn.foodstore.entities.Pedido</class>
+        <class>com.utn.foodstore.entities.Producto</class>
+        <class>com.utn.foodstore.entities.Usuario</class>
 
         <properties>
             <!-- JDBC H2 en archivo -->
