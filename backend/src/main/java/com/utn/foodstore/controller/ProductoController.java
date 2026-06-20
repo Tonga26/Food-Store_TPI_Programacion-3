@@ -2,6 +2,7 @@ package com.utn.foodstore.controller;
 
 import com.utn.foodstore.dto.ProductoCreate;
 import com.utn.foodstore.dto.ProductoDto;
+import com.utn.foodstore.dto.ProductoEdit;
 import com.utn.foodstore.service.ProductoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador REST encargado de gestionar las operaciones del catálogo de productos.
+ * Controlador REST encargado de gestionar las operaciones relacionadas con las productos.
  * <p>
- * Actúa como punto de entrada para las peticiones HTTP relacionadas con la entidad Producto,
- * delegando las reglas de negocio y transacciones a {@link ProductoService}.
+ * Actúa como el punto de entrada para las peticiones HTTP del cliente.
+ * Delega la lógica de negocio a {@link ProductoService} y devuelve las respuestas
+ * empaquetadas en objetos {@link ResponseEntity} para manejar correctamente
+ * los códigos de estado HTTP y la conversión a formato JSON.
  */
 @RestController
 @RequestMapping("/producto")
@@ -25,7 +28,7 @@ public class ProductoController {
     private final ProductoService productoService;
 
     /**
-     * Maneja la petición GET para recuperar el listado de todos los productos activos.
+     * Recupera el catálogo completo de productos que se encuentran activos en el sistema.
      *
      * @return Un {@link ResponseEntity} con estado 200 (OK) y la lista de {@link ProductoDto}.
      */
@@ -36,15 +39,56 @@ public class ProductoController {
     }
 
     /**
-     * Maneja la petición POST para registrar un nuevo producto en el catálogo.
-     * Valida la estructura del payload antes de procesar la creación.
+     * Busca un producto específico mediante su identificador único.
      *
-     * @param dto Datos de entrada validados provenientes del cuerpo de la petición.
-     * @return Un {@link ResponseEntity} con estado 201 (CREATED) y el producto persistido.
+     * @param id El identificador único del producto a recuperar.
+     * @return Un {@link ResponseEntity} con estado 200 (OK) y el {@link ProductoDto} correspondiente.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoDto> findById(@PathVariable Long id) {
+        ProductoDto productoEncontrado = productoService.findById(id);
+        return ResponseEntity.ok(productoEncontrado);
+    }
+
+    /**
+     * Procesa el registro de un nuevo producto en el catálogo del sistema.
+     * <p>
+     * Valida de forma estricta la estructura y restricciones del payload antes de
+     * delegar la persistencia del recurso.
+     *
+     * @param dto El objeto {@link ProductoCreate} con los datos de entrada validados.
+     * @return Un {@link ResponseEntity} con estado 201 (CREATED) y el {@link ProductoDto} persistido.
      */
     @PostMapping
     public ResponseEntity<ProductoDto> create(@Valid @RequestBody ProductoCreate dto) {
         ProductoDto productoCreado = productoService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(productoCreado);
+    }
+
+    /**
+     * Aplica modificaciones parciales sobre un producto existente identificado por su ID.
+     *
+     * @param id  El identificador del producto que se desea modificar.
+     * @param dto El objeto {@link ProductoEdit} con los campos propuestos para la actualización.
+     * @return Un {@link ResponseEntity} con estado 200 (OK) y el {@link ProductoDto} actualizado.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductoEdit dto) {
+        ProductoDto productoActualizado = productoService.update(id, dto);
+        return ResponseEntity.ok(productoActualizado);
+    }
+
+    /**
+     * Realiza la baja lógica (Soft Delete) de un producto del catálogo del sistema.
+     *
+     * @param id El identificador del producto que se desea desactivar.
+     * @return Un {@link ResponseEntity} con estado 204 (NO CONTENT).
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        productoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
