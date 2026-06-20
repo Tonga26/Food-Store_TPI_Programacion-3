@@ -12,10 +12,10 @@ import jakarta.validation.constraints.Size;
  */
 public record CategoriaCreate(
 
-        @NotBlank(message = "El nombre es obligatorio y no puede estar en blanco.")
-        @Size(min = 2, max = 100, message = "Debe contener entre 2 y 100 caracteres.")
+        @NotBlank(message = "El nombre es obligatorio.")
+        @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres.")
         String nombre,
 
-        @Size(max = 500)
+        @Size(max = 500, message = "La descripción no puede exceder de 500 caracteres.")
         String descripcion
 ) {}
