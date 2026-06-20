@@ -17,8 +17,8 @@ import java.util.List;
  * <p>
  * Actúa como intermediario transaccional entre la capa de presentación (Controladores)
  * y la capa de acceso a datos (Repositorios). Garantiza la integridad referencial
- * con la entidad {@link Categoria} y gestiona las transformaciones entre entidades
- * de dominio y Objetos de Transferencia de Datos (DTOs).
+ * con la entidad {@link Categoria} apoyándose en los métodos unificados de los repositorios base,
+ * y gestiona las transformaciones entre entidades de dominio y DTOs.
  */
 @Service
 @RequiredArgsConstructor
@@ -33,9 +33,7 @@ public class ProductoService {
      * @return Una colección {@link List} de {@link ProductoDto} con la información pública de los productos.
      */
     public List<ProductoDto> findAll() {
-        List<Producto> listaEntidades = productoRepository.findAllByEliminadoFalse();
-
-        return listaEntidades.stream()
+        return productoRepository.findAll().stream()
                 .map(this::mapToDto)
                 .toList();
     }
@@ -45,23 +43,21 @@ public class ProductoService {
      *
      * @param id El identificador de la entidad a recuperar.
      * @return El registro {@link ProductoDto} correspondiente.
-     * @throws RuntimeException Si el producto no existe o se encuentra inactivo.
      */
     public ProductoDto findById(Long id) {
-        Producto productoEncontrado = findProductoByIdOrThrowException(id);
+        Producto productoEncontrado = productoRepository.findByIdOrThrow(id);
         return mapToDto(productoEncontrado);
     }
 
     /**
      * Procesa el alta de un nuevo producto en el sistema, validando previamente
-     * la existencia y disponibilidad de la categoría asociada.
+     * la existencia y disponibilidad de la categoría asociada mediante el repositorio base.
      *
      * @param dto El objeto {@link ProductoCreate} con los datos validados de entrada.
      * @return El {@link ProductoDto} representativo del nuevo registro persistido.
-     * @throws RuntimeException Si la categoría referenciada no existe o está dada de baja.
      */
     public ProductoDto create(ProductoCreate dto) {
-        Categoria categoriaEncontrada = findCategoriaByIdOrThrowException(dto.categoriaId());
+        Categoria categoriaEncontrada = categoriaRepository.findByIdOrThrow(dto.categoriaId());
 
         Producto nuevoProducto = Producto.builder()
                 .nombre(dto.nombre())
@@ -87,15 +83,14 @@ public class ProductoService {
      * @param id  El identificador del producto a modificar.
      * @param dto El objeto {@link ProductoEdit} con los campos a sobrescribir.
      * @return El {@link ProductoDto} con el estado final de la entidad.
-     * @throws RuntimeException Si el producto, o la nueva categoría referenciada, no existen o están inactivos.
      */
     public ProductoDto update(Long id, ProductoEdit dto) {
-        Producto productoEncontrado = findProductoByIdOrThrowException(id);
+        Producto productoEncontrado = productoRepository.findByIdOrThrow(id);
 
         dto.applyTo(productoEncontrado);
 
         if (dto.categoriaId() != null) {
-            Categoria nuevaCategoria = findCategoriaByIdOrThrowException(dto.categoriaId());
+            Categoria nuevaCategoria = categoriaRepository.findByIdOrThrow(dto.categoriaId());
             productoEncontrado.setCategoria(nuevaCategoria);
         }
 
@@ -105,40 +100,13 @@ public class ProductoService {
     }
 
     /**
-     * Ejecuta la baja lógica (Soft Delete) de un producto, ocultándolo del catálogo
-     * sin destruir el registro físico en la base de datos.
+     * Ejecuta la baja lógica (Soft Delete) de un producto delegando el
+     * query de actualización al repositorio unificado.
      *
      * @param id El identificador del producto a eliminar.
-     * @throws RuntimeException Si el producto no existe o ya se encuentra inactivo.
      */
     public void delete(Long id) {
-        Producto productoAEliminar = findProductoByIdOrThrowException(id);
-        productoAEliminar.setEliminado(true);
-        productoRepository.save(productoAEliminar);
-    }
-
-    /**
-     * Método utilitario interno para centralizar la búsqueda segura de productos.
-     *
-     * @param id El identificador del producto.
-     * @return La entidad {@link Producto} recuperada.
-     * @throws RuntimeException Si la entidad no se encuentra o está marcada como eliminada.
-     */
-    private Producto findProductoByIdOrThrowException(Long id) {
-        return productoRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado."));
-    }
-
-    /**
-     * Método utilitario interno para centralizar la búsqueda segura de categorías.
-     *
-     * @param id El identificador de la categoría.
-     * @return La entidad {@link Categoria} recuperada.
-     * @throws RuntimeException Si la entidad no se encuentra o está inactiva.
-     */
-    private Categoria findCategoriaByIdOrThrowException(Long id) {
-        return categoriaRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada."));
+        productoRepository.deleteById(id);
     }
 
     /**
