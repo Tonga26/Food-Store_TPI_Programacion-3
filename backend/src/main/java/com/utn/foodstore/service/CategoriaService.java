@@ -78,7 +78,7 @@ public class CategoriaService {
      */
     public CategoriaDto update(Long id, CategoriaEdit dto) {
         Categoria categoriaEncontrada = findByIdOrThrowException(id);
-        dto.appyTo(categoriaEncontrada);
+        dto.applyTo(categoriaEncontrada);
         Categoria categoriaActualizada = categoriaRepository.save(categoriaEncontrada);
 
         return mapToDto(categoriaActualizada);
