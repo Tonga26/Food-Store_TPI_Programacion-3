@@ -3,6 +3,7 @@ package com.utn.foodstore.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,7 +53,16 @@ public abstract class Base {
      * La anotación de Spring asegura que este valor no pueda ser modificado posteriormente.
      */
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    /**
+     * Fecha y hora exacta en la que el registro sufrió su última modificación.
+     * <p>
+     * Es gestionado de forma automática por el motor de persistencia.
+     */
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
 }
