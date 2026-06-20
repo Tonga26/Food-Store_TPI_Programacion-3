@@ -3,6 +3,8 @@ package com.utn.foodstore.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @SuperBuilder
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class Base {
 
     /**
@@ -46,6 +49,10 @@ public abstract class Base {
      * Fecha y hora exacta (timestamp) en la que la entidad fue persistida
      * por primera vez en la base de datos.
      * Utilizado para propósitos de auditoría y trazabilidad.
+     * La anotación de Spring asegura que este valor no pueda ser modificado posteriormente.
      */
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
+
 }
