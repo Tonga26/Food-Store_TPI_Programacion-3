@@ -3,7 +3,7 @@
 ### ============================================================================
 
 ### 1. Crear un nuevo Producto (POST)
-# Nota: Asegurate de tener al menos una categoría creada en la base de datos con el ID 1.
+# Nota: Asegurarse de tener al menos una categoría creada en la base de datos con el ID 1.
 POST http://localhost:8080/producto
 Content-Type: application/json
 
@@ -22,7 +22,7 @@ GET http://localhost:8080/producto
 
 ### 3. Obtener Producto por ID (GET)
 # Nota: Asumimos que el producto creado en el paso 1 recibió el ID 1.
-# Si tu base de datos le asignó otro ID, cambialo en la URL.
+# Si la base de datos le asignó otro ID, cambiarlo en la URL.
 GET http://localhost:8080/producto/1
 
 ### 4. Actualizar Producto parcialmente (PUT)

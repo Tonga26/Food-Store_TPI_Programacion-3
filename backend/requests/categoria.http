@@ -16,7 +16,7 @@ GET http://localhost:8080/categoria
 
 ### 3. Obtener Categoría por ID (GET)
 # Nota: Asumimos que la categoría creada en el paso 1 recibió el ID 1.
-# Si tu base de datos le asignó otro ID, cambialo en la URL.
+# Si la base de datos le asignó otro ID, cambiarlo en la URL.
 GET http://localhost:8080/categoria/1
 
 ### 4. Actualizar Categoría parcialmente (PUT)
