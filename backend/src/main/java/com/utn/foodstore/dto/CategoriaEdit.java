@@ -1,5 +1,6 @@
 package com.utn.foodstore.dto;
 
+import com.utn.foodstore.model.Categoria;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -7,7 +8,6 @@ import jakarta.validation.constraints.Size;
  * RECORD: CategoriaEdit
  * ============================================================================
  * DTO utilizado para recibir actualizaciones parciales de una categoría existente.
- * Cumple con la Historia de Usuario HU-004.
  */
 public record CategoriaEdit(
 
@@ -16,4 +16,9 @@ public record CategoriaEdit(
 
         @Size(max = 500)
         String descripcion
-) {}
+) {
+    public void appyTo(Categoria categoria){
+        if (this.nombre() != null) categoria.setNombre(this.nombre());
+        if (this.descripcion() != null) categoria.setDescripcion(this.descripcion());
+    }
+}
