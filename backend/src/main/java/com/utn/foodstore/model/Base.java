@@ -65,4 +65,14 @@ public abstract class Base {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    /**
+     * Campo de control de concurrencia mediante el patrón Optimistic Locking.
+     * <p>
+     * El motor de persistencia utiliza este atributo numérico para prevenir la pérdida
+     * de actualizaciones (lost updates) cuando múltiples transacciones intentan modificar
+     * el mismo registro simultáneamente. Se incrementa automáticamente en cada UPDATE exitoso.
+     */
+    @Version
+    private Integer version;
+
 }
