@@ -4,11 +4,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * ============================================================================
- * RECORD: CategoriaCreate
- * ============================================================================
- * DTO (Data Transfer Object) utilizado exclusivamente para recibir los datos
- * desde el Frontend cuando el Administrador quiere crear una nueva categoría.
+ * Objeto de Transferencia de Datos (DTO) diseñado para encapsular la carga útil
+ * (payload) enviada por el cliente durante la creación de una nueva categoría.
+ * <p>
+ * Este registro garantiza que los datos ingresen al sistema validados desde la capa
+ * de presentación (Controlador) antes de alcanzar la lógica de negocio, centralizando
+ * los mensajes de error de la API.
+ *
+ * @param nombre      El nombre comercial de la categoría. Es de carácter obligatorio y
+ * debe contener entre 2 y 100 caracteres.
+ * @param descripcion Detalles adicionales sobre el tipo de productos que agrupa la categoría.
+ * Es opcional, pero no puede exceder los 500 caracteres.
  */
 public record CategoriaCreate(
 
