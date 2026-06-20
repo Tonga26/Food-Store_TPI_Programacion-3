@@ -1,0 +1,36 @@
+### ============================================================================
+### PRUEBAS MANUALES: ENDPOINTS DE CATEGORÍA
+### ============================================================================
+
+### 1. Crear una nueva Categoría (POST)
+POST http://localhost:8080/categoria
+Content-Type: application/json
+
+{
+  "nombre": "Hamburguesas",
+  "descripcion": "Las mejores hamburguesas caseras"
+}
+
+### 2. Listar todas las Categorías (GET)
+GET http://localhost:8080/categoria
+
+### 3. Obtener Categoría por ID (GET)
+# Nota: Asumimos que la categoría creada en el paso 1 recibió el ID 1.
+# Si tu base de datos le asignó otro ID, cambialo en la URL.
+GET http://localhost:8080/categoria/1
+
+### 4. Actualizar Categoría parcialmente (PUT)
+# Probamos enviar solo la descripción para verificar que el nombre no se borre.
+PUT http://localhost:8080/categoria/1
+Content-Type: application/json
+
+{
+  "descripcion": "Hamburguesas premium edición limitada"
+}
+
+### 5. Eliminar Categoría lógicamente (DELETE)
+DELETE http://localhost:8080/categoria/1
+
+### 6. Verificar eliminación (GET)
+# Al volver a listar, la categoría con ID 1 ya no debería aparecer.
+GET http://localhost:8080/categoria
