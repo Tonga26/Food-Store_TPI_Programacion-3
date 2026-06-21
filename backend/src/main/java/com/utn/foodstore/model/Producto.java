@@ -75,4 +75,31 @@ public class Producto extends Base {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    /**
+     * Verifica si el producto cuenta con el stock físico necesario para
+     * cubrir la demanda solicitada por un nuevo pedido.
+     *
+     * @param cantidadRequerida Unidades solicitadas por el cliente.
+     * @return {@code true} si el stock actual es mayor o igual a la demanda, {@code false} en caso contrario.
+     */
+    public boolean tieneStockSuficiente(int cantidadRequerida) {
+        return this.stock >= cantidadRequerida;
+    }
+
+    /**
+     * Descuenta la cantidad solicitada del stock actual del producto tras confirmar una venta.
+     * <p>
+     * Actúa como una barrera de seguridad del dominio. Si por algún motivo de concurrencia
+     * se intenta restar más stock del disponible, aborta la operación para evitar inventarios negativos.
+     *
+     * @param cantidadUnidades Unidades a restar del inventario.
+     * @throws IllegalArgumentException Si la cantidad a reducir supera el stock disponible.
+     */
+    public void reducirStock(int cantidadUnidades) {
+        if (!tieneStockSuficiente(cantidadUnidades)) {
+            throw new IllegalArgumentException("No hay stock suficiente para el producto: " + this.nombre);
+        }
+        this.stock -= cantidadUnidades;
+    }
 }

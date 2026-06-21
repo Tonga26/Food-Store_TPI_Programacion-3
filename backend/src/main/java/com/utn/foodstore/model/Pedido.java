@@ -16,8 +16,8 @@ import java.util.Set;
  * Mapea la tabla {@code pedidos} en la base de datos y extiende de {@link Base} para
  * heredar propiedades de auditoría. Implementa la interfaz {@link Calculable} para
  * gestionar dinámicamente la sumatoria de sus montos.
- * Mantiene una relación de composición estricta (One-to-Many con eliminación de huérfanos)
- * con la entidad {@link DetallePedido}.
+ * Mantiene una relación de composición estricta (One-to-Many) con {@link DetallePedido}
+ * y pertenece a un único {@link Usuario}.
  */
 @Getter
 @Setter
@@ -38,7 +38,7 @@ public class Pedido extends Base implements Calculable {
     private LocalDate fecha;
 
     /**
-     * Estado actual del pedido dentro del flujo de negocio (ej. PENDIENTE, PREPARACION, ENTREGADO).
+     * Estado actual del pedido dentro del flujo de negocio (ej. PENDIENTE, CANCELADO).
      * Se persiste como una cadena de texto (STRING) y se utiliza para calcular
      * la igualdad del objeto.
      */
@@ -66,6 +66,16 @@ public class Pedido extends Base implements Calculable {
     private FormaPago formaPago;
 
     /**
+     * Usuario comprador al que le pertenece esta transacción.
+     * <p>
+     * Relación Muchos a Uno (ManyToOne). Su carga es perezosa (LAZY) para optimizar
+     * consultas y es un campo estrictamente obligatorio en la base de datos.
+     */
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    /**
      * Colección de líneas o detalles que componen el pedido.
      * <p>
      * Emplea una estrategia de persistencia en cascada total (ALL) y eliminación de huérfanos
@@ -80,16 +90,10 @@ public class Pedido extends Base implements Calculable {
     @Builder.Default
     private Set<DetallePedido> detallesPedido = new HashSet<>();
 
-    @ManyToOne(
-            optional = false,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
     /**
      * Calcula y actualiza el atributo {@code total} del pedido iterando sobre su colección
      * de detalles y sumando los subtotales individuales.
-     * Utiliza la API de Streams para procesar la reducción funcionalmente.
+     * Utiliza la API de Streams para procesar la reducción de forma funcional.
      */
     @Override
     public void calcularTotal() {
@@ -107,9 +111,7 @@ public class Pedido extends Base implements Calculable {
      * @param cantidad Unidades del producto a adquirir.
      * @param producto Entidad {@link Producto} que se agregará al pedido.
      */
-    // Método para agregar detalles (Composición)
-    public void addDetallePedido (int cantidad, Producto producto){
-
+    public void addDetallePedido(int cantidad, Producto producto) {
         DetallePedido nuevoDetalle = DetallePedido.builder()
                 .cantidad(cantidad)
                 .producto(producto)
@@ -117,7 +119,6 @@ public class Pedido extends Base implements Calculable {
                 .build();
 
         this.detallesPedido.add(nuevoDetalle);
-
         calcularTotal();
     }
 
@@ -127,11 +128,8 @@ public class Pedido extends Base implements Calculable {
      * @param producto El objeto {@link Producto} a buscar dentro de los detalles.
      * @return El {@link DetallePedido} correspondiente si existe, o {@code null} en caso contrario.
      */
-    // Método para buscar detalles por producto
-    public DetallePedido findDetallePedidoByProducto (Producto producto) {
-
-        return this.detallesPedido
-                .stream()
+    public DetallePedido findDetallePedidoByProducto(Producto producto) {
+        return this.detallesPedido.stream()
                 .filter(detalle -> detalle.getProducto().equals(producto))
                 .findFirst()
                 .orElse(null);
@@ -144,15 +142,12 @@ public class Pedido extends Base implements Calculable {
      *
      * @param producto El objeto {@link Producto} cuyo detalle asociado se desea eliminar.
      */
-    // Método para eliminar detalles por producto
-    public void deleteDetallePedidoByProducto (Producto producto) {
-
+    public void deleteDetallePedidoByProducto(Producto producto) {
         DetallePedido detalleAEliminar = findDetallePedidoByProducto(producto);
 
-        if (detalleAEliminar != null){
+        if (detalleAEliminar != null) {
             this.detallesPedido.remove(detalleAEliminar);
+            calcularTotal();
         }
-
-        calcularTotal();
     }
 }
