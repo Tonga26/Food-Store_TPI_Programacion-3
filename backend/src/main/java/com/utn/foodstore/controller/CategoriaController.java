@@ -21,7 +21,7 @@ import java.util.List;
  * los códigos de estado HTTP y la conversión a formato JSON.
  */
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/api/categorias")
 @RequiredArgsConstructor
 public class CategoriaController {
 
