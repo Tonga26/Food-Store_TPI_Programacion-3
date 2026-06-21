@@ -3,7 +3,7 @@
 ### ============================================================================
 
 ### 1. Crear una nueva Categoría (POST)
-POST http://localhost:8080/categoria
+POST http://localhost:8080/api/categorias
 Content-Type: application/json
 
 {
@@ -12,16 +12,16 @@ Content-Type: application/json
 }
 
 ### 2. Listar todas las Categorías (GET)
-GET http://localhost:8080/categoria
+GET http://localhost:8080/api/categorias
 
 ### 3. Obtener Categoría por ID (GET)
 # Nota: Asumimos que la categoría creada en el paso 1 recibió el ID 1.
 # Si la base de datos le asignó otro ID, cambiarlo en la URL.
-GET http://localhost:8080/categoria/1
+GET http://localhost:8080/api/categorias/1
 
 ### 4. Actualizar Categoría parcialmente (PUT)
 # Probamos enviar solo la descripción para verificar que el nombre no se borre.
-PUT http://localhost:8080/categoria/1
+PUT http://localhost:8080/api/categorias/1
 Content-Type: application/json
 
 {
@@ -29,8 +29,8 @@ Content-Type: application/json
 }
 
 ### 5. Eliminar Categoría lógicamente (DELETE)
-DELETE http://localhost:8080/categoria/1
+DELETE http://localhost:8080/api/categorias/1
 
 ### 6. Verificar eliminación (GET)
 # Al volver a listar, la categoría con ID 1 ya no debería aparecer.
-GET http://localhost:8080/categoria
+GET http://localhost:8080/api/categorias
