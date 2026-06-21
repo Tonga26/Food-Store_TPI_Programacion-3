@@ -80,6 +80,12 @@ public class Pedido extends Base implements Calculable {
     @Builder.Default
     private Set<DetallePedido> detallesPedido = new HashSet<>();
 
+    @ManyToOne(
+            optional = false,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     /**
      * Calcula y actualiza el atributo {@code total} del pedido iterando sobre su colección
      * de detalles y sumando los subtotales individuales.
