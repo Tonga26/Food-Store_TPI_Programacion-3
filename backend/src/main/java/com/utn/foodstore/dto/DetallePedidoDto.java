@@ -1,5 +1,7 @@
 package com.utn.foodstore.dto;
 
+import lombok.Builder;
+
 /**
  * Data Transfer Object (DTO) que encapsula la información de una línea de detalle procesada.
  * <p>
@@ -12,6 +14,7 @@ package com.utn.foodstore.dto;
  * @param subtotal Monto económico parcial resultante de la cantidad por el precio unitario.
  * @param producto Información pública y consolidada del producto asociado.
  */
+@Builder
 public record DetallePedidoDto(
         Long id,
         Integer cantidad,

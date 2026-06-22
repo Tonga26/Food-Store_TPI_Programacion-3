@@ -2,6 +2,7 @@ package com.utn.foodstore.dto;
 
 import com.utn.foodstore.enums.Estado;
 import com.utn.foodstore.enums.FormaPago;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  * @param usuario   Información pública y detallada del cliente asociado.
  * @param detalles  Colección de líneas de detalle que componen el pedido.
  */
+@Builder
 public record PedidoDto(
         Long id,
         LocalDate fecha,

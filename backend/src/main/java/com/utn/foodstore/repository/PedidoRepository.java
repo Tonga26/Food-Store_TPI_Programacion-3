@@ -3,6 +3,8 @@ package com.utn.foodstore.repository;
 import com.utn.foodstore.model.Pedido;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repositorio de persistencia para la entidad {@link Pedido}.
  * <p>
@@ -12,4 +14,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PedidoRepository extends BaseRepository<Pedido, Long> {
+    List<Pedido> findAllByUsuarioIdAndEliminadoFalse(Long usuarioId);
 }
