@@ -20,7 +20,7 @@ import java.util.List;
  * principios de la arquitectura REST y delegando la lógica compleja a la capa de servicios.
  */
 @RestController
-@RequestMapping("/api/pedidos")
+@RequestMapping("/api/v1/pedidos")
 @RequiredArgsConstructor
 public class PedidoController {
 

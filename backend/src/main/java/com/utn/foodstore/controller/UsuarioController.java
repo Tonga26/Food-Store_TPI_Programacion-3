@@ -20,7 +20,7 @@ import java.util.List;
  * encapsuladas en objetos {@link ResponseEntity} con sus respectivos códigos de estado.
  */
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
 
