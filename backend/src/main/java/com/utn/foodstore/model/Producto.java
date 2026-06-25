@@ -1,5 +1,6 @@
 package com.utn.foodstore.model;
 
+import com.utn.foodstore.exception.BusinessException;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -94,11 +95,11 @@ public class Producto extends Base {
      * se intenta restar más stock del disponible, aborta la operación para evitar inventarios negativos.
      *
      * @param cantidadUnidades Unidades a restar del inventario.
-     * @throws IllegalArgumentException Si la cantidad a reducir supera el stock disponible.
+     * @throws BusinessException Si la cantidad a reducir supera el stock disponible (Dispara HTTP 400).
      */
     public void reducirStock(int cantidadUnidades) {
         if (!tieneStockSuficiente(cantidadUnidades)) {
-            throw new IllegalArgumentException("No hay stock suficiente para el producto: " + this.nombre);
+            throw new BusinessException("No hay stock suficiente para el producto: " + this.nombre);
         }
         this.stock -= cantidadUnidades;
     }
