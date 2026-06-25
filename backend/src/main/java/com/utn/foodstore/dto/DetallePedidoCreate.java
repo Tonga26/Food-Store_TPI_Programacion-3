@@ -2,6 +2,7 @@ package com.utn.foodstore.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 /**
  * Data Transfer Object (DTO) que representa un ítem individual a procesar
@@ -16,11 +17,12 @@ import jakarta.validation.constraints.NotNull;
  */
 public record DetallePedidoCreate(
 
-        @NotNull
+        @NotNull(message = "El identificador del producto es obligatorio.")
+        @Positive(message = "El identificador del producto debe ser mayor a cero.")
         Long productoId,
 
-        @NotNull
-        @Min(1)
+        @NotNull(message = "La cantidad es obligatoria.")
+        @Min(value = 1, message = "La cantidad mínima a solicitar es de 1 unidad.")
         Integer cantidad
 ) {
 }
