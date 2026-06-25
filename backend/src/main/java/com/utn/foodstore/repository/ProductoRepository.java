@@ -3,6 +3,8 @@ package com.utn.foodstore.repository;
 import com.utn.foodstore.model.Producto;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repositorio de acceso a datos (Data Access Layer) para la entidad {@link Producto}.
  * <p>
@@ -12,4 +14,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProductoRepository extends BaseRepository<Producto, Long> {
+    List<Producto> findByCategoriaId(Long categoriaId);
 }
