@@ -7,13 +7,13 @@ import jakarta.validation.constraints.*;
  * Objeto de Transferencia de Datos (DTO) utilizado para encapsular la información
  * enviada por el cliente al momento de modificar un producto existente.
  * <p>
- * Emplea validaciones de Jakarta Validation para asegurar que los datos obligatorios
- * mantengan la consistencia y las reglas de negocio antes de aplicar la actualización
- * en la base de datos.
+ * Emplea validaciones de Jakarta Validation de tipo condicional. Al omitir restricciones
+ * de nulidad (como @NotNull o @NotBlank), permite la recepción de JSONs incompletos para
+ * ejecutar actualizaciones parciales reales. Las restricciones de formato (tamaño, valores)
+ * solo se aplicarán sobre los atributos efectivamente enviados.
  * <p>
- * Permite recibir únicamente los campos que el cliente desea modificar. Implementa
- * el patrón Mutator a través del método {@link #applyTo(Producto)} para delegar
- * la responsabilidad de la inyección de datos a este mismo objeto.
+ * Implementa el patrón Mutator a través del método {@link #applyTo(Producto)} para delegar
+ * la responsabilidad de la inyección de datos a este mismo objeto de forma segura.
  *
  * @param nombre      El nuevo nombre comercial propuesto para el producto.
  * @param precio      El nuevo valor monetario unitario de venta.
@@ -25,39 +25,34 @@ import jakarta.validation.constraints.*;
  */
 public record ProductoEdit(
 
-        @NotBlank(message = "El nombre es obligatorio")
         @Size(max = 100, message = "El nombre no puede superar los 100 caracteres")
         String nombre,
 
-        @NotNull
         @Positive(message = "El precio debe ser mayor a cero.")
         Double precio,
 
         @Size(max = 500, message = "La descripción no puede superar los 500 caracteres.")
         String descripcion,
 
-        @NotNull(message = "El stock es obligatorio.")
         @PositiveOrZero(message = "El stock no puede tener valores negativos.")
         Integer stock,
 
         @Size(max = 500)
         String imagen,
 
-        @NotNull(message = "Debe especificar si el producto está disponible.")
         Boolean disponible,
 
-        @NotNull
         @Positive(message = "Debe seleccionar una categoría válida.")
         Long categoriaId
 ) {
     /**
      * Aplica los valores transportados por este DTO a una entidad persistida existente.
      * Evalúa uno a uno los campos; si el DTO contiene un valor no nulo, sobreescribe
-     * el estado de la entidad original.
+     * el estado de la entidad original garantizando la persistencia de los datos previos.
      * <p>
      * Nota Arquitectónica: La actualización de la relación con la entidad Categoria
      * se excluye intencionalmente de este método y debe ser orquestada exclusivamente
-     * en la capa de Servicio.
+     * en la capa de Servicio para asegurar la integridad referencial.
      *
      * @param producto La entidad de dominio recuperada de la base de datos que será mutada.
      */
