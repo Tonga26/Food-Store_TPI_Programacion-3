@@ -104,21 +104,28 @@ public class Pedido extends Base implements Calculable {
 
     /**
      * Construye y asocia un nuevo detalle al pedido, vinculándolo con un producto
-     * y su respectiva cantidad.
-     * Tras la inserción exitosa en la colección, invoca automáticamente a {@link #calcularTotal()}
+     * y su respectiva cantidad. Si el producto ya se encuentra registrado dentro de
+     * la colección de detalles, se acumula la cantidad solicitada y se recalcula el subtotal.
+     * Tras procesar la inserción o actualización, invoca automáticamente a {@link #calcularTotal()}
      * para mantener la consistencia del monto final.
      *
      * @param cantidad Unidades del producto a adquirir.
-     * @param producto Entidad {@link Producto} que se agregará al pedido.
+     * @param producto Entidad {@link Producto} que se agregará o actualizará en el pedido.
      */
     public void addDetallePedido(int cantidad, Producto producto) {
-        DetallePedido nuevoDetalle = DetallePedido.builder()
-                .cantidad(cantidad)
-                .producto(producto)
-                .subtotal(cantidad * producto.getPrecio())
-                .build();
+        DetallePedido detalleExistente = findDetallePedidoByProducto(producto);
 
-        this.detallesPedido.add(nuevoDetalle);
+        if (detalleExistente != null) {
+            detalleExistente.setCantidad(detalleExistente.getCantidad() + cantidad);
+            detalleExistente.setSubtotal(detalleExistente.getCantidad() * producto.getPrecio());
+        } else {
+            DetallePedido nuevoDetalle = DetallePedido.builder()
+                    .cantidad(cantidad)
+                    .producto(producto)
+                    .subtotal(cantidad * producto.getPrecio())
+                    .build();
+            this.detallesPedido.add(nuevoDetalle);
+        }
         calcularTotal();
     }
 
