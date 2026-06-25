@@ -4,9 +4,11 @@ import com.utn.foodstore.dto.UsuarioCreate;
 import com.utn.foodstore.dto.UsuarioDto;
 import com.utn.foodstore.dto.UsuarioEdit;
 import com.utn.foodstore.enums.Rol;
+import com.utn.foodstore.exception.BusinessException;
 import com.utn.foodstore.model.Usuario;
 import com.utn.foodstore.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +17,15 @@ import java.util.List;
  * Servicio de aplicación encargado de orquestar la lógica de negocio para la entidad {@link Usuario}.
  * <p>
  * Gestiona el ciclo de vida de las cuentas de usuario, garantizando la unicidad de las
- * credenciales (email), la asignación de roles y la correcta transformación de la
- * información hacia la capa de presentación mediante DTOs.
+ * credenciales (email), la asignación de roles, la encriptación unidireccional de contraseñas
+ * y la correcta transformación de la información hacia la capa de presentación mediante DTOs.
  */
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Recupera el listado completo de usuarios activos en el sistema.
@@ -48,16 +51,16 @@ public class UsuarioService {
 
     /**
      * Registra un nuevo usuario en el sistema.
-     * Valida la unicidad del correo electrónico y asigna el rol por defecto.
+     * Valida la unicidad del correo electrónico, aplica hashing sobre la contraseña
+     * y asigna el rol estándar de acceso.
      *
-     * @param dto El objeto {@link UsuarioCreate} con los datos de registro.
+     * @param dto El objeto {@link UsuarioCreate} con los datos de registro validados.
      * @return El {@link UsuarioDto} del usuario recién creado.
-     * @throws RuntimeException Si el email proporcionado ya se encuentra registrado.
+     * @throws BusinessException Si el email proporcionado ya se encuentra registrado (Dispara HTTP 400).
      */
     public UsuarioDto create(UsuarioCreate dto) {
-
-        if (usuarioRepository.existsByEmail(dto.email())){
-            throw new RuntimeException("Ya existe un usuario registrado con el email: " + dto.email());
+        if (usuarioRepository.existsByEmail(dto.email())) {
+            throw new BusinessException("Ya existe un usuario registrado con el email: " + dto.email());
         }
 
         Usuario nuevoUsuario = Usuario.builder()
@@ -65,8 +68,8 @@ public class UsuarioService {
                 .apellido(dto.apellido())
                 .email(dto.email())
                 .celular(dto.celular())
-                .contrasena(dto.password())
-                .rol(Rol.USUARIO) // TODO: Aplicar BCryptPasswordEncoder en la Épica de Seguridad
+                .contrasena(passwordEncoder.encode(dto.password()))
+                .rol(Rol.USUARIO)
                 .build();
 
         Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
@@ -76,27 +79,27 @@ public class UsuarioService {
 
     /**
      * Aplica una modificación parcial sobre los datos de un usuario existente.
-     * Valida que, en caso de modificación del email, el nuevo no colisione con otro usuario.
+     * Gestiona la re-validación de unicidad en caso de modificación del email y
+     * re-encripta la contraseña si es suministrada.
      *
      * @param id  El identificador del usuario a modificar.
      * @param dto El objeto {@link UsuarioEdit} con los campos a sobrescribir.
      * @return El {@link UsuarioDto} con el estado final de la cuenta.
-     * @throws RuntimeException Si el nuevo email ya está en uso.
+     * @throws BusinessException Si el nuevo email colisiona con el de otro usuario registrado (Dispara HTTP 400).
      */
     public UsuarioDto update(Long id, UsuarioEdit dto) {
-
         Usuario usuarioEncontrado = usuarioRepository.findByIdOrThrow(id);
 
-        if (dto.email() != null && !dto.email().equalsIgnoreCase(usuarioEncontrado.getEmail())){
-            if (usuarioRepository.existsByEmail(dto.email())){
-                throw new RuntimeException("Ya existe otro usuario registrado con el email: " + dto.email());
-            };
+        if (dto.email() != null && !dto.email().equalsIgnoreCase(usuarioEncontrado.getEmail())) {
+            if (usuarioRepository.existsByEmail(dto.email())) {
+                throw new BusinessException("Ya existe otro usuario registrado con el email: " + dto.email());
+            }
         }
 
         dto.applyTo(usuarioEncontrado);
 
-        if (dto.password() != null){
-            usuarioEncontrado.setContrasena(dto.password());
+        if (dto.password() != null) {
+            usuarioEncontrado.setContrasena(passwordEncoder.encode(dto.password()));
         }
 
         Usuario usuarioActualizado = usuarioRepository.save(usuarioEncontrado);
@@ -116,7 +119,7 @@ public class UsuarioService {
 
     /**
      * Transforma una entidad de dominio en un DTO de respuesta seguro,
-     * excluyendo intencionalmente campos sensibles como la contraseña.
+     * excluyendo intencionalmente campos de infraestructura y credenciales de acceso.
      *
      * @param usuario La entidad original.
      * @return El registro {@link UsuarioDto} seguro para exponer.
