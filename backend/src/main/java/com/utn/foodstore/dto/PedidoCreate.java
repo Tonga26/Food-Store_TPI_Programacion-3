@@ -4,6 +4,7 @@ import com.utn.foodstore.enums.FormaPago;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
@@ -21,13 +22,14 @@ import java.util.List;
  */
 public record PedidoCreate(
 
-        @NotNull
+        @NotNull(message = "El identificador del usuario es obligatorio.")
+        @Positive(message = "El identificador del usuario debe ser mayor a cero.")
         Long usuarioId,
 
-        @NotNull
+        @NotNull(message = "La forma de pago es obligatoria.")
         FormaPago formaPago,
 
-        @NotEmpty
+        @NotEmpty(message = "El pedido debe contener al menos un detalle.")
         @Valid
         List<DetallePedidoCreate> detalles
 ) {
