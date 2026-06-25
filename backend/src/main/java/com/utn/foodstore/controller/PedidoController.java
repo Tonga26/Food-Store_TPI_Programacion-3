@@ -20,7 +20,7 @@ import java.util.List;
  * principios de la arquitectura REST y delegando la lógica compleja a la capa de servicios.
  */
 @RestController
-@RequestMapping("/api/v1/pedidos")
+@RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class PedidoController {
@@ -56,7 +56,7 @@ public class PedidoController {
      * @param usuarioId Identificador del cliente extraído de la variable de ruta.
      * @return Una lista de DTOs correspondientes a las compras del usuario (HTTP 200 OK).
      */
-    @GetMapping("/usuario/{usuarioId}")
+    @GetMapping("/user/{usuarioId}")
     public ResponseEntity<List<PedidoDto>> findByUsuarioId(@PathVariable Long usuarioId) {
         List<PedidoDto> pedidosEncontrados = pedidoService.findByUsuarioId(usuarioId);
         return ResponseEntity.ok(pedidosEncontrados);
@@ -90,7 +90,7 @@ public class PedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<PedidoDto> update(
             @PathVariable Long id,
-            @RequestBody PedidoEdit dto) {
+            @Valid @RequestBody PedidoEdit dto) {
         PedidoDto pedidoActualizado = pedidoService.update(id, dto);
         return ResponseEntity.ok(pedidoActualizado);
     }
@@ -98,7 +98,7 @@ public class PedidoController {
     /**
      * Remueve lógicamente una orden del flujo operativo del sistema.
      * <p>
-     * La operación garantiza la preservación de los registros con fines de auditoría,
+     * La operation garantiza la preservación de los registros con fines de auditoría,
      * informando el éxito de la petición mediante un código de estado vacío.
      *
      * @param id Identificador de la orden sujeta a remoción.
