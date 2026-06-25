@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * Controlador REST encargado de exponer los endpoints (API) para la gestión de usuarios.
  * <p>
- * Intercepta las peticiones HTTP del cliente (Frontend, Postman), delega el procesamiento
- * de las reglas de negocio al {@link UsuarioService} y retorna las respuestas en formato JSON
+ * Intercepta las peticiones HTTP del cliente, delega el procesamiento de las reglas
+ * de negocio al {@link UsuarioService} y retorna las respuestas en formato JSON
  * encapsuladas en objetos {@link ResponseEntity} con sus respectivos códigos de estado.
  */
 @RestController
-@RequestMapping("/api/v1/usuarios")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class UsuarioController {
