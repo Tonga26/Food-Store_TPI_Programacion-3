@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador REST encargado de gestionar las operaciones relacionadas con las productos.
+ * Controlador REST encargado de gestionar las operaciones relacionadas con los productos.
  * <p>
  * Actúa como el punto de entrada para las peticiones HTTP del cliente.
  * Delega la lógica de negocio a {@link ProductoService} y devuelve las respuestas
@@ -21,7 +21,7 @@ import java.util.List;
  * los códigos de estado HTTP y la conversión a formato JSON.
  */
 @RestController
-@RequestMapping("/api/v1/productos")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ProductoController {
@@ -49,6 +49,18 @@ public class ProductoController {
     public ResponseEntity<ProductoDto> findById(@PathVariable Long id) {
         ProductoDto productoEncontrado = productoService.findById(id);
         return ResponseEntity.ok(productoEncontrado);
+    }
+
+    /**
+     * Recupera el listado de productos filtrados por una categoría específica.
+     *
+     * @param categoriaId El identificador de la categoría utilizada como filtro.
+     * @return Un {@link ResponseEntity} con estado 200 (OK) y la colección de {@link ProductoDto} asociados.
+     */
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<ProductoDto>> findByCategoriaId(@PathVariable Long categoriaId) {
+        List<ProductoDto> productosEncontrados = productoService.findByCategoriaId(categoriaId);
+        return ResponseEntity.ok(productosEncontrados);
     }
 
     /**
