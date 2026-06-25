@@ -50,6 +50,24 @@ public class ProductoService {
     }
 
     /**
+     * Recupera el catálogo de productos filtrado por una categoría específica.
+     * <p>
+     * Valida previamente la existencia de la categoría para garantizar una respuesta
+     * coherente (dispara HTTP 404 si la categoría no existe, o retorna una lista vacía
+     * si existe pero aún no tiene productos vinculados).
+     *
+     * @param categoriaId El identificador de la categoría a filtrar.
+     * @return Una colección {@link List} de {@link ProductoDto} con los productos vinculados.
+     */
+    public List<ProductoDto> findByCategoriaId(Long categoriaId) {
+        categoriaRepository.findByIdOrThrow(categoriaId);
+
+        return productoRepository.findByCategoriaId(categoriaId).stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+
+    /**
      * Procesa el alta de un nuevo producto en el sistema, validando previamente
      * la existencia y disponibilidad de la categoría asociada mediante el repositorio base.
      *
