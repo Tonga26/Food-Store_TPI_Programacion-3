@@ -2,6 +2,7 @@ package com.utn.foodstore.service;
 
 import com.utn.foodstore.dto.*;
 import com.utn.foodstore.enums.Estado;
+import com.utn.foodstore.exception.BusinessException;
 import com.utn.foodstore.model.DetallePedido;
 import com.utn.foodstore.model.Pedido;
 import com.utn.foodstore.model.Producto;
@@ -49,7 +50,6 @@ public class PedidoService {
      *
      * @param id Identificador numérico del pedido buscado.
      * @return El DTO de representación del pedido asociado al identificador provisto.
-     * @throws jakarta.persistence.EntityNotFoundException Si no se encuentra un registro activo con el ID provisto.
      */
     @Transactional(readOnly = true)
     public PedidoDto findById(Long id) {
@@ -62,7 +62,6 @@ public class PedidoService {
      *
      * @param usuarioId Identificador único del usuario del cual se desea consultar el historial.
      * @return Una lista de objetos {@link PedidoDto} vinculados al usuario, excluyendo registros eliminados.
-     * @throws jakarta.persistence.EntityNotFoundException Si el identificador del usuario no corresponde a un registro existente.
      */
     @Transactional(readOnly = true)
     public List<PedidoDto> findByUsuarioId(Long usuarioId) {
@@ -83,6 +82,7 @@ public class PedidoService {
      *
      * @param dto El objeto de transferencia de datos con la solicitud del cliente.
      * @return El DTO de salida unificado con identificadores y subtotales calculados en el dominio.
+     * @throws BusinessException Si algún producto solicitado no se encuentra marcado como disponible.
      */
     @Transactional
     public PedidoDto create(PedidoCreate dto) {
@@ -98,8 +98,8 @@ public class PedidoService {
         for (DetallePedidoCreate detalleDto : dto.detalles()) {
             Producto productoEncontrado = productoRepository.findByIdOrThrow(detalleDto.productoId());
 
-            if (!productoEncontrado.getDisponible()){
-                throw new RuntimeException("Producto no disponible para la venta: " + productoEncontrado.getNombre());
+            if (!productoEncontrado.getDisponible()) {
+                throw new BusinessException("Producto no disponible para la venta: " + productoEncontrado.getNombre());
             }
 
             productoEncontrado.reducirStock(detalleDto.cantidad());
@@ -113,8 +113,8 @@ public class PedidoService {
     /**
      * Aplica modificaciones operativas parciales sobre el estado o el método de pago de una orden.
      * <p>
-     * El procesamiento evalúa la presencia individual de los parámetros para evitar sobreescrituras accidentales
-     * con valores nulos, preservando la inmutabilidad de los ítems de detalle y montos económicos calculados.
+     * El procesamiento delega la mutación de los campos al DTO de edición mediante el patrón mutator,
+     * previniendo sobreescrituras accidentales en el contexto persistence.
      *
      * @param id  Identificador único del pedido a modificar.
      * @param dto Estructura con las propiedades opcionales sujetas a cambios.
@@ -124,8 +124,7 @@ public class PedidoService {
     public PedidoDto update(Long id, PedidoEdit dto) {
         Pedido pedidoEncontrado = pedidoRepository.findByIdOrThrow(id);
 
-        if (dto.estado() != null) pedidoEncontrado.setEstado(dto.estado());
-        if (dto.formaPago() != null) pedidoEncontrado.setFormaPago(dto.formaPago());
+        dto.applyTo(pedidoEncontrado);
 
         Pedido pedidoActualizado = pedidoRepository.save(pedidoEncontrado);
 
