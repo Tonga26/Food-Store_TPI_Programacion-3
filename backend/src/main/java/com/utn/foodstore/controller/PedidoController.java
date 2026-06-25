@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/pedidos")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class PedidoController {
 
     private final PedidoService pedidoService;
