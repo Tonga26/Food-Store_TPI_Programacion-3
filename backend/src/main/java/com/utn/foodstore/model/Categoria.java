@@ -27,16 +27,18 @@ public class Categoria extends Base {
 
     /**
      * Nombre descriptivo de la categoría.
-     * Este campo es obligatorio, debe ser único en la base de datos y tiene un límite máximo de 50 caracteres.
-     * Se utiliza como la propiedad principal para calcular la igualdad (equals y hashCode) del objeto.
+     * Representa el identificador de negocio de la entidad. Es de carácter obligatorio,
+     * debe ser único dentro de la base de datos y está restringido a un máximo de 100 caracteres.
      */
     @EqualsAndHashCode.Include
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    @Column(name = "nombre", nullable = false, unique = true, length = 100)
     private String nombre;
 
     /**
-     * Descripción detallada u opcional sobre el tipo de productos que engloba esta categoría.
+     * Descripción detallada y opcional sobre el tipo de productos asociados a la categoría.
+     * La longitud máxima permitida para la persistencia de este campo es de 500 caracteres.
      */
+    @Column(length = 500)
     private String descripcion;
 
     /**
