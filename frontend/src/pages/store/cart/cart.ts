@@ -21,7 +21,26 @@ const listaCarrito = document.getElementById("cart-content-list") as HTMLUListEl
 const mensajeVacio = document.getElementById("empty-message") as HTMLParagraphElement;
 const cartSummary = document.getElementById("cart-summary") as HTMLElement;
 const subtotalCarritoSpan = document.getElementById("cart-subtotal") as HTMLSpanElement;
+const shippingCarritoSpan = document.getElementById("cart-shipping") as HTMLSpanElement;
 const totalCarritoSpan = document.getElementById("total-numero") as HTMLSpanElement;
+const btnEmptyCart = document.getElementById("btn-empty-cart") as HTMLButtonElement | null;
+
+// 3.1- FORMATEA LOS PRECIOS CON DOS DECIMALES Y SIMBOLO DE PESO
+const formatPrice = (value: number): string => `$${value.toFixed(2)}`;
+
+// 3.2- CALCULA EL ENVIO SOLO SI HAY PRODUCTOS EN EL CARRITO
+const getShippingCost = (subtotal: number): number => {
+  if (subtotal <= 0) return 0;
+  return subtotal >= 50000 ? 0 : 2500;
+};
+
+// 3.3- VACIA COMPLETAMENTE EL CARRITO Y RE-RENDERIZA LA VISTA
+const clearCart = () => {
+  localStorage.removeItem("foodstore_cart");
+  renderCart();
+};
+
+btnEmptyCart?.addEventListener("click", clearCart);
 
 // 4- RENDERIZA EL CARRITO COMPLETO EN PANTALLA SIN RECARGAR LA PAGINA
 const renderCart = () => {
@@ -37,8 +56,9 @@ const renderCart = () => {
         if (cartSummary) cartSummary.style.display = "block";
         mensajeVacio.style.display = "block";
         
-        if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = "$0";
-        if (totalCarritoSpan) totalCarritoSpan.textContent = "$0";
+      if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(0);
+      if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(0);
+      if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(0);
     } else {
         mensajeVacio.style.display = "none";
         listaCarrito.style.display = "block";
@@ -59,7 +79,8 @@ const renderCart = () => {
                 <img src="${item.producto.imagen}" alt="${item.producto.nombre}" class="cart-item__img">
                 <div class="cart-item__info">
                   <h4>${item.producto.nombre}</h4>
-                  <p>Precio Unitario: $${item.producto.precio}</p>
+                  <p class="cart-item__description">${item.producto.descripcion}</p>
+                  <p class="cart-item__unit-price">${formatPrice(item.producto.precio)} c/u</p>
                 </div>
               </div>
               
@@ -69,10 +90,10 @@ const renderCart = () => {
                     <p class="cart-item__quantity">${item.cantidad}</p>
                     <button class="btn-quantity btn-sumar">+</button>
                 </div>
-                <button class="btn-eliminar-item">🗑️</button>
                 <div class="cart-item__subtotal">
-                  <p><strong>$${subtotalItem}</strong></p>
+                  <p><strong>${formatPrice(subtotalItem)}</strong></p>
                 </div>
+                <button class="btn-eliminar-item">🗑️</button>
               </div>
             `;
 
@@ -99,8 +120,12 @@ const renderCart = () => {
         });
 
         // 8- ACTUALIZA SUBTOTAL Y TOTAL EN BASE A LA SUMA ACUMULADA
-        if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = `$${sumaTotal}`;
-        if (totalCarritoSpan) totalCarritoSpan.textContent = `$${sumaTotal}`;
+    const shippingCost = getShippingCost(sumaTotal);
+    const total = sumaTotal + shippingCost;
+
+    if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(sumaTotal);
+    if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(shippingCost);
+    if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(total);
     }
 };
 
