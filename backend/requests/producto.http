@@ -4,7 +4,7 @@
 
 ### 1. Crear un nuevo Producto (POST)
 # Nota: Asegurarse de tener al menos una categoría creada en la base de datos con el ID 1.
-POST http://localhost:8080/api/v1/productos
+POST http://localhost:8080/api/products
 Content-Type: application/json
 
 {
@@ -18,16 +18,16 @@ Content-Type: application/json
 }
 
 ### 2. Listar todos los Productos (GET)
-GET http://localhost:8080/api/v1/productos
+GET http://localhost:8080/api/products
 
 ### 3. Obtener Producto por ID (GET)
 # Nota: Asumimos que el producto creado en el paso 1 recibió el ID 1.
 # Si la base de datos le asignó otro ID, cambiarlo en la URL.
-GET http://localhost:8080/api/v1/productos/1
+GET http://localhost:8080/api/products/1
 
 ### 4. Actualizar Producto parcialmente (PUT)
 # Probamos modificar el precio y reducir el stock para simular una venta.
-PUT http://localhost:8080/api/v1/productos/1
+PUT http://localhost:8080/api/products/1
 Content-Type: application/json
 
 {
@@ -41,8 +41,8 @@ Content-Type: application/json
 }
 
 ### 5. Eliminar Producto lógicamente (DELETE)
-DELETE http://localhost:8080/api/v1/productos/1
+DELETE http://localhost:8080/api/products/1
 
 ### 6. Verificar eliminación (GET)
 # Al volver a listar, el producto con ID 1 ya no debería aparecer.
-GET http://localhost:8080/api/v1/productos
+GET http://localhost:8080/api/products

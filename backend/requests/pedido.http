@@ -10,7 +10,7 @@
 # Decidí utilizar el patrón Builder en el PedidoService (específicamente en el método mapDetalleToDto)
 # para optimizar el payload. De esta forma, el ticket de compra solo retorna los datos estrictamente
 # necesarios de ese momento (ID, nombre y precio histórico), evitando sobrecargar la red con datos redundantes.
-POST http://localhost:8080/api/v1/pedidos
+POST http://localhost:8080/api/orders
 Content-Type: application/json
 
 {
@@ -25,20 +25,20 @@ Content-Type: application/json
 }
 
 ### 2. Listar todos los Pedidos (GET)
-GET http://localhost:8080/api/v1/pedidos
+GET http://localhost:8080/api/orders
 
 ### 3. Obtener Pedido por ID (GET)
 # Nota: Asumimos que el pedido creado en el paso 1 recibió el ID 1.
 # Si la base de datos le asignó otro ID, cambiarlo en la URL.
-GET http://localhost:8080/api/v1/pedidos/1
+GET http://localhost:8080/api/orders/1
 
 ### 4. Obtener Pedidos por Usuario (GET)
 # Lista el historial de pedidos del usuario con ID 1.
-GET http://localhost:8080/api/v1/pedidos/usuario/1
+GET http://localhost:8080/api/orders/user/1
 
 ### 5. Actualizar Pedido parcialmente (PUT)
 # Probamos modificar el estado y la forma de pago.
-PUT http://localhost:8080/api/v1/pedidos/1
+PUT http://localhost:8080/api/orders/1
 Content-Type: application/json
 
 {
@@ -47,8 +47,8 @@ Content-Type: application/json
 }
 
 ### 6. Eliminar Pedido lógicamente (DELETE)
-DELETE http://localhost:8080/api/v1/pedidos/1
+DELETE http://localhost:8080/api/orders/1
 
 ### 7. Verificar eliminación (GET)
 # Al volver a listar, el pedido con ID 1 ya no debería aparecer.
-GET http://localhost:8080/api/v1/pedidos
+GET http://localhost:8080/api/orders
