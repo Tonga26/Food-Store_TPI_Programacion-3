@@ -1,79 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../css/global.css">
-    <link rel="stylesheet" href="../../../css/admin.css">
-    <title>Panel de Administración - Food Store</title>
+    <title>Food Store | Panel Admin</title>
 </head>
-
 <body>
-    <header>
-        <h1>Panel de Administración</h1>
-        <nav>
-            <ul>
-                <li><a href="/src/pages/store/home/home.html">Volver a la Tienda</a></li>
-                <li><a href="#" id="logoutButton">Cerrar Sesión</a></li>
+    <div class="page-layout">
+        <header class="header">
+            <h1 class="header__title">🍔 Food Store</h1>
+            <nav class="header__nav">
+                <ul class="nav__menu" id="nav-menu"></ul>
+            </nav>
+        </header>
+
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <h2 class="sidebar__title sidebar__title--brand">Administración</h2>
+                <h3 class="sidebar__subtitle">Panel de Control</h3>
+            </div>
+            <ul class="sidebar__categories">
+                <li class="sidebar__category-item"><a href="#" class="nav__link nav__link--active">📊 Dashboard</a></li>
+                <li class="sidebar__category-item"><a href="../categories/categories.html">📁 Categorías</a></li>
+                <li class="sidebar__category-item"><a href="../products/products.html">🍔 Productos</a></li>
+                <li class="sidebar__category-item"><a href="../orders/orders.html">📦 Pedidos</a></li>
             </ul>
-        </nav>
-    </header>
+        </aside>
+        
+        <main class="main-content">
+            <section class="products-section">
+                <h2 class="products-section__title">Panel de Administración</h2>
+                <div class="dashboard-grid" id="stats-container">
+                    <article class="stat-card stat-card--purple">
+                        <h3>📁 Categorías</h3>
+                        <p class="stat-card__number" id="stat-categories">0</p>
+                        <a href="../categories/categories.html" class="stat-card__link">Administrar →</a>
+                    </article>
 
-    <main>
-        <section>
-            <h2>Gestión de Productos</h2>
-            <form action="#" method="#">
-                <button type="submit" class="btn-main">+ Nuevo Producto</button>
-            </form>
-        </section>
+                    <article class="stat-card stat-card--pink">
+                        <h3>🍔 Productos</h3>
+                        <p class="stat-card__number" id="stat-products">0</p>
+                        <a href="../products/products.html" class="stat-card__link">Administrar →</a>
+                    </article>
 
-        <section>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-products-body"></tbody>
-            </table>
-        </section>
+                    <article class="stat-card stat-card--blue">
+                        <h3>📦 Pedidos Totales</h3>
+                        <p class="stat-card__number" id="stat-orders">0</p>
+                        <a href="../orders/orders.html" class="stat-card__link">Administrar →</a>
+                    </article>
 
-        <section>
-            <details class="admin-details">
-                <summary>Agregar Producto Rápido</summary>
-                <form class="admin-form">
-                    <label for="nombre-prod">Nombre del Producto:</label>
-                    <input id="nombre-prod" type="text" placeholder="Ej. Lomito Completo" required>
+                    <article class="stat-card stat-card--green">
+                        <h3>✅ Disponibles</h3>
+                        <p class="stat-card__number" id="stat-available">0</p>
+                        <a href="../products/products.html" class="stat-card__link">Ver Catálogo →</a>
+                    </article>
+                </div>
 
-                    <label for="precio">Precio:</label>
-                    <input id="precio" type="number" min="0" required>
+                <section class="dashboard-summary" aria-live="polite">
+                    <h3 class="dashboard-summary__title">📊 Resumen rápido</h3>
+                    <p class="dashboard-summary__text">Cargando estadísticas...</p>
+                </section>
+            </section>
+        </main>
 
-                    <label for="categoria">Categoría:</label>
-                    <select id="categoria" required>
-                        <option value="">Elige una opción...</option>
-                    </select>
-
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" rows="4" placeholder="Ingresa los ingredientes..." required></textarea>
-
-                    <button type="submit" class="btn-main">Guardar Producto</button>
-                </form>
-            </details>
-        </section>
-    </main>
-
-    <footer>
-        Panel de Administración - Food Store v1.0
-    </footer>
-
-    <script type="module" src="./home.ts"></script>
+        <footer class="footer">
+            <div class="footer__content">
+                <p class="footer__rights">&copy; 2026 <strong>Food Store</strong>. Todos los derechos reservados.</p>
+                <p class="footer__contact">Contacto: <a class="footer__link" href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="./admin.ts"></script>
 </body>
-
 </html>

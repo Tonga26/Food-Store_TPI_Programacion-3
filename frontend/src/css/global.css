@@ -518,6 +518,146 @@ body {
     background-color: var(--color-focus);
 }
 
+/* ==========================================================================
+   MÓDULO ADMIN: DASHBOARD Y TARJETAS ESTADÍSTICAS
+   ========================================================================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.stat-card__number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.stat-card__link {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    align-self: flex-start;
+    transition: background-color 0.2s;
+}
+
+.stat-card__link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Variantes de Color (Gradientes) --- */
+.stat-card--purple {
+    background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%);
+}
+
+.stat-card--pink {
+    background: linear-gradient(135deg, #d53f8c 0%, #f687b3 100%);
+}
+
+.stat-card--blue {
+    background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
+}
+
+.stat-card--green {
+    background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+}
+
+.dashboard-summary {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: 14px;
+    box-shadow: var(--shadow-soft);
+}
+
+.dashboard-summary__title {
+    color: var(--color-texto);
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+}
+
+.dashboard-summary__text {
+    color: var(--color-texto-suave);
+    margin: 0;
+}
+
+/* ==========================================================================
+   MÓDULO ADMIN: SIDEBAR Y MENU
+   ========================================================================== */
+
+.sidebar__header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar__title--brand {
+    color: var(--color-primario);
+    font-size: 1.3rem;
+    margin-bottom: 0.15rem;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sidebar__subtitle {
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.nav__item--logout {
+    background-color: #f3f4f6;
+    border-radius: 10px;
+}
+
+.nav__link--user {
+    font-weight: 600;
+    color: #1f2937;
+    pointer-events: none;
+}
+
+.nav__link--logout {
+    background-color: #f3f4f6;
+    color: #374151;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.nav__link--logout:hover {
+    background-color: #e5e7eb;
+}
+
 /* ==========================================
    SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
    ========================================== */
