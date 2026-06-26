@@ -71,7 +71,6 @@ const bindLogoutButton = (buttonSelector: string = "#logoutButton"): void => {
 const getStoreClientMenu = (user: IUser): MenuItem[] => [
   { label: "Inicio", href: "../home/home.html", className: "nav__link nav__link--active" },
   { label: "Mis Pedidos", href: "#", className: "nav__link" },
-  { label: "Administración", href: "/src/pages/admin/adminHome/admin.html", className: "nav__link" },
   { label: "🛒 Carrito", href: "../cart/cart.html", className: "nav__link" },
   { label: `${user.nombre} ${user.apellido}`, href: "#", className: "nav__link nav__link--user" },
   { label: "Cerrar Sesión", href: "#", id: "logoutButton", className: "nav__link nav__link--logout" },
