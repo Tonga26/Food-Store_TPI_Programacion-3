@@ -11,20 +11,13 @@
         <header class="header">
             <h1 class="header__title">🍔 Food Store</h1>
             <nav class="header__nav">
-                <ul class="nav__menu">
-                    <li class="nav__item"><a href="#" class="nav__link nav__link--active">Inicio</a></li>
-                    <li class="nav__item"><a href="#" class="nav__link">Mis Pedidos</a></li>
-                    <li class="nav__item"><a href="../cart/cart.html" class="nav__link">Carrito</a></li>
-                    <li class="nav__item"><a href="../../admin/adminHome/admin.html" class="nav__link nav__link--admin">Panel Admin</a></li>
-                    <li class="nav__item"><a href="#" id="logoutButton" class="nav__link">Cerrar Sesión</a></li>
-                </ul>
+                <ul class="nav__menu" id="nav-menu"></ul>
             </nav>
         </header>
 
         <aside class="sidebar">
             <h2 class="sidebar__title">Categorías</h2>
-            <ul class="sidebar__categories" id="todas-categorias">
-            </ul>
+            <h3 class="sidebar__subtitle sidebar__subtitle--hint">Filtra por categoría</h3>
             <ul class="sidebar__categories" id="lista-categorias">
             </ul>
         </aside>
@@ -39,7 +32,10 @@
             </section>
 
             <section class="products-section">
-                <h2 class="products-section__title">Nuestros Productos</h2>
+                <div class="products-section__header">
+                    <h2 class="products-section__title">Nuestros Productos</h2>
+                    <p class="products-section__count" id="products-count">0 productos</p>
+                </div>
                 <div class="products-grid" id="contenedor-productos">
                 </div>
             </section>

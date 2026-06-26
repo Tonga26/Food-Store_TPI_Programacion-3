@@ -16,11 +16,24 @@ const initPage = () => {
 initPage();
 
 // 2- RENDERIZA EL MENU SUPERIOR DEL CATALOGO SEGUN EL ROL DEL USUARIO
-setupMenu("store", ".nav__menu");
+setupMenu("store", "#nav-menu");
 
 // 3- CARGA DE DATOS EN MEMORIA
 const categorias = getCategories();
 const productos = PRODUCTS;
+
+const getCategoryEmoji = (categoryName: string): string => {
+  const name = categoryName.toLowerCase();
+
+  if (name.includes("pizza")) return "🍕";
+  if (name.includes("hamburguesa")) return "🍔";
+  if (name.includes("bebida")) return "🥤";
+  if (name.includes("postre")) return "🍰";
+  if (name.includes("empanada")) return "🥟";
+  if (name.includes("ensalada")) return "🥗";
+
+  return "🍽️";
+};
 
 // 4- RENDERIZADO DEL MENÚ LATERAL Y FILTRADO POR CATEGORÍA
 const listaCategorias = document.getElementById("lista-categorias") as HTMLUListElement;
@@ -29,7 +42,7 @@ if (listaCategorias) {
 
   // BOTÓN "TODAS LAS CATEGORÍAS" (RESET)
   const liTodas = document.createElement('li');
-  liTodas.innerHTML = `<a href="#">Todas las categorías</a>`;
+  liTodas.innerHTML = `<a href="#">📋 Todas las categorías</a>`;
   liTodas.classList.add('sidebar__category-item');
 
   liTodas?.addEventListener('click', (e: Event) => {
@@ -42,7 +55,7 @@ if (listaCategorias) {
   // BOTONES DINÁMICOS POR CATEGORÍA
   categorias.forEach(categoria => {
     const li = document.createElement('li');
-    li.innerHTML = `<a href="#">${categoria.nombre}</a>`;
+    li.innerHTML = `<a href="#">${getCategoryEmoji(categoria.nombre)} ${categoria.nombre}</a>`;
     li.classList.add('sidebar__category-item');
 
     li?.addEventListener('click', (e: Event) => {
@@ -59,9 +72,16 @@ if (listaCategorias) {
 
 // 5- RENDERIZADO DE LA GRILLA DE PRODUCTOS
 const contenedorProductos = document.getElementById("contenedor-productos") as HTMLDivElement;
+const productsCount = document.getElementById("products-count") as HTMLParagraphElement | null;
+
+const updateProductsCount = (count: number) => {
+  if (!productsCount) return;
+  productsCount.textContent = `${count} ${count === 1 ? "producto" : "productos"}`;
+};
 
 const renderProducts = (productosAMostrar: IProduct[]) => {
   contenedorProductos.innerHTML = "";
+  updateProductsCount(productosAMostrar.length);
 
   if (productosAMostrar.length === 0) {
     contenedorProductos.innerHTML = "<p class=\"products-empty-message\">No se encontraron productos para tu búsqueda.</p>";
@@ -86,6 +106,7 @@ const renderProducts = (productosAMostrar: IProduct[]) => {
     boton?.addEventListener('click', () => {
       addProductToCart(producto);
       mostrarToast(`¡${producto.nombre} agregado al carrito! 🍔`);
+      setupMenu("store", "#nav-menu");
     });
 
     contenedorProductos.appendChild(article);

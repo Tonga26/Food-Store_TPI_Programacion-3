@@ -90,11 +90,13 @@ body {
 }
 
 .sidebar__title {
-    font-size: 1.1rem;
-    color: var(--color-texto);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid var(--color-primario);
+    font-size: 1.3rem;
+    color: var(--color-primario);
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    padding-left: 0.8rem;
 }
 
 .sidebar__categories {
@@ -156,8 +158,23 @@ body {
    ========================================== */
 .products-section__title {
     color: var(--color-texto);
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     font-size: 1.5rem;
+}
+
+.products-section__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.products-section__count {
+    font-size: 0.9rem;
+    color: var(--color-texto-suave);
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .products-grid {
@@ -632,6 +649,36 @@ body {
     font-size: 0.95rem;
     font-weight: 500;
     margin: 0;
+}
+
+.sidebar__subtitle--hint {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    padding-left: 0.8rem;
+}
+
+.nav__link--cart {
+    position: relative;
+    padding-right: 1.6rem;
+}
+
+.nav__badge {
+    position: absolute;
+    top: -0.35rem;
+    right: 0.1rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.25rem;
+    border-radius: 999px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px #ffffff;
 }
 
 .nav__item--logout {

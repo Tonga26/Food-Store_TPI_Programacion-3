@@ -1,6 +1,7 @@
 import type { IUser } from "../types/IUser";
 import type { MenuItem, MenuPage } from "../types/Menu";
 import { logout } from "./auth";
+import { getCart } from "./cart";
 import { getUser } from "./localStorage";
 
 // 1- OBTIENE EL USUARIO LOGUEADO Y LO PARSEA DE FORMA SEGURA
@@ -26,6 +27,8 @@ const renderMenu = (containerSelector: string, items: MenuItem[]): void => {
 
   menuContainer.innerHTML = "";
 
+  const cartItemsCount = getCart().reduce((total, item) => total + item.cantidad, 0);
+
   items.forEach((item) => {
     const li = document.createElement("li");
     li.className = item.id === "logoutButton" ? "nav__item nav__item--logout" : "nav__item";
@@ -34,6 +37,17 @@ const renderMenu = (containerSelector: string, items: MenuItem[]): void => {
     link.textContent = item.label;
     link.href = item.href;
     link.className = item.className ?? "nav__link";
+
+    if (item.label.includes("Carrito")) {
+      link.classList.add("nav__link--cart");
+
+      if (cartItemsCount > 0) {
+        const badge = document.createElement("span");
+        badge.className = "nav__badge";
+        badge.textContent = String(cartItemsCount);
+        link.appendChild(badge);
+      }
+    }
 
     if (item.id) link.id = item.id;
 
@@ -53,10 +67,12 @@ const bindLogoutButton = (buttonSelector: string = "#logoutButton"): void => {
 };
 
 // 4- DEFINE LAS OPCIONES DEL MENU DE LA TIENDA PARA CLIENTE
-const getStoreClientMenu = (): MenuItem[] => [
+const getStoreClientMenu = (user: IUser): MenuItem[] => [
   { label: "Inicio", href: "../home/home.html", className: "nav__link nav__link--active" },
   { label: "Mis Pedidos", href: "#", className: "nav__link" },
-  { label: "Carrito", href: "../cart/cart.html", className: "nav__link" },
+  { label: "Administración", href: "/src/pages/admin/adminHome/admin.html", className: "nav__link" },
+  { label: "🛒 Carrito", href: "../cart/cart.html", className: "nav__link" },
+  { label: `${user.nombre} ${user.apellido}`, href: "#", className: "nav__link nav__link--user" },
   { label: "Cerrar Sesión", href: "#", id: "logoutButton", className: "nav__link nav__link--logout" },
 ];
 
@@ -89,7 +105,7 @@ const getMenuItems = (page: MenuPage, user: IUser): MenuItem[] => {
     return getAdminRoleMenu(page, user);
   }
 
-  if (page === "store") return getStoreClientMenu();
+  if (page === "store") return getStoreClientMenu(user);
   if (page === "cart") return getCartClientMenu();
   
   return getAdminClientMenu();
