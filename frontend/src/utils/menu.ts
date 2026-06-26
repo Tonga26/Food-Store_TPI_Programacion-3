@@ -27,6 +27,7 @@ const renderMenu = (containerSelector: string, items: MenuItem[]): void => {
 
   menuContainer.innerHTML = "";
 
+  // 2.1- CALCULA LA CANTIDAD TOTAL DE PRODUCTOS DEL CARRITO PARA EL BADGE
   const cartItemsCount = getCart().reduce((total, item) => total + item.cantidad, 0);
 
   items.forEach((item) => {
@@ -101,10 +102,12 @@ const getAdminRoleMenu = (_page: MenuPage, user: IUser): MenuItem[] => [
 
 // 8- DEVUELVE LAS OPCIONES DE MENU SEGUN ROL Y PAGINA ACTUAL
 const getMenuItems = (page: MenuPage, user: IUser): MenuItem[] => {
+  // 8.1- SI EL USUARIO ES ADMIN, MUESTRA EL MENU DEL PANEL
   if (user.role === "admin") {
     return getAdminRoleMenu(page, user);
   }
 
+  // 8.2- SI ES CLIENTE, AJUSTA EL MENU SEGUN LA PANTALLA ACTUAL
   if (page === "store") return getStoreClientMenu(user);
   if (page === "cart") return getCartClientMenu();
   
