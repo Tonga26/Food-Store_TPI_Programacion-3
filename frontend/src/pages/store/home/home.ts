@@ -1,8 +1,6 @@
 import { checkAuthUser } from "../../../utils/auth";
 import { getCategories, PRODUCTS } from "../../../data/data";
 import type { IProduct } from "../../../types/IProduct";
-import { addProductToCart } from "../../../utils/cart";
-import { mostrarToast } from "../../../utils/toast";
 import { setupMenu } from "../../../utils/menu";
 
 // 1- VERIFICACIÓN DE PERMISOS Y AUTENTICACIÓN
