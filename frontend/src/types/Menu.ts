@@ -5,4 +5,4 @@ export type MenuItem = {
   className?: string;
 };
 
-export type MenuPage = "store" | "cart" | "admin";
+export type MenuPage = "store" | "cart" | "admin" | "orders";

@@ -1692,6 +1692,147 @@ body {
     color: #ff6347;
 }
 
+/* ==========================================================================
+   MÓDULO BEM: TARJETAS DE PEDIDO DEL CLIENTE
+   ========================================================================== */
+.client-order-preview {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.client-order-preview p {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* ==========================================================================
+   COMPONENTE: CAJAS DE ALERTA (ESTADO DE PEDIDO)
+   ========================================================================== */
+.alert-box {
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.alert-box--warning {
+    background-color: #fef3c7;
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
+.alert-box--success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+/* ============================================================================
+   SECCIÓN 1: LAYOUT DEL CLIENTE Y CONTENEDOR CRUD
+   ============================================================================ */
+.client-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.crud-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+}
+
+/* ============================================================================
+   SECCIÓN 2: ENCABEZADO DE LA SECCIÓN DE PEDIDOS
+   ============================================================================ */
+.crud-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+/* ============================================================================
+   SECCIÓN 3: CONTENEDOR PRINCIPAL DE LAS TARJETAS (GRILLA)
+   ============================================================================ */
+.orders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* ============================================================================
+   SECCIÓN 4: COMPONENTE TARJETA DE PEDIDO (ORDER CARD)
+   ============================================================================ */
+.order-card {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================================
+   SECCIÓN 5: CABECERA Y TEXTOS DE LA TARJETA
+   ============================================================================ */
+.order-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.order-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.order-card__subtitle {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ============================================================================
+   SECCIÓN 6: PIE DE TARJETA Y TOTALES
+   ============================================================================ */
+.order-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-top: 1px dashed #e5e7eb;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.order-card__total {
+    color: #ff6347;
+    font-size: 1.25rem;
+}
+
 /* ==========================================
    SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
    ========================================== */

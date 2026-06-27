@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/global.css">
+    <title>Food Store | Mis Pedidos</title>
+</head>
+<body>
+    <div class="client-layout">
+        
+        <header class="header">
+            <h1 class="header__title">🍕 Food Store</h1>
+            <nav class="header__nav">
+                <ul class="nav__menu" id="nav-menu"></ul>
+            </nav>
+        </header>
+
+        <main class="main-content" style="max-width: 1000px; margin: 0 auto; width: 100%;">
+            <section class="crud-section">
+                <header class="crud-section__header" style="margin-top: 2rem;">
+                    <h2 class="crud-section__title">Mis Pedidos</h2>
+                    <select id="client-order-filter" class="form-input" style="width: auto; background-color: #e5e7eb; border: none; font-weight: 600;">
+                        <option value="all">Todos</option>
+                        <option value="pendiente">Pendientes</option>
+                        <option value="completado">Completados</option>
+                    </select>
+                </header>
+
+                <div class="orders-grid" id="client-orders-container">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="client-order-modal" aria-hidden="true">
+        <div class="modal__overlay" id="client-modal-overlay"></div>
+        <div class="modal__content modal__content--scrollable">
+            <header class="modal__header" style="justify-content: center; position: relative;">
+                <span class="badge badge--warning" id="modal-client-status" style="font-size: 1rem; padding: 0.5rem 1.5rem;">PENDIENTE</span>
+                <button class="modal__close-btn" id="client-modal-close" style="position: absolute; right: 0;">&times;</button>
+            </header>
+            
+            <div class="modal__body">
+                <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-bottom: 2rem;">
+                    📅 <span id="modal-client-date"></span>
+                </p>
+
+                <div class="order-info">
+                    <h3 style="margin-top: 0; font-size: 1.1rem;">📍 Información de Entrega</h3>
+                    <div class="order-info__details" style="margin-top: 1rem;">
+                        <p><strong>Dirección:</strong> <span id="modal-client-address"></span></p>
+                        <p><strong>Teléfono:</strong> <span id="modal-client-phone"></span></p>
+                        <p><strong>Método de pago:</strong> 💵 <span id="modal-client-payment"></span></p>
+                    </div>
+                </div>
+
+                <div class="order-items">
+                    <h3 class="order-items__title">🛍️ Productos</h3>
+                    <ul class="order-items__list" id="modal-client-items" style="border-bottom: 2px solid #f3f4f6; padding-bottom: 1rem;">
+                        </ul>
+                </div>
+
+                <div class="order-totals" style="background: none; padding: 0;">
+                    <div class="order-totals__row">
+                        <span>Subtotal:</span>
+                        <span id="modal-client-subtotal"></span>
+                    </div>
+                    <div class="order-totals__row">
+                        <span>Envío:</span>
+                        <span id="modal-client-shipping"></span>
+                    </div>
+                    <div class="order-totals__row order-totals__row--grand" style="border-top: 2px solid #ff6347;">
+                        <span style="color: #ff6347;">Total:</span>
+                        <span id="modal-client-total" style="color: #ff6347;"></span>
+                    </div>
+                </div>
+
+                <div class="alert-box alert-box--warning" id="modal-client-alert" style="margin-top: 1.5rem;">
+                    <strong>⏳ Tu pedido está siendo procesado</strong>
+                    <p style="margin: 0; font-size: 0.85rem;">Te notificaremos cuando esté listo para entrega.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./orders.ts"></script>
+</body>
+</html>
