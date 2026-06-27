@@ -1471,6 +1471,175 @@ body {
     background-color: #ef4444;
 }
 
+/* ==========================================================================
+   MÓDULO BEM: TARJETAS DE PEDIDOS (ORDERS GRID)
+   ========================================================================== */
+.orders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.order-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #f3f4f6;
+}
+
+.order-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.order-card__title {
+    font-size: 1.1rem;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+}
+
+.order-card__subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.order-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.order-card__total {
+    font-weight: 700;
+    color: #ff6347;
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   MÓDULO BEM: DETALLE INTERNO DEL PEDIDO (MODAL)
+   ========================================================================== */
+.order-info {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-info__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-info__details p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.order-info__details p:last-child {
+    margin-bottom: 0;
+}
+
+.order-items {
+    margin-bottom: 1.5rem;
+}
+
+.order-items__title {
+    font-size: 1rem;
+    color: #1f2937;
+    margin: 0 0 1rem 0;
+}
+
+.order-items__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.order-item__details {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-item__name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.order-item__qty {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.order-item__price {
+    font-weight: 700;
+    color: #ff6347;
+}
+
+.order-totals {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.order-totals__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.order-totals__row--grand {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1f2937;
+}
+
+/* Modificadores de Estado (Badges extendidos) */
+.badge--warning {
+    background-color: #fde68a;
+    color: #d97706;
+}
+
 /* ==========================================
    SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
    ========================================== */

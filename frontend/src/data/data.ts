@@ -307,3 +307,28 @@ export const PRODUCTS: IProduct[] = [
 export function getCategories(): ICategory[] {
   return categorias.filter((c) => !c.eliminado);
 }
+
+// ============================================================================
+// SEMILLA DE DATOS: HISTORIAL DE PEDIDOS
+// ============================================================================
+export const ORDERS = [
+  {
+    id: "ORD-1760797178248",
+    cliente: "Juan Pérez",
+    fecha: "18 de octubre de 2025, 11:19 a. m.",
+    telefono: "26547366",
+    direccion: "Calle unica 254",
+    metodoPago: "Efectivo",
+    estado: "Pendiente",
+    items: [
+      {
+        nombre: "Hamburguesa triple",
+        cantidad: 1,
+        precioUnitario: 25000.00
+      }
+    ],
+    subtotal: 25000.00,
+    envio: 500.00,
+    total: 25500.00
+  }
+];
