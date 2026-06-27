@@ -1320,6 +1320,38 @@ body {
     margin-top: 0.5rem;
 }
 
+/* ==========================================================================
+   MÓDULO BEM: BOTONES DE ACCIÓN DEL CARRITO (RESUMEN DE PEDIDO)
+   ========================================================================== */
+#btn-proceed-pay,
+.cart-summary .btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+.cart-summary .btn + .btn {
+    margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   MODIFICADOR GLOBALES: BOTONES DE BLOQUE COMPLETO
+   ========================================================================== */
+.btn--block {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
 
 /* ==========================================================================
    MÓDULO BEM: VENTANAS EMERGENTES (MODALES)
@@ -1638,6 +1670,26 @@ body {
 .badge--warning {
     background-color: #fde68a;
     color: #d97706;
+}
+
+/* ==========================================================================
+   MÓDULO BEM: TOTAL DE CHECKOUT (MODAL DEL CARRITO)
+   ========================================================================== */
+.checkout-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ff6347;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.checkout-total__label,
+.checkout-total__value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ff6347;
 }
 
 /* ==========================================

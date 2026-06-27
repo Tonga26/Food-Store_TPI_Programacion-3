@@ -44,7 +44,7 @@
                     <span id="total-numero">$0.00</span>
                 </div>
 
-                <button id="btn-pay" class="btn-checkout">Proceder al Pago</button>
+                <button id="btn-proceed-pay" class="btn btn--primary">Proceder al Pago</button>
                 <button id="btn-empty-cart" class="btn-empty-cart">Vaciar el Carrito</button>
             </aside>
 
@@ -59,6 +59,49 @@
         </footer>
     </div>
     <script type="module" src="./cart.ts"></script>
+    <div class="modal" id="checkout-modal" aria-hidden="true">
+    <div class="modal__overlay" id="checkout-overlay"></div>
+    <div class="modal__content modal__content--scrollable">
+        <header class="modal__header">
+            <h2 class="modal__title">Completar Pedido</h2>
+            <button class="modal__close-btn" id="checkout-close">&times;</button>
+        </header>
+        
+        <form class="modal__form" id="checkout-form">
+            <div class="form-group">
+                <label for="checkout-phone" class="form-label">Teléfono</label>
+                <input type="tel" id="checkout-phone" class="form-input" placeholder="Ej: +54 9 261 123-4567" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="checkout-address" class="form-label">Dirección de Entrega</label>
+                <textarea id="checkout-address" class="form-textarea" rows="2" placeholder="Calle, número, piso, depto" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="checkout-payment" class="form-label">Método de Pago</label>
+                <select id="checkout-payment" class="form-input" required>
+                    <option value="" disabled selected>Seleccione un método</option>
+                    <option value="efectivo">Efectivo al recibir</option>
+                    <option value="transferencia">Transferencia Bancaria</option>
+                    <option value="mercadopago">Mercado Pago</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="checkout-notes" class="form-label">Notas adicionales (opcional)</label>
+                <textarea id="checkout-notes" class="form-textarea" rows="2" placeholder="Instrucciones especiales, timbre, etc."></textarea>
+            </div>
+
+            <div class="checkout-total">
+                <span class="checkout-total__label">Total a pagar:</span>
+                <span class="checkout-total__value" id="checkout-total-value">$0.00</span>
+            </div>
+
+            <button type="submit" class="btn btn--success btn--block" style="background-color: #00c99a;">Confirmar Pedido</button>
+        </form>
+    </div>
+</div>
 </body>
 
 </html>

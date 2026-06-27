@@ -131,3 +131,45 @@ const renderCart = () => {
 
 // 9- EJECUTA EL PRIMER RENDER DEL CARRITO AL ABRIR LA PAGINA
 renderCart();
+
+// ============================================================================
+// REFERENCIAS AL DOM: MODAL DE CHECKOUT
+// ============================================================================
+const checkoutModal = document.getElementById("checkout-modal") as HTMLDivElement | null;
+const checkoutOverlay = document.getElementById("checkout-overlay") as HTMLDivElement | null;
+const checkoutClose = document.getElementById("checkout-close") as HTMLButtonElement | null;
+const checkoutForm = document.getElementById("checkout-form") as HTMLFormElement | null;
+const btnProceedPay = document.getElementById("btn-proceed-pay") as HTMLButtonElement | null;
+const checkoutTotalValue = document.getElementById("checkout-total-value") as HTMLSpanElement | null;
+
+// ============================================================================
+// CONTROL DE ESTADO DEL MODAL
+// ============================================================================
+const openCheckoutModal = (): void => {
+  // TODO: Reemplazar con la variable real que contenga la sumatoria del carrito
+  const cartTotal = 25500.00; 
+  
+  if (checkoutTotalValue) {
+    checkoutTotalValue.textContent = `$${cartTotal.toFixed(2)}`;
+  }
+  checkoutModal?.classList.add("modal--active");
+};
+
+const closeCheckoutModal = (): void => {
+  checkoutModal?.classList.remove("modal--active");
+  checkoutForm?.reset();
+};
+
+btnProceedPay?.addEventListener("click", openCheckoutModal);
+checkoutClose?.addEventListener("click", closeCheckoutModal);
+checkoutOverlay?.addEventListener("click", closeCheckoutModal);
+
+// ============================================================================
+// PROCESAMIENTO DEL PEDIDO (SUBMIT)
+// ============================================================================
+checkoutForm?.addEventListener("submit", (e: Event) => {
+  e.preventDefault();
+  // TODO: Fase 3 - Construir objeto OrderRequest y realizar POST al Backend
+  console.log("Pedido confirmado. Procesando...");
+  closeCheckoutModal();
+});
