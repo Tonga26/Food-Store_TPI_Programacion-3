@@ -26,7 +26,7 @@ body {
 }
 
 /* ==========================================
-   SECCIÓN: DISEÑO DE PÁGINA PRINCIPAL (GRILLA)
+   SECCIÓN: LAYOUT PRINCIPAL Y CONTENEDORES
    ========================================== */
 .page-layout {
     display: grid;
@@ -34,12 +34,23 @@ body {
     min-height: 100vh;
 }
 
+.client-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    padding: 2rem;
+}
+
 .header, .footer {
     grid-column: 1 / -1;
 }
 
 /* ==========================================
-   SECCIÓN: HEADER Y NAVEGACIÓN
+   SECCIÓN: HEADER Y NAVEGACIÓN COMPARTIDA
    ========================================== */
 .header {
     display: flex;
@@ -80,942 +91,9 @@ body {
     background-color: #fff5f3;
 }
 
-/* ==========================================
-   SECCIÓN: BARRA LATERAL (CATEGORÍAS)
-   ========================================== */
-.sidebar {
-    background-color: var(--color-blanco);
-    padding: 2rem;
-    border-right: 1px solid var(--color-borde);
-}
-
-.sidebar__title {
-    font-size: 1.3rem;
-    color: var(--color-primario);
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-    padding-bottom: 0;
-    border-bottom: none;
-    padding-left: 0.8rem;
-}
-
-.sidebar__categories {
-    list-style: none;
-}
-
-.sidebar__category-item a {
-    text-decoration: none;
-    color: var(--color-texto-suave);
-    font-weight: 500;
-    display: block;
-    padding: 0.8rem 0.8rem;
-    border-left: 5px solid transparent;
-    white-space: nowrap;
-    transition: transform 0.2s, color 0.2s, border-left-color 0.2s, background-color 0.2s;
-}
-
-.sidebar__category-item a:hover {
-    color: var(--color-primario);
-    transform: translateX(5px);
-    border-left-color: var(--color-primario);
-    background-color: #fff5f3;
-}
-
-/* ==========================================
-   SECCIÓN: CONTENIDO PRINCIPAL Y BÚSQUEDA
-   ========================================== */
-.main-content {
-    padding: 2rem;
-}
-
-.search-section {
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.search-form__group {
-    display: flex;
-    background: var(--color-blanco);
-    padding: 5px;
-    border-radius: 50px;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid var(--color-borde);
-}
-
-.search-form__input {
-    flex-grow: 1;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    outline: none;
-    font-size: 1rem;
-}
-
-/* ==========================================
-   SECCIÓN: GRILLA DE PRODUCTOS Y TARJETAS
-   ========================================== */
-.products-section__title {
-    color: var(--color-texto);
-    margin-bottom: 0;
-    font-size: 1.5rem;
-}
-
-.products-section__header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.products-section__count {
-    font-size: 0.9rem;
-    color: var(--color-texto-suave);
+.nav__link--active {
     font-weight: 600;
-    white-space: nowrap;
-}
-
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 2rem;
-}
-
-.product-card {
-    background: var(--color-blanco);
-    border-radius: 15px;
-    padding: 0;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card--clickable {
-    cursor: pointer;
-}
-
-.product-card__img {
-    width: 100%;
-    height: 240px;
-    object-fit: cover;
-    border-radius: 0;
-    margin-bottom: 0;
-    flex-shrink: 0;
-}
-
-.product-card__body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding-bottom: 1.6rem;
-}
-
-.product-card__category {
-    display: inline-block;
-    background-color: #f3f4f6;
-    color: #374151;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.4rem 0.8rem;
-    margin: 0.8rem 1.5rem 0 1.5rem;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border: 1px solid var(--color-borde);
-}
-
-.product-card__name {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-texto);
-    padding: 0.8rem 1.5rem 0 1.5rem;
-}
-
-.product-card__description {
-    color: var(--color-texto-suave);
-    font-size: 0.95rem;
-    margin-bottom: 0;
-    padding: 0 1.5rem;
-    flex-grow: 1;
-}
-
-.product-card__price {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-primario);
-    margin-bottom: 0;
-    padding: 0 1.5rem;
-}
-
-.product-card__btn-add {
-    background-color: var(--color-primario);
-    color: #ffffff;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s;
-    margin: 0;
-    width: auto;
-}
-
-.product-card__btn-add:hover {
-    background-color: var(--color-focus);
-}
-
-.product-detail__quantity-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
-}
-
-.product-card__status {
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.35rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    line-height: 1;
-    border: 1px solid transparent;
-}
-
-.product-card__status--success {
-    background-color: #e8f7ee;
-    color: #166534;
-    border-color: #86efac;
-}
-
-.product-card__status--warning {
-    background-color: #fff8db;
-    color: #92400e;
-    border-color: #fcd34d;
-}
-
-.product-card__status--danger {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border-color: #fca5a5;
-}
-
-.page-layout--detail {
-    grid-template-columns: 1fr;
-}
-
-.page-layout--detail .main-content {
-    padding: 1.5rem 5% 2rem;
-}
-
-.product-detail-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 92px);
-}
-
-.product-detail {
-    width: 100%;
-    max-width: 1080px;
-}
-
-.product-detail__card {
-    display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: 0;
-    background: var(--color-blanco);
-    border-radius: 20px;
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-    padding: 0;
-}
-
-.product-detail__card--empty {
-    grid-template-columns: 1fr;
-}
-
-.product-detail__info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: center;
-    padding: 1.5rem 1.75rem;
-}
-
-.product-detail__category {
-    display: inline-flex;
-    align-self: flex-start;
-    background-color: #f3f4f6;
-    color: #374151;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.product-detail__title {
-    font-size: 1.9rem;
-    color: var(--color-texto);
-    line-height: 1.1;
-}
-
-.product-detail__price {
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: var(--color-primario);
-}
-
-.product-detail__stock {
-    display: inline-flex;
-    align-self: flex-start;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.45rem 0.8rem;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.product-detail__status--success {
-    background-color: #e8f7ee;
-    color: #166534;
-}
-
-.product-detail__status--warning {
-    background-color: #fff8db;
-    color: #92400e;
-}
-
-.product-detail__status--danger {
-    background-color: #fee2e2;
-    color: #b91c1c;
-}
-
-.product-detail__description {
-    color: var(--color-texto-suave);
-    font-size: 1rem;
-    line-height: 1.7;
-    max-width: 100%;
-}
-
-.product-detail__quantity-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    padding-top: 0.5rem;
-}
-
-.product-detail__quantity-label {
-    color: var(--color-texto);
-    font-weight: 700;
-}
-
-.product-detail__quantity-controls {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    width: fit-content;
-    background-color: #f9fafb;
-    border: 1px solid var(--color-borde);
-    border-radius: 999px;
-    padding: 0.35rem;
-}
-
-.product-detail__quantity-btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    border: none;
-    border-radius: 999px;
-    background-color: var(--color-blanco);
-    color: var(--color-texto);
-    font-size: 1.25rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.product-detail__quantity-value {
-    min-width: 2rem;
-    text-align: center;
-    font-weight: 800;
-    color: var(--color-texto);
-}
-
-.product-detail__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    padding-top: 0.5rem;
-}
-
-.product-detail__back-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0.75rem 1.25rem;
-    border-radius: 10px;
-    background-color: #f3f4f6;
-    color: #374151;
-    text-decoration: none;
-    font-weight: 700;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.product-detail__back-link:hover {
-    background-color: #e5e7eb;
-    transform: translateY(-1px);
-}
-
-.product-detail__media {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
-    min-height: 100%;
-    padding: 0;
-}
-
-.product-detail__img {
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    object-fit: cover;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.product-detail__actions .product-card__btn-add {
-    margin: 0;
-    width: auto;
-}
-
-.product-detail__actions .product-card__btn-add,
-.product-detail__actions .product-detail__back-link {
-    min-width: 180px;
-}
-
-.products-empty-message {
-    width: 100%;
-    text-align: center;
-    white-space: nowrap;
-    color: var(--color-texto-suave);
-    font-weight: 600;
-    padding: 1rem 0;
-}
-
-/* ==========================================
-   SECCIÓN: VISTA DEL CARRITO DE COMPRAS
-   ========================================== */
-.cart-container {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
-    grid-template-areas:
-        "title title"
-        "left right";
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    grid-column: 1 / -1;
-    align-items: start;
-    justify-content: center;
-}
-
-.cart-title {
-    grid-area: title;
-    color: var(--color-texto);
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin: 0;
-    justify-self: start;
-}
-
-.cart-left, .cart-right {
-    background-color: var(--color-blanco);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: var(--shadow-soft);
-    height: fit-content;
-}
-
-.cart-left {
-    grid-area: left;
-}
-
-.cart-right {
-    grid-area: right;
-}
-
-.cart-left h2, .cart-right h2 {
-    border-bottom: 2px solid var(--color-borde);
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
-    color: var(--color-texto);
-}
-
-.cart-summary__title {
-    color: var(--color-primario) !important;
-    border-bottom: none !important;
-    padding-bottom: 0 !important;
-    margin-bottom: 1.25rem !important;
-    font-size: 1.4rem;
-}
-
-#empty-message {
-    text-align: center;
-    color: var(--color-texto-suave);
-    font-style: italic;
-    margin-top: 2rem;
-}
-
-.cart-list {
-    list-style: none;
-}
-
-/* ESTILOS ANTICIPADOS PARA LOS ÍTEMS GENERADOS EN TS */
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--color-borde);
-}
-
-.cart-item:last-child {
-    border-bottom: none;
-}
-
-.cart-item__info h4 {
-    color: var(--color-texto);
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-}
-
-.cart-item__description {
-    color: var(--color-texto-suave);
-    font-size: 0.92rem;
-    margin-bottom: 0.4rem;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    line-height: 1.45;
-}
-
-.cart-item__unit-price {
-    color: var(--color-primario);
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.cart-item__subtotal strong {
-    color: var(--color-primario);
-}
-
-.cart-item__controls {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.8rem;
-}
-
-.cart-item__info {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.btn-quantity {
-    background-color: var(--color-borde);
-    border: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn-quantity:hover {
-    background-color: #dcdde1;
-}
-
-.cart-item__subtotal {
-    text-align: right;
-    min-width: 120px;
-}
-
-.cart-item__btn-remove {
-    background-color: transparent;
-    color: #ff4757;
-    border: 1px solid #ff4757;
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-}
-
-.cart-item__btn-remove:hover {
-    background-color: #ff4757;
-    color: white;
-}
-
-/* ==========================================
-   SECCIÓN: DISEÑO DEL ÍTEM DEL CARRITO
-   ========================================== */
-.cart-item {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--color-borde);
-    gap: 1rem;
-}
-
-/* --- Lado Izquierdo --- */
-.cart-item__main {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    flex: 1 1 320px;
-    min-width: 0;
-}
-
-.cart-item__img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover; 
-    border-radius: 8px;
-    box-shadow: var(--shadow-soft);
-}
-
-.cart-item__info h4 {
-    margin-bottom: 0.2rem;
-}
-
-.cart-item__info p {
-    white-space: normal;
-}
-
-/* --- Lado Derecho --- */
-.cart-item__actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-}
-
-.cart-item__controls {
-    display: flex;
-    align-items: center;
-    background-color: var(--color-borde);
-    border-radius: 8px;
-    padding: 0.2rem;
-    margin-top: 0;
-}
-
-.cart-item__quantity {
-    min-width: 30px;
-    text-align: center;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.cart-item__subtotal {
-    text-align: right;
-    min-width: 95px;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-@media (max-width: 900px) {
-    .cart-item {
-        flex-wrap: wrap;
-        align-items: flex-start;
-    }
-
-    .cart-item__main {
-        flex: 1 1 100%;
-    }
-
-    .cart-item__actions {
-        width: 100%;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-    }
-
-    .cart-item__subtotal {
-        min-width: auto;
-    }
-}
-
-/* --- Botones --- */
-.btn-quantity {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: filter 0.2s;
-}
-
-.btn-quantity:hover {
-    filter: brightness(0.9);
-}
-
-.btn-sumar {
-    background-color: var(--color-primario);
-}
-
-.btn-restar {
-    background-color: var(--color-primario);
-}
-
-.btn-eliminar-item {
-    background-color: #fff0f0;
-    color: #ff4757;
-    border: 1px solid #ff4757;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    white-space: nowrap;
-    margin-top: 0;
-    height: 32px;
-    align-self: center;
-    line-height: 1;
-}
-
-.btn-eliminar-item,
-.btn-quantity {
-    flex-shrink: 0;
-}
-
-.btn-eliminar-item:hover {
-    background-color: #ff4757;
-    color: #ffffff;
-}
-
-/* ==========================================
-   SECCIÓN: RESUMEN DE COMPRA
-   ========================================== */
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-.summary-row:not(.summary-total) span:last-child {
-    color: var(--color-texto);
-    font-weight: 700;
-}
-
-.summary-divider {
-    height: 1px;
-    background-color: var(--color-primario);
-    opacity: 0.7;
-    margin: 0.75rem 0 1rem;
-}
-
-.summary-total {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--color-primario);
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-}
-
-.summary-total span {
-    color: var(--color-primario) !important;
-}
-
-.btn-checkout {
-    width: 100%;
-    background-color: var(--color-primario);
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    transition: background 0.3s;
-}
-
-.btn-checkout:hover {
-    background-color: var(--color-focus);
-}
-
-.btn-empty-cart {
-    width: 100%;
-    background-color: #ff4757;
-    color: #ffffff;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 1.05rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 0.85rem;
-    transition: filter 0.2s;
-}
-
-.btn-empty-cart:hover {
-    filter: brightness(0.95);
-}
-
-/* ==========================================================================
-   MÓDULO ADMIN: DASHBOARD Y TARJETAS ESTADÍSTICAS
-   ========================================================================== */
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.stat-card {
-    padding: 1.5rem;
-    border-radius: 12px;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-}
-
-.stat-card h3 {
-    font-size: 1.1rem;
-    margin: 0;
-    opacity: 0.9;
-}
-
-.stat-card__number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0;
-}
-
-.stat-card__link {
-    color: #ffffff;
-    text-decoration: none;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    align-self: flex-start;
-    transition: background-color 0.2s;
-}
-
-.stat-card__link:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.stat-card--purple {
-    background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%);
-}
-
-.stat-card--pink {
-    background: linear-gradient(135deg, #d53f8c 0%, #f687b3 100%);
-}
-
-.stat-card--blue {
-    background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
-}
-
-.stat-card--green {
-    background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
-}
-
-.dashboard-summary {
-    margin-top: 1.5rem;
-    padding: 1.25rem 1.5rem;
-    background: var(--color-blanco);
-    border: 1px solid var(--color-borde);
-    border-radius: 14px;
-    box-shadow: var(--shadow-soft);
-}
-
-.dashboard-summary__title {
-    color: var(--color-texto);
-    font-size: 1.1rem;
-    margin-bottom: 0.35rem;
-}
-
-.dashboard-summary__text {
-    color: var(--color-texto-suave);
-    margin: 0;
-}
-
-/* ==========================================================================
-   MÓDULO ADMIN: SIDEBAR Y MENU
-   ========================================================================== */
-
-.sidebar__header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.sidebar__title--brand {
-    color: var(--color-primario);
-    font-size: 1.3rem;
-    margin-bottom: 0.15rem;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.sidebar__subtitle {
-    color: var(--color-texto-suave);
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin: 0;
-}
-
-.sidebar__subtitle--hint {
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-    padding-left: 0.8rem;
+    border-left: none; 
 }
 
 .nav__link--cart {
@@ -1065,25 +143,79 @@ body {
     background-color: #e5e7eb;
 }
 
-/* ==========================================================================
-   MÓDULO ADMIN: CATEGORIES
-   ========================================================================== */
+/* ==========================================
+   SECCIÓN: BARRA LATERAL COMPARTIDA
+   ========================================== */
+.sidebar {
+    background-color: var(--color-blanco);
+    padding: 2rem;
+    border-right: 1px solid var(--color-borde);
+}
 
-.nav__link--active {
-    background-color: #f3f4f6;
-    color: #f97316;
-    font-weight: 600;
-    border-left: none; 
+.sidebar__header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar__title {
+    font-size: 1.3rem;
+    color: var(--color-primario);
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    padding-left: 0.8rem;
+}
+
+.sidebar__title--brand {
+    color: var(--color-primario);
+    font-size: 1.3rem;
+    margin-bottom: 0.15rem;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sidebar__subtitle {
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.sidebar__subtitle--hint {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    padding-left: 0.8rem;
+}
+
+.sidebar__categories {
+    list-style: none;
+}
+
+.sidebar__category-item a {
+    text-decoration: none;
+    color: var(--color-texto-suave);
+    font-weight: 500;
+    display: block;
+    padding: 0.8rem 0.8rem;
+    border-left: 5px solid transparent;
+    white-space: nowrap;
+    transition: transform 0.2s, color 0.2s, border-left-color 0.2s, background-color 0.2s;
+}
+
+.sidebar__category-item a:hover {
+    color: var(--color-primario);
+    transform: translateX(5px);
+    border-left-color: var(--color-primario);
+    background-color: #fff5f3;
 }
 
 .sidebar .nav__link--active {
     border-left: 4px solid #f97316;
-    padding-left: 0.75rem; 
+    padding-left: 0.75rem;
 }
-
-/* ==========================================================================
-   COMPONENTES BEM: SIDEBAR EXTRA Y BOTONES
-   ========================================================================== */
 
 .sidebar__divider {
     height: 1px;
@@ -1091,6 +223,45 @@ body {
     margin: 1.5rem 0;
 }
 
+/* ==========================================
+   SECCIÓN: ETIQUETAS, BADGES Y ALERTAS
+   ========================================== */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    display: inline-block;
+}
+
+.badge--success { background-color: #10b981; }
+.badge--danger { background-color: #ef4444; }
+.badge--warning { background-color: #fde68a; color: #d97706; }
+
+.alert-box {
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.alert-box--warning {
+    background-color: #fef3c7;
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
+.alert-box--success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+/* ==========================================
+   SECCIÓN: COMPONENTES COMPARTIDOS (BOTONES)
+   ========================================== */
 .btn {
     padding: 0.6rem 1.2rem;
     border: none;
@@ -1101,44 +272,43 @@ body {
     font-size: 0.95rem;
 }
 
-.btn:hover {
-    opacity: 0.9;
+.btn:hover { opacity: 0.9; }
+.btn--sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+.btn--success { background-color: #10b981; color: white; }
+.btn--danger { background-color: #ef4444; color: white; }
+.btn--light { background-color: #e5e7eb; color: #374151; }
+.btn--primary { background-color: #ff6347; color: white; }
+
+.btn--block {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top: 0.5rem;
 }
 
-.btn--sm {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-}
-
-.btn--success {
-    background-color: #10b981;
-    color: white;
-}
-
-.btn--danger {
-    background-color: #ef4444; 
-    color: white;
-}
-
-.btn--light {
-    background-color: #e5e7eb;
-    color: #374151;
-}
-
-/* ==========================================================================
-   MÓDULOS CRUD: TABLAS DE ADMINISTRACIÓN
-   ========================================================================== */
-
+/* ==========================================
+   SECCIÓN: ESTRUCTURA CRUD GLOBAL
+   ========================================== */
 .crud-section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
 }
 
 .crud-section__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
 }
 
 .crud-section__title {
@@ -1147,141 +317,25 @@ body {
     margin: 0;
 }
 
-.table-container {
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    overflow: hidden; 
-    width: 100%;
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.data-table th {
-    background-color: #ff6347;
-    color: #ffffff;
-    font-weight: 600;
-    padding: 1rem;
-    font-size: 0.95rem;
-}
-
-.data-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #f3f4f6;
-    color: #4b5563;
-    font-size: 0.95rem;
-    vertical-align: middle;
-}
-
-.data-table tr:last-child td {
-    border-bottom: none;
-}
-
-.data-table__img {
-    width: 48px;
-    height: 48px;
-    border-radius: 6px;
-    object-fit: cover;
-    display: block;
-}
-
-.data-table__actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-/* ==========================================================================
-   MÓDULO: VENTANAS EMERGENTES (MODALES) Y FORMULARIOS
-   ========================================================================== */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal--active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal__content {
-    position: relative;
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
-}
-
-.modal--active .modal__content {
-    transform: translateY(0);
-}
-
-.modal__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.modal__title {
-    font-size: 1.5rem;
-    color: #1f2937;
-    margin: 0;
-}
-
-.modal__close-btn {
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    color: #6b7280;
-    cursor: pointer;
-    line-height: 1;
-}
-
-.modal__close-btn:hover {
-    color: #111827;
-}
-
-/* ==========================================================================
-   ESTILOS DE FORMULARIO (Inputs y Botones)
-   ========================================================================== */
-
-.modal__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
+/* ==========================================
+   SECCIÓN: FORMULARIOS Y CONTROLES GLOBALES
+   ========================================== */
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.form-group--inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    justify-content: center;
+}
+
+.form-group--inline .form-label {
+    margin: 0;
 }
 
 .form-label {
@@ -1304,58 +358,13 @@ body {
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #f97316; 
+    border-color: #f97316;
     box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
-.btn--primary {
-    background-color: #ff6347;
-    color: white;
-}
-
-.btn--block {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-}
-
-/* ==========================================================================
-   MÓDULO BEM: BOTONES DE ACCIÓN DEL CARRITO (RESUMEN DE PEDIDO)
-   ========================================================================== */
-#btn-proceed-pay,
-.cart-summary .btn {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    display: block;
-    text-align: center;
-    box-sizing: border-box;
-    margin-bottom: 0;
-}
-
-.cart-summary .btn + .btn {
-    margin-top: 0.5rem;
-}
-
-/* ==========================================================================
-   MODIFICADOR GLOBALES: BOTONES DE BLOQUE COMPLETO
-   ========================================================================== */
-.btn--block {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    display: block;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-
-/* ==========================================================================
-   MÓDULO BEM: VENTANAS EMERGENTES (MODALES)
-   ========================================================================== */
+/* ==========================================
+   SECCIÓN: VENTANAS EMERGENTES (MODALES)
+   ========================================== */
 .modal {
     position: fixed;
     top: 0;
@@ -1432,409 +441,14 @@ body {
     color: #111827;
 }
 
-/* ==========================================================================
-   MÓDULO BEM: FORMULARIOS Y CONTROLES
-   ========================================================================== */
 .modal__form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group--inline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    justify-content: center;
-}
-
-.form-group--inline .form-label {
-    margin: 0;
-}
-
-.form-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.form-input,
-.form-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    font-family: inherit;
-    transition: border-color 0.2s;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: #f97316;
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-}
-
-/* ==========================================================================
-   COMPONENTE: BADGES (ETIQUETAS DE ESTADO)
-   ========================================================================== */
-.badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: white;
-    display: inline-block;
-}
-
-.badge--success {
-    background-color: #10b981;
-}
-
-.badge--danger {
-    background-color: #ef4444;
-}
-
-/* ==========================================================================
-   MÓDULO BEM: TARJETAS DE PEDIDOS (ORDERS GRID)
-   ========================================================================== */
-.orders-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-}
-
-.order-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid transparent;
-}
-
-.order-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    border-color: #f3f4f6;
-}
-
-.order-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.order-card__title {
-    font-size: 1.1rem;
-    color: #1f2937;
-    margin: 0 0 0.25rem 0;
-}
-
-.order-card__subtitle {
-    font-size: 0.9rem;
-    color: #6b7280;
-    margin: 0;
-}
-
-.order-card__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 1rem;
-    font-size: 0.95rem;
-    color: #4b5563;
-}
-
-.order-card__total {
-    font-weight: 700;
-    color: #ff6347;
-    font-size: 1.1rem;
-}
-
-/* ==========================================================================
-   MÓDULO BEM: DETALLE INTERNO DEL PEDIDO (MODAL)
-   ========================================================================== */
-.order-info {
-    background-color: #f9fafb;
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-}
-
-.order-info__header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.order-info__details p {
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
-    color: #374151;
-}
-
-.order-info__details p:last-child {
-    margin-bottom: 0;
-}
-
-.order-items {
-    margin-bottom: 1.5rem;
-}
-
-.order-items__title {
-    font-size: 1rem;
-    color: #1f2937;
-    margin: 0 0 1rem 0;
-}
-
-.order-items__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.order-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f9fafb;
-    padding: 1rem;
-    border-radius: 8px;
-}
-
-.order-item__details {
-    display: flex;
-    flex-direction: column;
-}
-
-.order-item__name {
-    font-weight: 600;
-    color: #1f2937;
-    font-size: 0.95rem;
-}
-
-.order-item__qty {
-    font-size: 0.85rem;
-    color: #6b7280;
-}
-
-.order-item__price {
-    font-weight: 700;
-    color: #ff6347;
-}
-
-.order-totals {
-    background-color: #f9fafb;
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.order-totals__row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    color: #4b5563;
-}
-
-.order-totals__row--grand {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 0.75rem;
-    margin-top: 0.25rem;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #1f2937;
-}
-
-/* Modificadores de Estado (Badges extendidos) */
-.badge--warning {
-    background-color: #fde68a;
-    color: #d97706;
-}
-
-/* ==========================================================================
-   MÓDULO BEM: TOTAL DE CHECKOUT (MODAL DEL CARRITO)
-   ========================================================================== */
-.checkout-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #ff6347;
-    padding-top: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.checkout-total__label,
-.checkout-total__value {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #ff6347;
-}
-
-/* ==========================================================================
-   MÓDULO BEM: TARJETAS DE PEDIDO DEL CLIENTE
-   ========================================================================== */
-.client-order-preview {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px dashed #e5e7eb;
-}
-
-.client-order-preview p {
-    margin: 0 0 0.25rem 0;
-    font-size: 0.85rem;
-    color: #6b7280;
-}
-
-/* ==========================================================================
-   COMPONENTE: CAJAS DE ALERTA (ESTADO DE PEDIDO)
-   ========================================================================== */
-.alert-box {
-    padding: 1rem;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.alert-box--warning {
-    background-color: #fef3c7;
-    color: #92400e;
-    border-left: 4px solid #f59e0b;
-}
-
-.alert-box--success {
-    background-color: #d1fae5;
-    color: #065f46;
-    border-left: 4px solid #10b981;
-}
-
-/* ============================================================================
-   SECCIÓN 1: LAYOUT DEL CLIENTE Y CONTENEDOR CRUD
-   ============================================================================ */
-.client-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-}
-
-.crud-section {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    box-sizing: border-box;
-}
-
-/* ============================================================================
-   SECCIÓN 2: ENCABEZADO DE LA SECCIÓN DE PEDIDOS
-   ============================================================================ */
-.crud-section__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 2rem;
-}
-
-/* ============================================================================
-   SECCIÓN 3: CONTENEDOR PRINCIPAL DE LAS TARJETAS (GRILLA)
-   ============================================================================ */
-.orders-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-}
-
-/* ============================================================================
-   SECCIÓN 4: COMPONENTE TARJETA DE PEDIDO (ORDER CARD)
-   ============================================================================ */
-.order-card {
-    width: 100%;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
-}
-
-.order-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* ============================================================================
-   SECCIÓN 5: CABECERA Y TEXTOS DE LA TARJETA
-   ============================================================================ */
-.order-card__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.order-card__title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-}
-
-.order-card__subtitle {
-    font-size: 0.85rem;
-    color: #6b7280;
-    margin: 0;
-}
-
-/* ============================================================================
-   SECCIÓN 6: PIE DE TARJETA Y TOTALES
-   ============================================================================ */
-.order-card__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    border-top: 1px dashed #e5e7eb;
-    padding-top: 1rem;
-    margin-top: 1rem;
-    font-weight: 600;
-    box-sizing: border-box;
-}
-
-.order-card__total {
-    color: #ff6347;
-    font-size: 1.25rem;
-}
-
 /* ==========================================
-   SECCIÓN: CONTENEDOR GLOBAL DE NOTIFICACIONES (TOAST)
+   SECCIÓN: NOTIFICACIONES (TOAST)
    ========================================== */
 .toast-container {
     position: fixed;
@@ -1846,9 +460,6 @@ body {
     z-index: 9999;
 }
 
-/* ==========================================
-   SECCIÓN: DISEÑO INDIVIDUAL DE LA NOTIFICACIÓN
-   ========================================== */
 .toast-message {
     background-color: var(--color-blanco);
     color: var(--color-texto);
@@ -1865,18 +476,9 @@ body {
     animation: slideInRight 0.3s ease forwards;
 }
 
-/* ==========================================
-   SECCIÓN: ANIMACIONES DE ENTRADA Y SALIDA
-   ========================================== */
 @keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 .toast-message.fade-out {
@@ -1884,14 +486,8 @@ body {
 }
 
 @keyframes fadeOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
 }
 
 /* ==========================================
@@ -1918,16 +514,20 @@ body {
 }
 
 /* ==========================================
-   SECCIÓN: DISEÑO RESPONSIVO (MEDIA QUERIES)
+   SECCIÓN: DISEÑO RESPONSIVO GLOBAL
    ========================================== */
-@media (max-width: 900px) {
-    
-    /* COLAPSAR LAYOUT PRINCIPAL A 1 COLUMNA */
+@media (max-width: 1024px) {
     .page-layout {
         grid-template-columns: 1fr;
     }
-    
-    /* AJUSTAR HEADER PARA CELULARES */
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--color-borde);
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
     .header {
         flex-direction: column;
         gap: 1rem;
@@ -1937,70 +537,7 @@ body {
         flex-wrap: wrap;
         justify-content: center;
     }
-
-    /* AJUSTAR BARRA LATERAL (CATEGORÍAS) */
-    .sidebar {
-        border-right: none;
-        border-bottom: 1px solid var(--color-borde);
-        padding: 1.5rem;
-    }
-
-    /* COLAPSAR CARRITO A 1 COLUMNA (RESUMEN DEBAJO) */
-    .cart-container {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "title"
-            "left"
-            "right";
+    .crud-section {
         padding: 1rem;
-    }
-
-    .cart-title {
-        justify-self: stretch;
-        text-align: left;
-        margin-bottom: -0.25rem;
-    }
-
-    /* ADAPTAR TARJETAS DE PRODUCTOS EN EL CARRITO */
-    .cart-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.5rem;
-    }
-    
-    .cart-item__subtotal {
-        text-align: left;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px dashed var(--color-borde);
-        padding-top: 1rem;
-    }
-
-    .cart-item__btn-remove {
-        margin-top: 0;
-    }
-
-    .product-detail-page {
-        min-height: auto;
-    }
-
-    .product-detail__card {
-        grid-template-columns: 1fr;
-        padding: 1.25rem;
-    }
-
-    .product-detail__title {
-        font-size: 1.8rem;
-    }
-
-    .product-detail__price {
-        font-size: 1.6rem;
-    }
-
-    .product-detail__media {
-        min-height: 320px;
-        order: -1;
     }
 }

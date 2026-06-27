@@ -8,7 +8,7 @@
 }
 
 /* ==========================================
-   SECCIÓN: ESTRUCTURA BÁSICA
+   SECCIÓN: ESTRUCTURA BÁSICA (ADMIN)
    ========================================== */
 body {
     background-color: var(--color-fondo);
@@ -32,7 +32,7 @@ header h1 {
 }
 
 /* ==========================================
-   SECCIÓN: NAVEGACIÓN DEL HEADER
+   SECCIÓN: NAVEGACIÓN DEL PANEL ADMIN
    ========================================== */
 nav ul {
     display: flex;
@@ -53,7 +53,83 @@ nav a:hover {
 }
 
 /* ==========================================
-   SECCIÓN: CONTENEDORES DE CONTENIDO (TARJETAS)
+   SECCIÓN: DASHBOARD Y TARJETAS ESTADÍSTICAS
+   ========================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.stat-card__number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.stat-card__link {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    align-self: flex-start;
+    transition: background-color 0.2s;
+}
+
+.stat-card__link:hover { background-color: rgba(255, 255, 255, 0.3); }
+
+.stat-card--purple { background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%); }
+.stat-card--pink { background: linear-gradient(135deg, #d53f8c 0%, #f687b3 100%); }
+.stat-card--blue { background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%); }
+.stat-card--green { background: linear-gradient(135deg, #38a169 0%, #68d391 100%); }
+
+.dashboard-summary {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: 14px;
+    box-shadow: var(--shadow-soft);
+}
+
+.dashboard-summary__title {
+    color: var(--color-texto);
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+}
+
+.dashboard-summary__text {
+    color: var(--color-texto-suave);
+    margin: 0;
+}
+
+/* ==========================================
+   SECCIÓN: TABLAS Y GESTIÓN DE INVENTARIO
    ========================================== */
 section {
     background-color: var(--color-blanco);
@@ -70,37 +146,62 @@ h2 {
     padding-bottom: 10px;
 }
 
-/* ==========================================
-   SECCIÓN: TABLA DE INVENTARIO
-   ========================================== */
-.admin-table {
+.table-container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
     width: 100%;
-    border-collapse: collapse;
 }
 
-.admin-table th {
+.admin-table, .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-table th, .data-table th {
     background-color: #f8f9fa;
     color: var(--color-admin);
-    text-align: left;
     padding: 15px;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     border-bottom: 2px solid var(--color-borde);
 }
 
-.admin-table td {
+.data-table th {
+    background-color: #ff6347;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.admin-table td, .data-table td {
     padding: 15px;
     border-bottom: 1px solid var(--color-borde);
     vertical-align: middle;
+    color: #4b5563;
+    font-size: 0.95rem;
 }
 
-.admin-table img {
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table img, .data-table__img {
+    width: 48px;
+    height: 48px;
     border-radius: 6px;
     object-fit: cover;
+    display: block;
 }
 
 /* ==========================================
-   SECCIÓN: BOTONES DE ACCIÓN (EDITAR / ELIMINAR)
+   SECCIÓN: BOTONES Y FORMULARIOS ADMIN
    ========================================== */
+.data-table__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
 .btn-action {
     display: inline-block;
     padding: 6px 14px;
@@ -113,13 +214,8 @@ h2 {
     transition: all 0.2s ease;
 }
 
-.btn-action--edit {
-    background-color: var(--color-edit);
-}
-
-.btn-action--delete {
-    background-color: var(--color-delete);
-}
+.btn-action--edit { background-color: var(--color-edit); }
+.btn-action--delete { background-color: var(--color-delete); }
 
 .btn-action:hover {
     transform: translateY(-2px);
@@ -127,9 +223,6 @@ h2 {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* ==========================================
-   SECCIÓN: BOTÓN PRINCIPAL Y FORMULARIOS
-   ========================================== */
 .btn-main {
     background-color: var(--color-primario);
     color: var(--color-blanco);
@@ -178,36 +271,31 @@ footer {
 }
 
 /* ==========================================
-   SECCIÓN: DISEÑO RESPONSIVO (CELULARES)
+   SECCIÓN: DISEÑO RESPONSIVO (ADMIN)
    ========================================== */
 @media (max-width: 768px) {
     body {
         padding: 12px;
     }
-
     header {
         flex-direction: column;
         gap: 15px;
         padding: 18px 20px;
         text-align: center;
     }
-
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
         gap: 12px;
     }
-
     section {
         padding: 18px;
     }
-
-    .admin-table {
+    .admin-table, .data-table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
-
     .admin-form input,
     .admin-form select,
     .admin-form textarea {
