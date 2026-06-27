@@ -8,7 +8,7 @@ const initPage = () => {
   checkAuthUser(
     "/src/pages/auth/login/login.html",
     "/src/pages/admin/adminHome/admin.html",
-    "client"
+    ["client", "admin"]
   );
 };
 initPage();
@@ -62,7 +62,6 @@ if (listaCategorias) {
     e.preventDefault();
     renderProducts(productos);
   });
-
   listaCategorias.appendChild(liTodas);
 
   // BOTONES DINÁMICOS POR CATEGORÍA
@@ -124,7 +123,6 @@ const renderProducts = (productosAMostrar: IProduct[]) => {
       const target = event.target as HTMLElement;
 
       if (target.closest('button, a')) return;
-
       window.location.href = `../productDetail/productDetail.html?id=${producto.id}`;
     });
 

@@ -1,54 +1,74 @@
+/* ============================================================================
+   SECCIÓN 1: IMPORTACIONES Y DEPENDENCIAS
+   ============================================================================ */
+import type { Rol } from "../../../types/Rol";
 import { navigate } from "../../../utils/navigate";
-import { getAllUsers, saveUser } from "../../../utils/localStorage";
+import { saveUser } from "../../../utils/localStorage";
 import { mostrarToast } from "../../../utils/toast";
+import { apiFetch } from "../../../utils/api";
 
-// Seleccionamos el formulario del DOM
-const formLogin = document.getElementById("login-form") as HTMLFormElement;
+/* ============================================================================
+   SECCIÓN 2: REFERENCIAS AL DOM
+   ============================================================================ */
+const formLogin = document.getElementById("login-form") as HTMLFormElement | null;
 
-// Le agregamos un evento que valide los datos ingresados (email y password)
-formLogin.addEventListener("submit", (e: SubmitEvent) => {
-  e.preventDefault();
+/* ============================================================================
+   SECCIÓN 3: CONTROLADOR DE EVENTO Y VALIDACIÓN CONTRA EL BACKEND
+   ============================================================================ */
+formLogin?.addEventListener("submit", async (e: Event) => {
+    e.preventDefault();
+    
+    console.log("1. Formulario interceptado. Capturando inputs...");
 
-  // Obtenemos los valores ingresados en los input email y password
-  const inputEmail = (document.getElementById("email") as HTMLInputElement).value;
-  const inputPassword = (document.getElementById("password") as HTMLInputElement).value;
+    const emailElement = document.getElementById("email") as HTMLInputElement | null;
+    const passwordElement = document.getElementById("password") as HTMLInputElement | null;
 
-  // 1. Obtenemos TODOS los usuarios registrados en la base de datos (el array "users")
-  const usersArray = getAllUsers();
+    if (!emailElement || !passwordElement) {
+        console.error("Fallo CRÍTICO: No se encontraron los IDs 'email' o 'password' en el HTML.");
+        mostrarToast("Error interno: Revisa la consola.");
+        return;
+    }
 
-  // Si el array está vacío, significa que el sistema está en cero
-  if (usersArray.length === 0) {
-    mostrarToast("⚠️ No se encontró ninguna cuenta. Por favor, regístrate primero.");
-    return;
-  }
+    const payload = {
+        email: emailElement.value.trim(),
+        password: passwordElement.value.trim()
+    };
+    
+    console.log("2. Datos empaquetados para enviar:", payload);
 
-  // 2. Buscamos en el array si hay algún usuario con ese email y esa contraseña
-  const foundUser = usersArray.find(
-    (user) => user.email === inputEmail && user.password === inputPassword
-  );
+    try {
+        console.log("3. Enviando petición a Spring Boot...");
+        const usuarioLogueado = await apiFetch("/users/login", {
+            method: "POST",
+            body: JSON.stringify(payload)
+        });
 
-  // 3. Validamos el resultado de la búsqueda
-  if (foundUser) {
+        console.log("4. Respuesta exitosa del servidor:", usuarioLogueado);
 
-    // Si el usuario existe y las credenciales coinciden, lo activamos
-    foundUser.loggedIn = true;
+        const sesionUsuario = {
+            id: String(usuarioLogueado.id),
+            nombre: usuarioLogueado.nombre,
+            apellido: usuarioLogueado.apellido,
+            email: usuarioLogueado.email,
+            celular: usuarioLogueado.celular,
+            role: usuarioLogueado.rol === "ADMIN" ? "admin" : "client" as Rol,
+            loggedIn: true,
+            password: ""
+        };
 
-    // Guardamos ESTE usuario específico en la caja fuerte de sesión ("userData")
-    saveUser(foundUser);
+        saveUser(sesionUsuario);
+        mostrarToast(`✅ Bienvenido de vuelta, ${usuarioLogueado.nombre}`);
 
-    mostrarToast(`✅ Bienvenido de vuelta, ${foundUser.nombre} ${foundUser.apellido}`);
+        setTimeout(() => {
+            if (sesionUsuario.role === "admin") {
+                navigate("/src/pages/admin/adminHome/admin.html");
+            } else {
+                navigate("/src/pages/store/home/home.html");
+            }
+        }, 1500);
 
-    // Verificamos el rol que tiene el usuario logueado, y redirigimos automáticamente
-    setTimeout(() => {
-      if (foundUser.role === "admin") {
-        navigate("/src/pages/admin/adminHome/admin.html");
-      } else {
-        navigate("/src/pages/store/home/home.html");
-      }
-    }, 1500);
-
-  } else {
-    // Si la búsqueda no encontró a nadie, los datos son erróneos
-    mostrarToast("❌ El email o la contraseña son incorrectos. Intentá nuevamente.");
-  }
+    } catch (error: any) {
+        console.error("Error capturado en el bloque catch:", error);
+        mostrarToast(`❌ Error: ${error.message || "Credenciales incorrectas."}`);
+    }
 });

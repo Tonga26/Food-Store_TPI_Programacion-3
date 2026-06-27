@@ -150,3 +150,40 @@ button:active {
         margin-top: 20px;
     }
 }
+
+/* ============================================================================
+   SECCIÓN: MACHETE DE EVALUACIÓN (TPI UTN)
+   ============================================================================ */
+.login-machete {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.login-machete p {
+    color: var(--color-texto);
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.login-machete ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.login-machete li {
+    color: var(--color-texto-suave);
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-machete strong {
+    color: var(--color-texto);
+}

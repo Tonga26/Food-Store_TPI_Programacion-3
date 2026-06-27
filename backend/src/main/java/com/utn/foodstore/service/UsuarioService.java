@@ -1,5 +1,6 @@
 package com.utn.foodstore.service;
 
+import com.utn.foodstore.dto.LoginDto;
 import com.utn.foodstore.dto.UsuarioCreate;
 import com.utn.foodstore.dto.UsuarioDto;
 import com.utn.foodstore.dto.UsuarioEdit;
@@ -47,6 +48,25 @@ public class UsuarioService {
     public UsuarioDto findById(Long id) {
         Usuario usuarioEncontrado = usuarioRepository.findByIdOrThrow(id);
         return mapToDto(usuarioEncontrado);
+    }
+
+    /**
+     * Autentica a un usuario mediante su correo electrónico y contraseña en texto plano.
+     * Valida la existencia del usuario activo y compara el hash almacenado utilizando
+     * el algoritmo de encriptación configurado.
+     *
+     * @param dto El objeto {@link LoginDto} con las credenciales suministradas.
+     * @return El {@link UsuarioDto} del usuario si la validación es exitosa.
+     * @throws BusinessException Si las credenciales no coinciden o el usuario fue eliminado (HTTP 400).
+     */
+    public UsuarioDto login(LoginDto dto) {
+        Usuario usuario = usuarioRepository.findByEmailAndEliminadoFalse(dto.email())
+                .orElseThrow(() -> new BusinessException("Credenciales incorrectas"));
+
+        if (!passwordEncoder.matches(dto.password(), usuario.getContrasena())) {
+            throw new BusinessException("Credenciales incorrectas");
+        }
+        return mapToDto(usuario);
     }
 
     /**

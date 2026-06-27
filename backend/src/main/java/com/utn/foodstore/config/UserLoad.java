@@ -3,17 +3,19 @@ package com.utn.foodstore.config;
 import com.utn.foodstore.enums.Rol;
 import com.utn.foodstore.model.Usuario;
 import com.utn.foodstore.repository.UsuarioRepository;
-import com.utn.foodstore.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
  * Componente de infraestructura encargado de la carga inicial de datos esenciales de seguridad.
- * Implementa {@link CommandLineRunner} para evaluar la existencia de usuarios durante el arranque
- * de la aplicación, garantizando la creación de una cuenta administrativa por defecto si el
- * sistema se encuentra vacío.
+ * <p>
+ * Implementa {@link CommandLineRunner} para evaluar de forma individual la existencia de las
+ * cuentas de acceso maestras durante el arranque de la aplicación, garantizando la siembra
+ * automática de un perfil administrativo y un perfil de cliente de pruebas si no se encuentran
+ * registrados en la base de datos.
  */
 @Slf4j
 @Component
@@ -24,16 +26,18 @@ public class UserLoad implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * Ejecuta la lógica de validación y siembra del usuario administrador por defecto
-     * inmediatamente después del inicio completo del contexto de la aplicación.
+     * Ejecuta la lógica de validación y siembra de los usuarios por defecto inmediatamente
+     * después del inicio completo del contexto de la aplicación.
      *
      * @param args Argumentos opcionales de la línea de comandos pasados a la aplicación.
-     * @throws Exception Si se produce un fallo durante la persistencia del registro inicial.
+     * @throws Exception Si se produce un fallo durante la persistencia de los registros iniciales.
      */
     @Override
     public void run(String... args) throws Exception {
-        if (usuarioRepository.count() == 0) {
-            Usuario nuevoUsuario = Usuario.builder()
+
+        // Verificación y siembra del Usuario Administrador
+        if (!usuarioRepository.existsByEmail("admin@admin.com")) {
+            Usuario administrador = Usuario.builder()
                     .nombre("Administrador")
                     .apellido("Sistema")
                     .email("admin@admin.com")
@@ -42,11 +46,27 @@ public class UserLoad implements CommandLineRunner {
                     .rol(Rol.ADMIN)
                     .build();
 
-            usuarioRepository.save(nuevoUsuario);
-
-            log.info("Carga inicial exitosa: Usuario administrador creado por defecto con email admin@admin.com");
+            usuarioRepository.save(administrador);
+            log.info("Carga inicial: Usuario administrador creado con éxito (admin@admin.com).");
         } else {
-            log.info("Omitiendo carga inicial: Ya existen usuarios registrados en el sistema.");
+            log.info("Carga inicial: El usuario administrador ya se encuentra registrado.");
+        }
+
+        // Verificación y siembra del Usuario Cliente de Pruebas
+        if (!usuarioRepository.existsByEmail("user@user.com")) {
+            Usuario clientePrueba = Usuario.builder()
+                    .nombre("Usuario")
+                    .apellido("Sistema")
+                    .email("user@user.com")
+                    .celular("0000000000")
+                    .contrasena(passwordEncoder.encode("123456"))
+                    .rol(Rol.USUARIO)
+                    .build();
+
+            usuarioRepository.save(clientePrueba);
+            log.info("Carga inicial: Usuario cliente de pruebas creado con éxito (user@user.com).");
+        } else {
+            log.info("Carga inicial: El usuario cliente de pruebas ya se encuentra registrado.");
         }
     }
 }

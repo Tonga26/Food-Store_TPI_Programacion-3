@@ -1,42 +1,63 @@
-import type { IUser } from "../../../types/IUser";
+/* ============================================================================
+   SECCIÓN 1: IMPORTACIONES Y DEPENDENCIAS
+   ============================================================================ */
 import type { Rol } from "../../../types/Rol";
-import { saveUserToDatabase } from "../../../utils/localStorage";
+import { saveUser } from "../../../utils/localStorage";
 import { mostrarToast } from "../../../utils/toast";
+import { apiFetch } from "../../../utils/api";
+import { navigate } from "../../../utils/navigate";
 
-// 1- CAPTURA EL FORMULARIO DE REGISTRO DESDE EL DOM
-const formRegistro = document.getElementById("registro-form") as HTMLFormElement;
+/* ============================================================================
+   SECCIÓN 2: REFERENCIAS AL DOM
+   ============================================================================ */
+const formRegistro = document.getElementById("registro-form") as HTMLFormElement | null;
 
-// 2- ESCUCHA EL ENVIO DEL FORMULARIO Y BLOQUEA EL RELOAD NATIVO
-formRegistro.addEventListener("submit", (event: Event) =>{
-    
+/* ============================================================================
+   SECCIÓN 3: CONTROLADOR DE EVENTO Y ENVÍO AL BACKEND
+   ============================================================================ */
+formRegistro?.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
 
-    // 3- LEE LOS VALORES INGRESADOS EN LOS CAMPOS DEL FORMULARIO
-    const nombreInput = (document.getElementById("nombre") as HTMLInputElement).value;
-    const apellidoInput = (document.getElementById("apellido") as HTMLInputElement).value;
-    const emailInput = (document.getElementById("email") as HTMLInputElement).value;
-    const celularInput = (document.getElementById("celular") as HTMLInputElement).value;
-    const passwordInput = (document.getElementById("password") as HTMLInputElement).value;
-    
-    // 4- CONSTRUYE EL NUEVO USUARIO CON ROL CLIENT Y SESION DESACTIVADA
-    const nuevoUsuario: IUser = {
-        id: crypto.randomUUID(),
+    const nombreInput = (document.getElementById("nombre") as HTMLInputElement).value.trim();
+    const apellidoInput = (document.getElementById("apellido") as HTMLInputElement).value.trim();
+    const emailInput = (document.getElementById("email") as HTMLInputElement).value.trim();
+    const celularInput = (document.getElementById("celular") as HTMLInputElement).value.trim();
+    const passwordInput = (document.getElementById("password") as HTMLInputElement).value.trim();
+
+    const payload = {
         nombre: nombreInput,
         apellido: apellidoInput,
         email: emailInput,
-        celular: celularInput,
-        password: passwordInput,
-        role: "client" as Rol,
-        loggedIn: false
+        celular: celularInput || undefined,
+        password: passwordInput
     };
 
-    // 5- GUARDA EL USUARIO EN LOCALSTORAGE Y MUESTRA CONFIRMACION
-    saveUserToDatabase(nuevoUsuario);
+    try {
+        const nuevoUsuario = await apiFetch("/users", {
+            method: "POST",
+            body: JSON.stringify(payload)
+        });
 
-    mostrarToast("✅ ¡Registro exitoso! Ya podés iniciar sesión.");
+        mostrarToast("✅ ¡Registro exitoso! Iniciando sesión automáticamente...");
 
-    // 6- REDIRIGE AL LOGIN DESPUES DE UN BREVE RETRASO
-    setTimeout(() => {
-        window.location.href = "/src/pages/auth/login/login.html";
-    }, 1500);
-})
+        const sesionUsuario = {
+            id: String(nuevoUsuario.id),
+            nombre: nuevoUsuario.nombre,
+            apellido: nuevoUsuario.apellido,
+            email: nuevoUsuario.email,
+            celular: nuevoUsuario.celular,
+            role: nuevoUsuario.rol === "ADMIN" ? "admin" : "client" as Rol,
+            loggedIn: true,
+            password: "" 
+        };
+
+        saveUser(sesionUsuario);
+
+        setTimeout(() => {
+            navigate("/src/pages/store/home/home.html");
+        }, 1500);
+
+    } catch (error: any) {
+        mostrarToast(`❌ Error: ${error.message || "No se pudo completar el registro."}`);
+    }
+});

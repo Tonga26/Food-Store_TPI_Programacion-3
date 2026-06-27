@@ -1,5 +1,6 @@
 package com.utn.foodstore.controller;
 
+import com.utn.foodstore.dto.LoginDto;
 import com.utn.foodstore.dto.UsuarioCreate;
 import com.utn.foodstore.dto.UsuarioDto;
 import com.utn.foodstore.dto.UsuarioEdit;
@@ -48,6 +49,18 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> findById(@PathVariable Long id) {
         UsuarioDto usuarioEncontrado = usuarioService.findById(id);
         return ResponseEntity.ok(usuarioEncontrado);
+    }
+
+    /**
+     * Endpoint para autenticar un usuario existente en el sistema.
+     *
+     * @param dto El paquete de datos JSON con las credenciales de acceso, ya validado.
+     * @return Una respuesta HTTP 200 (OK) con el DTO del usuario autenticado de forma segura.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDto> login(@Valid @RequestBody LoginDto dto) {
+        UsuarioDto usuarioLogueado = usuarioService.login(dto);
+        return ResponseEntity.ok(usuarioLogueado);
     }
 
     /**
