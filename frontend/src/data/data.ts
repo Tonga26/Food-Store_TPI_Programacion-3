@@ -3,7 +3,11 @@
 import type { IProduct } from "../types/IProduct";
 import type { ICategory } from "../types/ICategory";
 
+// RESOLUCIÓN DE RUTA DINÁMICA PARA ASSETS LOCALES
+const imageUrl = (fileName: string): string =>
+  new URL(`../assets/img/${fileName}`, import.meta.url).href;
 
+// SEMILLA DE DATOS: CATEGORÍAS DISPONIBLES
 const categorias: ICategory[] = [
   {
     id: 1,
@@ -11,6 +15,7 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-15T10:00:00",
     nombre: "Pizzas",
     descripcion: "Pizzas artesanales con masa fresca",
+    imagen: imageUrl("pizza-muzarella.png"),
   },
   {
     id: 2,
@@ -18,6 +23,7 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-15T10:05:00",
     nombre: "Hamburguesas",
     descripcion: "Hamburguesas gourmet con ingredientes frescos",
+    imagen: imageUrl("hamburguesa-clasica.png"),
   },
   {
     id: 3,
@@ -25,6 +31,7 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-16T09:00:00",
     nombre: "Bebidas",
     descripcion: "Gaseosas, jugos y bebidas frías",
+    imagen: imageUrl("coca-500-ml.png"),
   },
   {
     id: 4,
@@ -32,6 +39,7 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-16T09:30:00",
     nombre: "Postres",
     descripcion: "Tortas, helados y dulces artesanales",
+    imagen: imageUrl("torta-rogel.png"),
   },
   {
     id: 5,
@@ -39,6 +47,7 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-17T08:00:00",
     nombre: "Empanadas",
     descripcion: "Empanadas horneadas y fritas de distintos sabores",
+    imagen: imageUrl("empanadas-carne.png"),
   },
   {
     id: 6,
@@ -46,12 +55,11 @@ const categorias: ICategory[] = [
     createdAt: "2024-01-17T08:30:00",
     nombre: "Ensaladas",
     descripcion: "Ensaladas frescas y saludables",
+    imagen: imageUrl("ensalada-cesar.png"),
   },
 ];
 
-const imageUrl = (fileName: string): string =>
-  new URL(`../assets/img/${fileName}`, import.meta.url).href;
-
+// SEMILLA DE DATOS: CATÁLOGO DE PRODUCTOS
 export const PRODUCTS: IProduct[] = [
   {
     id: 1,
@@ -293,9 +301,9 @@ export const PRODUCTS: IProduct[] = [
     disponible: true,
     categorias: [categorias[5]],
   },
-]
- 
+];
 
+// OBTENCIÓN FILTRADA DE CATEGORÍAS ACTIVAS
 export function getCategories(): ICategory[] {
   return categorias.filter((c) => !c.eliminado);
 }

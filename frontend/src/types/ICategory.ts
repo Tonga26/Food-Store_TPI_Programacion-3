@@ -4,4 +4,5 @@ export interface ICategory {
   createdAt: string | Date;
   nombre: string;
   descripcion: string;
+  imagen: string;
 }

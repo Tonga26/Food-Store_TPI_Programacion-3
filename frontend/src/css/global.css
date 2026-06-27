@@ -950,7 +950,6 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* --- Variantes de Color (Gradientes) --- */
 .stat-card--purple {
     background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%);
 }
@@ -1064,6 +1063,261 @@ body {
 
 .nav__link--logout:hover {
     background-color: #e5e7eb;
+}
+
+/* ==========================================================================
+   MÓDULO ADMIN: CATEGORIES
+   ========================================================================== */
+
+.nav__link--active {
+    background-color: #f3f4f6;
+    color: #f97316;
+    font-weight: 600;
+    border-left: none; 
+}
+
+.sidebar .nav__link--active {
+    border-left: 4px solid #f97316;
+    padding-left: 0.75rem; 
+}
+
+/* ==========================================================================
+   COMPONENTES BEM: SIDEBAR EXTRA Y BOTONES
+   ========================================================================== */
+
+.sidebar__divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 1.5rem 0;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    font-size: 0.95rem;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn--sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn--success {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn--danger {
+    background-color: #ef4444; 
+    color: white;
+}
+
+.btn--light {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+/* ==========================================================================
+   MÓDULOS CRUD: TABLAS DE ADMINISTRACIÓN
+   ========================================================================== */
+
+.crud-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.crud-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.crud-section__title {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.table-container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden; 
+    width: 100%;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #ff6347;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table__img {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    object-fit: cover;
+    display: block;
+}
+
+.data-table__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ==========================================================================
+   MÓDULO: VENTANAS EMERGENTES (MODALES) Y FORMULARIOS
+   ========================================================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+    position: relative;
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal--active .modal__content {
+    transform: translateY(0);
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal__title {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.modal__close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal__close-btn:hover {
+    color: #111827;
+}
+
+/* ==========================================================================
+   ESTILOS DE FORMULARIO (Inputs y Botones)
+   ========================================================================== */
+
+.modal__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #f97316; 
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.btn--primary {
+    background-color: #ff6347;
+    color: white;
+}
+
+.btn--block {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
 }
 
 /* ==========================================

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/global.css">
+    <title>Food Store | Gestión de Categorías</title>
+</head>
+<body>
+    <div class="page-layout">
+        
+        <header class="header">
+            <h1 class="header__title">🍕 Food Store</h1>
+            <nav class="header__nav">
+                <ul class="nav__menu" id="nav-menu"></ul>
+            </nav>
+        </header>
+
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <h2 class="sidebar__title sidebar__title--brand">Administración</h2>
+                <h3 class="sidebar__subtitle">Panel de Control</h3>
+            </div>
+            <ul class="sidebar__categories">
+                <li class="sidebar__category-item"><a href="../adminHome/admin.html" class="nav__link">📊 Dashboard</a></li>
+                <li class="sidebar__category-item"><a href="#" class="nav__link nav__link--active">📁 Categorías</a></li>
+                <li class="sidebar__category-item"><a href="../products/products.html" class="nav__link">🍔 Productos</a></li>
+                <li class="sidebar__category-item"><a href="../orders/orders.html" class="nav__link">📦 Pedidos</a></li>
+            </ul>
+            
+            <div class="sidebar__divider"></div>
+            
+            <ul class="sidebar__categories">
+                <li class="sidebar__category-item"><a href="../../store/home/home.html" class="nav__link">🏪 Ver Tienda</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <section class="crud-section">
+                <header class="crud-section__header">
+                    <h2 class="crud-section__title">Gestión de Categorías</h2>
+                    <button class="btn btn--success" id="btn-add-category">+ Nueva Categoría</button>
+                </header>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        
+    </div>
+    <script type="module" src="./categories.ts"></script>
+    <div class="modal" id="category-modal" aria-hidden="true">
+    
+    <div class="modal__overlay" id="modal-overlay" tabindex="-1"></div>
+    
+    <div class="modal__content" role="dialog" aria-modal="true">
+        
+        <header class="modal__header">
+            <h2 class="modal__title" id="modal-title">Nueva Categoría</h2>
+            <button class="modal__close-btn" id="modal-close" aria-label="Cerrar modal">&times;</button>
+        </header>
+        
+        <form class="modal__form" id="category-form">
+            
+            <input type="hidden" id="category-id">
+            
+            <div class="form-group">
+                <label for="category-name" class="form-label">Nombre</label>
+                <input type="text" id="category-name" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category-desc" class="form-label">Descripción</label>
+                <textarea id="category-desc" class="form-textarea" rows="3" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="category-img" class="form-label">URL de Imagen</label>
+                <input type="url" id="category-img" class="form-input" placeholder="https://ejemplo.com/imagen.jpg" required>
+            </div>
+            
+            <button type="submit" class="btn btn--primary btn--block">Guardar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
