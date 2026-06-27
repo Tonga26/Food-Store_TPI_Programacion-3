@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { checkAuthUser } from "../../../utils/auth";
 import { setupMenu } from "../../../utils/menu";
 import { ORDERS } from "../../../data/data";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { checkAuthUser } from "../../../utils/auth";
 import { setupMenu } from "../../../utils/menu";
 import { PRODUCTS, getCategories } from "../../../data/data";
@@ -87,18 +86,24 @@ const renderProductsTable = (): void => {
     `;
     tableBody.appendChild(tr);
   });
+}
 
-  // Vinculación de eventos de edición
+  // SECCIÓN: VINCULACIÓN DE EVENTOS DE EDICIÓN Y ELIMINACIÓN
   document.querySelectorAll(".btn-edit").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const id = Number(e.currentTarget.dataset.id);
-      const product = products.find(p => p.id === id);
+    btn.addEventListener("click", (e: Event) => {
+      
+      const target = e.currentTarget as HTMLButtonElement;
+      const id = Number(target.dataset.id);
+      const product = PRODUCTS.find(p => p.id === id);
+      
       if (product) {
         if (modalTitle) modalTitle.textContent = "Editar Producto";
         if (inputId) inputId.value = String(product.id);
         if (inputName) inputName.value = product.nombre;
         if (inputDesc) inputDesc.value = product.descripcion;
-        if (inputPrice) inputPrice.value = String(product.price || product.precio);
+        
+        if (inputPrice) inputPrice.value = String(product.precio);
+        
         if (inputStock) inputStock.value = String(product.stock);
         if (selectCategory) selectCategory.value = String(product.categorias[0]?.id);
         if (inputImg) inputImg.value = product.imagen;
@@ -107,7 +112,6 @@ const renderProductsTable = (): void => {
       }
     });
   });
-};
 
 // 6- INICIALIZACIÓN DE EVENTOS LÓGICOS
 btnAddProduct?.addEventListener("click", () => {
