@@ -57,8 +57,8 @@ public class CategoriaService {
         Categoria nuevaCategoria = Categoria.builder()
                 .nombre(dto.nombre())
                 .descripcion(dto.descripcion())
+                .imagen(dto.imagen())
                 .build();
-
         Categoria categoriaGuardada = categoriaRepository.save(nuevaCategoria);
 
         return mapToDto(categoriaGuardada);
@@ -100,6 +100,7 @@ public class CategoriaService {
                 .id(categoria.getId())
                 .nombre(categoria.getNombre())
                 .descripcion(categoria.getDescripcion())
+                .imagen(categoria.getImagen())
                 .build();
     }
 }

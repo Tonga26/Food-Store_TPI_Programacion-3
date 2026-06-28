@@ -13,10 +13,12 @@ import lombok.Builder;
  * @param id          El identificador único y autogenerado de la categoría.
  * @param nombre      El nombre comercial asignado a la categoría.
  * @param descripcion Los detalles descriptivos asociados a la categoría.
+ * @param imagen      El identificador o ruta del recurso visual representativo.
  */
 @Builder
 public record CategoriaDto(
         Long id,
         String nombre,
-        String descripcion
+        String descripcion,
+        String imagen
 ) {}

@@ -89,13 +89,32 @@
             </div>
             
             <div class="form-group">
-                <label for="category-img" class="form-label">URL de Imagen</label>
-                <input type="url" id="category-img" class="form-input" placeholder="https://ejemplo.com/imagen.jpg" required>
+                <label for="category-img" class="form-label">Nombre del archivo de imagen</label>
+                <input type="text" id="category-img" class="form-input" placeholder="ejemplo.png" required>
             </div>
             
             <button type="submit" class="btn btn--primary btn--block">Guardar</button>
         </form>
     </div>
 </div>
+<div class="modal" id="delete-confirm-modal" aria-hidden="true">
+        <div class="modal__overlay" id="delete-modal-overlay" tabindex="-1"></div>
+        <div class="modal__content" role="dialog" aria-modal="true" style="max-width: 400px;">
+            <header class="modal__header">
+                <h2 class="modal__title">Confirmar Eliminación</h2>
+                <button class="modal__close-btn" id="delete-modal-close" aria-label="Cerrar modal">&times;</button>
+            </header>
+            
+            <div class="modal__body" style="padding: 1.5rem 0; text-align: center;">
+                <p style="font-size: 1.1rem; color: #374151;">¿Estás seguro de que deseas eliminar esta categoría?</p>
+                <p style="font-size: 0.9rem; color: #6b7280; margin-top: 0.5rem;">Esta acción realizará una baja lógica en el sistema.</p>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                <button class="btn btn--light" id="btn-cancel-delete">Cancelar</button>
+                <button class="btn btn--danger" id="btn-confirm-delete">Sí, Eliminar</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

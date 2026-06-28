@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Size;
  * debe contener entre 2 y 100 caracteres.
  * @param descripcion Detalles adicionales sobre el tipo de productos que agrupa la categoría.
  * Es opcional, pero no puede exceder los 500 caracteres.
+ * @param imagen      Ruta o nombre de archivo de la imagen. Es de carácter obligatorio.
  */
 public record CategoriaCreate(
 
@@ -23,5 +24,8 @@ public record CategoriaCreate(
         String nombre,
 
         @Size(max = 500, message = "La descripción no puede exceder de 500 caracteres.")
-        String descripcion
+        String descripcion,
+
+        @NotBlank(message = "La imagen es obligatoria.")
+        String imagen
 ) {}

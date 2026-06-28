@@ -11,7 +11,7 @@ import java.util.Set;
  * Entidad que representa una categoría de productos dentro del sistema.
  * <p>
  * Mapea la tabla {@code categorias} en la base de datos y extiende de {@link Base}
- * para heredar las propiedades comunes de persistencia y auditoría (como ID, borrado lógico y fecha de creación).
+ * para heredar las propiedades comunes de persistencia y auditoría.
  * Gestiona una relación bidireccional de uno a muchos con la entidad {@link Producto}.
  */
 @Getter
@@ -42,6 +42,13 @@ public class Categoria extends Base {
     private String descripcion;
 
     /**
+     * Nombre del archivo o identificador de la imagen representativa de la categoría.
+     * Se utiliza en la interfaz de usuario para el renderizado visual en catálogos y paneles.
+     */
+    @Column(length = 255)
+    private String imagen;
+
+    /**
      * Colección de productos asociados a la categoría.
      * <p>
      * La relación es gestionada por el atributo {@code categoria} en la entidad {@link Producto}.
@@ -56,7 +63,7 @@ public class Categoria extends Base {
     private Set<Producto> productos = new HashSet<>();
 
     /**
-     * Método auxiliar (helper) para mantener la consistencia del modelo bidireccional en memoria
+     * Método auxiliar para mantener la consistencia del modelo bidireccional en memoria
      * al asociar un nuevo producto a esta categoría.
      *
      * @param producto El objeto {@link Producto} que se desea agregar a la colección.
@@ -67,7 +74,7 @@ public class Categoria extends Base {
     }
 
     /**
-     * Método auxiliar (helper) para mantener la consistencia del modelo bidireccional en memoria
+     * Método auxiliar para mantener la consistencia del modelo bidireccional en memoria
      * al desvincular un producto existente de esta categoría.
      *
      * @param producto El objeto {@link Producto} que se desea remover de la colección.

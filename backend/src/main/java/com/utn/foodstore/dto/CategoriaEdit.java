@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
  *
  * @param nombre      El nuevo nombre propuesto para la categoría.
  * @param descripcion La nueva descripción propuesta para la categoría.
+ * @param imagen      La nueva ruta o identificador de imagen propuesto.
  */
 public record CategoriaEdit(
 
@@ -20,7 +21,9 @@ public record CategoriaEdit(
         String nombre,
 
         @Size(max = 500, message = "La descripción no puede exceder de 500 caracteres.")
-        String descripcion
+        String descripcion,
+
+        String imagen
 ) {
     /**
      * Aplica de forma segura las modificaciones transportadas por este DTO a la
@@ -33,7 +36,8 @@ public record CategoriaEdit(
      * @param categoria La entidad viva y persistida cuyo estado interno será mutado.
      */
     public void applyTo(Categoria categoria) {
-        if (this.nombre() != null) categoria.setNombre(this.nombre());
+        if (this.nombre() != null && !this.nombre().isBlank()) categoria.setNombre(this.nombre());
         if (this.descripcion() != null) categoria.setDescripcion(this.descripcion());
+        if (this.imagen() != null && !this.imagen().isBlank()) categoria.setImagen(this.imagen());
     }
 }
