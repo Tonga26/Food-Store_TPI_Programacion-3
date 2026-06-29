@@ -3,6 +3,7 @@ import { setupMenu } from "../../../utils/menu";
 import { apiFetch } from "../../../utils/api";
 import { mostrarToast } from "../../../utils/toast";
 import type { ICategory } from "../../../types/ICategory";
+import type { IProduct } from "../../../types/IProduct";
 
 /**
  * Control de acceso y configuración inicial de sesión para el panel principal.
@@ -21,29 +22,34 @@ setupMenu("admin", "#nav-menu");
  * Referencias al DOM para la inyección de métricas.
  */
 const statCategories = document.getElementById("stat-categories") as HTMLParagraphElement | null;
+const statProducts = document.getElementById("stat-products") as HTMLParagraphElement | null;
 const summaryText = document.querySelector(".dashboard-summary__text") as HTMLParagraphElement | null;
 
 /**
- * Orquesta las peticiones asíncronas para resolver las estadísticas del sistema
+ * Orquesta las peticiones asíncronas concurrentes para resolver las estadísticas del sistema
  * y renderiza los indicadores (KPIs) en el Dashboard.
  */
 const loadDashboardStats = async (): Promise<void> => {
   try {
-    // Fase 1: Extracción de datos de Categorías
-    const categories: ICategory[] = await apiFetch("/categories");
+    // Fase 1: Extracción concurrente de datos de Categorías y Productos
+    const [categories, products] = await Promise.all([
+        apiFetch("/categories") as Promise<ICategory[]>,
+        apiFetch("/products") as Promise<IProduct[]>
+    ]);
     
     // Inyección en la UI
     if (statCategories) {
       statCategories.textContent = categories.length.toString();
     }
+    if (statProducts) {
+      statProducts.textContent = products.length.toString();
+    }
 
     // Actualización del estado global de la vista
     if (summaryText) {
+      // Nota: Aquí integraremos las métricas de stock crítico más adelante
       summaryText.textContent = "Sistema en línea. Estadísticas sincronizadas con la base de datos.";
     }
-
-    // TODO: A medida que se desarrollen los endpoints REST para Productos y Pedidos,
-    // se integrarán las llamadas concurrentes en este bloque empleando Promise.all().
 
   } catch (error) {
     console.error("Error fetching dashboard stats:", error);
