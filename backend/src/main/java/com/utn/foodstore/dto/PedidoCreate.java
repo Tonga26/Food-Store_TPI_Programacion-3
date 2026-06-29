@@ -2,6 +2,7 @@ package com.utn.foodstore.dto;
 
 import com.utn.foodstore.enums.FormaPago;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -28,6 +29,14 @@ public record PedidoCreate(
 
         @NotNull(message = "La forma de pago es obligatoria.")
         FormaPago formaPago,
+
+        @NotBlank(message = "La dirección de entrega es obligatoria.")
+        String direccion,
+
+        @NotBlank(message = "El teléfono de contacto es obligatorio.")
+        String telefono,
+
+        String notas,
 
         @NotEmpty(message = "El pedido debe contener al menos un detalle.")
         @Valid

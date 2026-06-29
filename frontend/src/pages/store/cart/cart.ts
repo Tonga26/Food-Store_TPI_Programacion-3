@@ -2,9 +2,14 @@ import { getCart, addProductToCart, decreaseProductFromCart, deleteProductFromCa
 import type { ICartItem } from "../../../types/ICartItem";
 import { checkAuthUser } from "../../../utils/auth";
 import { setupMenu } from "../../../utils/menu";
+import { apiFetch } from "../../../utils/api";
+import { mostrarToast } from "../../../utils/toast";
+import { getUser } from "../../../utils/localStorage";
 
-// 1- VALIDA QUE SOLO USUARIOS CLIENT PUEDAN ENTRAR AL CARRITO
-const initPage = () => {
+/**
+ * Control de acceso y configuración inicial de sesión para la vista del carrito.
+ */
+const initPage = (): void => {
   checkAuthUser(
     "/src/pages/auth/login/login.html",
     "/src/pages/admin/adminHome/admin.html",
@@ -12,71 +17,94 @@ const initPage = () => {
   );
 };
 initPage();
-
-// 2- RENDERIZA EL MENU SUPERIOR DEL CARRITO SEGUN EL ROL DEL USUARIO
 setupMenu("cart", "#nav-menu");
 
-// 3- CAPTURA LOS ELEMENTOS DEL DOM USADOS PARA RENDERIZAR EL CARRITO
-const listaCarrito = document.getElementById("cart-content-list") as HTMLUListElement;
-const mensajeVacio = document.getElementById("empty-message") as HTMLParagraphElement;
-const cartSummary = document.getElementById("cart-summary") as HTMLElement;
-const subtotalCarritoSpan = document.getElementById("cart-subtotal") as HTMLSpanElement;
-const shippingCarritoSpan = document.getElementById("cart-shipping") as HTMLSpanElement;
-const totalCarritoSpan = document.getElementById("total-numero") as HTMLSpanElement;
+const listaCarrito = document.getElementById("cart-content-list") as HTMLUListElement | null;
+const mensajeVacio = document.getElementById("empty-message") as HTMLParagraphElement | null;
+const cartSummary = document.getElementById("cart-summary") as HTMLElement | null;
+const subtotalCarritoSpan = document.getElementById("cart-subtotal") as HTMLSpanElement | null;
+const shippingCarritoSpan = document.getElementById("cart-shipping") as HTMLSpanElement | null;
+const totalCarritoSpan = document.getElementById("total-numero") as HTMLSpanElement | null;
 const btnEmptyCart = document.getElementById("btn-empty-cart") as HTMLButtonElement | null;
 
-// 3.1- FORMATEA LOS PRECIOS CON DOS DECIMALES Y SIMBOLO DE PESO
+let totalPedidoActual: number = 0;
+
+/**
+ * Formatea un valor numérico a una representación de cadena con formato monetario.
+ *
+ * @param value - El monto numérico a formatear.
+ * @returns Cadena de texto formateada (ej. $1500.00).
+ */
 const formatPrice = (value: number): string => `$${value.toFixed(2)}`;
 
-// 3.2- CALCULA EL ENVIO SOLO SI HAY PRODUCTOS EN EL CARRITO
+/**
+ * Resuelve dinámicamente la ruta absoluta del recurso visual imagen.
+ *
+ * @param fileName - Nombre del archivo físico o URL remota.
+ * @returns Ruta procesada por el bundler (Vite) en tiempo de ejecución.
+ */
+const resolveImageUrl = (fileName: string | null | undefined): string => {
+    if (!fileName) return "";
+    if (fileName.startsWith('http')) return fileName;
+    return new URL(`../../../assets/img/${fileName}`, import.meta.url).href;
+};
+
+/**
+ * Calcula el costo logístico de envío aplicando reglas de negocio basadas en el subtotal.
+ *
+ * @param subtotal - El monto acumulado de los productos en el carrito.
+ * @returns Costo de envío calculado.
+ */
 const getShippingCost = (subtotal: number): number => {
   if (subtotal <= 0) return 0;
   return subtotal >= 50000 ? 0 : 2500;
 };
 
-// 3.3- VACIA COMPLETAMENTE EL CARRITO Y RE-RENDERIZA LA VISTA
-const clearCart = () => {
+/**
+ * Purga el estado de persistencia local del carrito y desencadena una actualización visual.
+ */
+const clearCart = (): void => {
   localStorage.removeItem("foodstore_cart");
   renderCart();
 };
-
 btnEmptyCart?.addEventListener("click", clearCart);
 
-// 4- RENDERIZA EL CARRITO COMPLETO EN PANTALLA SIN RECARGAR LA PAGINA
-const renderCart = () => {
-    // OBTENCIÓN DE DATOS FRESCOS CADA VEZ QUE SE EJECUTA LA FUNCIÓN
+/**
+ * Procesa el estado actual del carrito y orquesta el renderizado del DOM de forma dinámica.
+ */
+const renderCart = (): void => {
+    if (!listaCarrito) return;
+    
     const carrito: ICartItem[] = getCart();
-
-    // LIMPIEZA DEL CONTENEDOR PARA NO DUPLICAR ELEMENTOS VIEJOS
     listaCarrito.innerHTML = "";
-
-    // 5- MUESTRA ESTADO VACIO O LISTADO SEGUN SI HAY ITEMS EN EL CARRITO
+    
     if (carrito.length === 0) {
         listaCarrito.style.display = "none";
         if (cartSummary) cartSummary.style.display = "block";
-        mensajeVacio.style.display = "block";
+        if (mensajeVacio) mensajeVacio.style.display = "block";
         
-      if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(0);
-      if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(0);
-      if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(0);
+        if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(0);
+        if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(0);
+        if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(0);
+        totalPedidoActual = 0;
     } else {
-        mensajeVacio.style.display = "none";
+        if (mensajeVacio) mensajeVacio.style.display = "none";
         listaCarrito.style.display = "block";
         if (cartSummary) cartSummary.style.display = "block";
 
         let sumaTotal = 0;
 
-        // 6- RECORRE LOS ITEMS DEL CARRITO Y CREA CADA FILA VISUAL
         carrito.forEach((item) => {
             const li = document.createElement("li");
             li.classList.add("cart-item");
 
             const subtotalItem = item.producto.precio * item.cantidad;
             sumaTotal += subtotalItem;
+            const imgPath = resolveImageUrl(item.producto.imagen);
 
             li.innerHTML = `
               <div class="cart-item__main">
-                <img src="${item.producto.imagen}" alt="${item.producto.nombre}" class="cart-item__img">
+                <img src="${imgPath}" alt="${item.producto.nombre}" class="cart-item__img">
                 <div class="cart-item__info">
                   <h4>${item.producto.nombre}</h4>
                   <p class="cart-item__description">${item.producto.descripcion}</p>
@@ -97,21 +125,17 @@ const renderCart = () => {
               </div>
             `;
 
-            // 7- ASIGNA EVENTOS DE SUMAR, RESTAR Y ELIMINAR CON RE-RENDER INMEDIATO
-            const botonSumar = li.querySelector(".btn-sumar");
-            botonSumar?.addEventListener('click', () => {
+            li.querySelector(".btn-sumar")?.addEventListener('click', () => {
                 addProductToCart(item.producto);
                 renderCart(); 
             });
 
-            const botonRestar = li.querySelector(".btn-restar");
-            botonRestar?.addEventListener("click", () => {
+            li.querySelector(".btn-restar")?.addEventListener("click", () => {
                 decreaseProductFromCart(item.producto.id);
                 renderCart(); 
             });
 
-            const botonEliminarItem = li.querySelector(".btn-eliminar-item");
-            botonEliminarItem?.addEventListener('click', () => {
+            li.querySelector(".btn-eliminar-item")?.addEventListener('click', () => {
                 deleteProductFromCart(item.producto.id);
                 renderCart();
             });
@@ -119,22 +143,16 @@ const renderCart = () => {
             listaCarrito.appendChild(li);
         });
 
-        // 8- ACTUALIZA SUBTOTAL Y TOTAL EN BASE A LA SUMA ACUMULADA
-    const shippingCost = getShippingCost(sumaTotal);
-    const total = sumaTotal + shippingCost;
+        const shippingCost = getShippingCost(sumaTotal);
+        totalPedidoActual = sumaTotal + shippingCost;
 
-    if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(sumaTotal);
-    if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(shippingCost);
-    if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(total);
+        if (subtotalCarritoSpan) subtotalCarritoSpan.textContent = formatPrice(sumaTotal);
+        if (shippingCarritoSpan) shippingCarritoSpan.textContent = formatPrice(shippingCost);
+        if (totalCarritoSpan) totalCarritoSpan.textContent = formatPrice(totalPedidoActual);
     }
 };
-
-// 9- EJECUTA EL PRIMER RENDER DEL CARRITO AL ABRIR LA PAGINA
 renderCart();
 
-// ============================================================================
-// REFERENCIAS AL DOM: MODAL DE CHECKOUT
-// ============================================================================
 const checkoutModal = document.getElementById("checkout-modal") as HTMLDivElement | null;
 const checkoutOverlay = document.getElementById("checkout-overlay") as HTMLDivElement | null;
 const checkoutClose = document.getElementById("checkout-close") as HTMLButtonElement | null;
@@ -142,19 +160,30 @@ const checkoutForm = document.getElementById("checkout-form") as HTMLFormElement
 const btnProceedPay = document.getElementById("btn-proceed-pay") as HTMLButtonElement | null;
 const checkoutTotalValue = document.getElementById("checkout-total-value") as HTMLSpanElement | null;
 
-// ============================================================================
-// CONTROL DE ESTADO DEL MODAL
-// ============================================================================
+const inputPhone = document.getElementById("checkout-phone") as HTMLInputElement | null;
+const inputAddress = document.getElementById("checkout-address") as HTMLTextAreaElement | null;
+const selectPayment = document.getElementById("checkout-payment") as HTMLSelectElement | null;
+const inputNotes = document.getElementById("checkout-notes") as HTMLTextAreaElement | null;
+
+/**
+ * Controla la apertura del modal de confirmación e inyecta el total calculado.
+ */
 const openCheckoutModal = (): void => {
-  // TODO: Reemplazar con la variable real que contenga la sumatoria del carrito
-  const cartTotal = 25500.00; 
-  
+  const carrito = getCart();
+  if (carrito.length === 0) {
+    mostrarToast("El carrito se encuentra vacío.");
+    return;
+  }
+
   if (checkoutTotalValue) {
-    checkoutTotalValue.textContent = `$${cartTotal.toFixed(2)}`;
+    checkoutTotalValue.textContent = formatPrice(totalPedidoActual);
   }
   checkoutModal?.classList.add("modal--active");
 };
 
+/**
+ * Cierra el modal de confirmación y restablece el estado del formulario.
+ */
 const closeCheckoutModal = (): void => {
   checkoutModal?.classList.remove("modal--active");
   checkoutForm?.reset();
@@ -164,12 +193,58 @@ btnProceedPay?.addEventListener("click", openCheckoutModal);
 checkoutClose?.addEventListener("click", closeCheckoutModal);
 checkoutOverlay?.addEventListener("click", closeCheckoutModal);
 
-// ============================================================================
-// PROCESAMIENTO DEL PEDIDO (SUBMIT)
-// ============================================================================
-checkoutForm?.addEventListener("submit", (e: Event) => {
+/**
+ * Interceptor de envío del formulario de checkout para la construcción y despacho del payload transaccional.
+ */
+checkoutForm?.addEventListener("submit", async (e: Event) => {
   e.preventDefault();
-  // TODO: Fase 3 - Construir objeto OrderRequest y realizar POST al Backend
-  console.log("Pedido confirmado. Procesando...");
-  closeCheckoutModal();
+
+  const userString = getUser();
+  if (!userString) {
+      mostrarToast("Excepción de sesión: Autenticación requerida.");
+      window.location.href = "/src/pages/auth/login/login.html";
+      return;
+  }
+  
+  const parseUser = JSON.parse(userString);
+  const usuarioId = Number(parseUser.id);
+
+  const direccionText = inputAddress?.value.trim() || "";
+  const telefonoText = inputPhone?.value.trim() || "";
+  const notasText = inputNotes?.value.trim() || "";
+  const paymentValue = selectPayment?.value.toUpperCase() || "";
+
+  const carritoItems = getCart();
+  const detallesPayload = carritoItems.map(item => ({
+      productoId: Number(item.producto.id),
+      cantidad: Number(item.cantidad)
+  }));
+
+  const payload = {
+      usuarioId: usuarioId,
+      formaPago: paymentValue,
+      direccion: direccionText,
+      telefono: telefonoText,
+      notas: notasText,
+      detalles: detallesPayload
+  };
+
+  try {
+      await apiFetch("/orders", {
+          method: "POST",
+          body: JSON.stringify(payload)
+      });
+
+      mostrarToast("Orden procesada y registrada exitosamente.");
+      clearCart();
+      closeCheckoutModal();
+
+      setTimeout(() => {
+          window.location.href = "../../client/orders/orders.html";
+      }, 1500);
+
+  } catch (error: any) {
+      console.error("Error processing order:", error);
+      mostrarToast(error.message || "Fallo transaccional al procesar el pedido.");
+  }
 });

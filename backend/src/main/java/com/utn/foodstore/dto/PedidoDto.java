@@ -28,6 +28,9 @@ public record PedidoDto(
         LocalDate fecha,
         Estado estado,
         FormaPago formaPago,
+        String direccion,
+        String telefono,
+        String notas,
         Double total,
         UsuarioDto usuario,
         List<DetallePedidoDto> detalles

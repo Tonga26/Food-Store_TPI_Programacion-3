@@ -92,6 +92,9 @@ public class PedidoService {
                 .fecha(LocalDate.now())
                 .estado(Estado.PENDIENTE)
                 .formaPago(dto.formaPago())
+                .direccion(dto.direccion())
+                .telefono(dto.telefono())
+                .notas(dto.notas())
                 .usuario(usuarioEncontrado)
                 .build();
 
@@ -155,6 +158,9 @@ public class PedidoService {
                 .estado(pedido.getEstado())
                 .formaPago(pedido.getFormaPago())
                 .total(pedido.getTotal())
+                .direccion(pedido.getDireccion())
+                .telefono(pedido.getTelefono())
+                .notas(pedido.getNotas())
                 .usuario(
                         UsuarioDto.builder()
                                 .id(pedido.getUsuario().getId())

@@ -66,6 +66,24 @@ public class Pedido extends Base implements Calculable {
     private FormaPago formaPago;
 
     /**
+     * Dirección física donde se entregará el pedido.
+     */
+    @Column(nullable = false, length = 50)
+    private String direccion;
+
+    /**
+     * Teléfono de contacto específico para la coordinación de esta entrega.
+     */
+    @Column(nullable = false, length = 50)
+    private String telefono;
+
+    /**
+     * Instrucciones adicionales provistas por el cliente (ej. "Tocar timbre fuerte").
+     */
+    @Column(length = 500)
+    private String notas;
+
+    /**
      * Usuario comprador al que le pertenece esta transacción.
      * <p>
      * Relación Muchos a Uno (ManyToOne). Su carga es perezosa (LAZY) para optimizar
