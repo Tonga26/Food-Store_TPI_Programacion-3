@@ -5,9 +5,9 @@ import { mostrarToast } from "../../../utils/toast";
 import { getUser } from "../../../utils/localStorage";
 import type { IOrder } from "../../../types/IOrder";
 
-/**
- * Control de acceso y configuración inicial de sesión para la vista del historial de compras.
- */
+/* ============================================================================
+   SECCIÓN 1: CONTROL DE ACCESO PERIMETRAL
+   ============================================================================ */
 const initPage = (): void => {
   checkAuthUser(
     "/src/pages/auth/login/login.html",
@@ -18,6 +18,9 @@ const initPage = (): void => {
 initPage();
 setupMenu("orders", "#nav-menu");
 
+/* ============================================================================
+   SECCIÓN 2: REFERENCIAS DIRECTAS DEL DOM
+   ============================================================================ */
 const ordersContainer = document.getElementById("client-orders-container") as HTMLDivElement | null;
 const orderFilter = document.getElementById("client-order-filter") as HTMLSelectElement | null;
 
@@ -38,27 +41,60 @@ const modalAlert = document.getElementById("modal-client-alert") as HTMLDivEleme
 
 let currentOrders: IOrder[] = [];
 
+/* ============================================================================
+   SECCIÓN 3: UTILIDADES Y BUSCADORES DE ESTILOS
+   ============================================================================ */
+
 /**
- * Cierra el modal de detalle de pedido removiendo la clase activa de visibilidad.
+ * Formatea un valor numérico flotante a una cadena con formato de moneda local.
+ * * @param value - Monto decimal a formatear.
+ * @returns Cadena con prefijo monetario.
+ */
+const formatPrice = (value: number): string => `$${value.toFixed(2)}`;
+
+/**
+ * Evalúa las reglas logísticas para determinar la tasa de envío aplicable.
+ * * @param subtotal - Sumatoria base de los ítems comprados.
+ * @returns Costo logístico calculado.
+ */
+const getShippingCost = (subtotal: number): number => {
+    return subtotal >= 50000 || subtotal <= 0 ? 0 : 2500;
+};
+
+/**
+ * Mapea el estado semántico de la orden a una clase de insignia global.
+ * * @param status - Estado proveniente del servidor API REST.
+ * @returns Nombre de la clase CSS de la insignia.
+ */
+const getBadgeClass = (status: string): string => {
+  switch (status.toUpperCase()) {
+    case "PENDIENTE": return "badge--pendiente";
+    case "CONFIRMADO":
+    case "EN PREPARACIÓN":
+    case "EN CAMINO": 
+      return "badge--confirmado";
+    case "TERMINADO":
+    case "ENTREGADO": 
+      return "badge--entregado";
+    case "CANCELADO": return "badge--cancelado";
+    default: return "badge--pendiente";
+  }
+};
+
+/* ============================================================================
+   SECCIÓN 4: MANEJO Y RENDERIZACIÓN DEL MODAL DE DETALLE
+   ============================================================================ */
+
+/**
+ * Contrae el panel modal y limpia las referencias temporales de pantalla.
  */
 const closeModal = (): void => modal?.classList.remove("modal--active");
-
 btnCloseModal?.addEventListener("click", closeModal);
 modalOverlay?.addEventListener("click", closeModal);
 
 /**
- * Calcula el costo de logística asociado a un monto total.
- * * @param subtotal - La sumatoria del costo de los productos del pedido.
- * @returns El costo de envío calculado según reglas de negocio (Umbral: $50000).
- */
-const getShippingCost = (subtotal: number): number => {
-    if (subtotal <= 0) return 0;
-    return subtotal >= 50000 ? 0 : 2500;
-};
-
-/**
- * Renderiza dinámicamente la información detallada de una transacción en el modal visual.
- * * @param order - El objeto de transferencia de datos con la información completa de la orden.
+ * Carga las especificaciones de una orden y muta dinámicamente el mensaje de estado inferior.
+ * * @param order - Objeto de transferencia de datos con la orden seleccionada.
  */
 const openOrderModal = (order: IOrder): void => {
   if (modalDate) modalDate.textContent = order.fecha;
@@ -68,98 +104,82 @@ const openOrderModal = (order: IOrder): void => {
   
   if (modalStatus) {
     modalStatus.textContent = order.estado;
-    modalStatus.className = `badge ${order.estado === 'ENTREGADO' ? 'badge--success' : 'badge--warning'}`;
+    modalStatus.className = `badge ${getBadgeClass(order.estado)}`;
   }
 
   if (modalItems) {
     modalItems.innerHTML = "";
     order.detalles.forEach(item => {
       const li = document.createElement("li");
-      li.className = "order-item";
-      li.style.backgroundColor = "transparent";
-      li.style.padding = "0.5rem 0";
+      li.className = "order-items__item";
+      li.style.borderBottom = "1px solid #dee2e6";
       li.innerHTML = `
-        <div class="order-item__details">
-            <span class="order-item__name">${item.producto.nombre}</span>
-            <span class="order-item__qty">Cantidad: ${item.cantidad} × $${item.producto.precio.toFixed(2)}</span>
-        </div>
-        <span class="order-item__price" style="color: #ff6347;">$${item.subtotal.toFixed(2)}</span>
+        <span>${item.cantidad}x ${item.producto.nombre}</span>
+        <span style="color: var(--color-primario); font-weight: 600;">${formatPrice(item.subtotal)}</span>
       `;
       modalItems.appendChild(li);
     });
   }
 
   const shipping = getShippingCost(order.total);
-  const totalConEnvio = order.total + shipping;
+  if (modalSubtotal) modalSubtotal.textContent = formatPrice(order.total);
+  if (modalShipping) modalShipping.textContent = formatPrice(shipping);
+  if (modalTotal) modalTotal.textContent = formatPrice(order.total + shipping);
 
-  if (modalSubtotal) modalSubtotal.textContent = `$${order.total.toFixed(2)}`;
-  if (modalShipping) modalShipping.textContent = `$${shipping.toFixed(2)}`;
-  if (modalTotal) modalTotal.textContent = `$${totalConEnvio.toFixed(2)}`;
-  
   if (modalAlert) {
-    if (order.estado === "ENTREGADO") {
-      modalAlert.className = "alert-box alert-box--success";
-      modalAlert.innerHTML = `
-        <strong>✅ Pedido Entregado</strong>
-        <p style="margin: 0; font-size: 0.85rem;">Esperamos que lo hayas disfrutado.</p>
-      `;
-    } else {
-      modalAlert.className = "alert-box alert-box--warning";
-      modalAlert.innerHTML = `
-        <strong>⏳ Tu pedido está siendo procesado</strong>
-        <p style="margin: 0; font-size: 0.85rem;">Te notificaremos cuando esté listo para entrega.</p>
-      `;
+    const estado = order.estado.toUpperCase();
+    if (estado === "PENDIENTE") {
+        modalAlert.className = "alert-box alert-box--pendiente";
+        modalAlert.innerHTML = `<strong>⏳ Tu pedido está pendiente</strong><p style="margin: 0; font-size: 0.85rem; font-weight: 500;">Estamos esperando que la cocina confirme tu orden.</p>`;
+    } else if (estado === "CONFIRMADO" || estado === "EN PREPARACIÓN" || estado === "EN CAMINO") {
+        modalAlert.className = "alert-box alert-box--confirmado";
+        modalAlert.innerHTML = `<strong>👨‍🍳 ¡Pedido confirmado!</strong><p style="margin: 0; font-size: 0.85rem; font-weight: 500;">Tu comida ya se está preparando o va en camino a tu dirección.</p>`;
+    } else if (estado === "TERMINADO" || estado === "ENTREGADO") {
+        modalAlert.className = "alert-box alert-box--entregado";
+        modalAlert.innerHTML = `<strong>✅ ¡Pedido entregado!</strong><p style="margin: 0; font-size: 0.85rem; font-weight: 500;">¡Que lo disfrutes! Muchas gracias por comprar en nuestra tienda.</p>`;
+    } else if (estado === "CANCELADO") {
+        modalAlert.className = "alert-box alert-box--cancelado";
+        modalAlert.innerHTML = `<strong>❌ Pedido cancelado</strong><p style="margin: 0; font-size: 0.85rem; font-weight: 500;">Esta orden fue anulada. Comunícate con soporte ante cualquier duda.</p>`;
     }
   }
 
   modal?.classList.add("modal--active");
 };
 
+/* ============================================================================
+   SECCIÓN 5: RENDERIZADO DINÁMICO DE TARJETAS (VISTA CLIENTE)
+   ============================================================================ */
+
 /**
- * Pinta el listado de tarjetas de órdenes de compra en el contenedor principal.
- * * @param ordersToRender - Colección de órdenes a iterar para inyección en el DOM.
+ * Pinta la colección de pedidos del comprador mapeando los contenedores de fila estructurados.
+ * * @param ordersToRender - Colección ordenada de pedidos.
  */
 const renderClientOrders = (ordersToRender: IOrder[]): void => {
   if (!ordersContainer) return;
   ordersContainer.innerHTML = "";
 
   if (ordersToRender.length === 0) {
-      ordersContainer.innerHTML = `<p style="text-align: center; width: 100%; color: #6b7280;">No se encontraron pedidos en esta categoría.</p>`;
+      ordersContainer.innerHTML = `<p style="text-align: center; color: #6b7280; width: 100%;">No tienes transacciones registradas en este estado.</p>`;
       return;
   }
 
   ordersToRender.forEach(order => {
     const card = document.createElement("div");
-    card.classList.add("order-card");
+    card.className = "order-card-row";
     
-    let badgeClass = "badge--warning";
-    if (order.estado === "ENTREGADO") badgeClass = "badge--success";
-    
+    const badgeClass = getBadgeClass(order.estado);
     const productsCount = order.detalles.reduce((acc, item) => acc + item.cantidad, 0);
-    const shipping = getShippingCost(order.total);
-    const totalFinal = order.total + shipping;
+    const totalFinal = order.total + getShippingCost(order.total);
     
-    let itemsPreviewHtml = "";
-    order.detalles.forEach(item => {
-        itemsPreviewHtml += `<p>• ${item.producto.nombre} (x${item.cantidad})</p>`;
-    });
-
     card.innerHTML = `
-      <div class="order-card__header">
-          <div>
-              <h3 class="order-card__title">Pedido #${order.id}</h3>
-              <p class="order-card__subtitle">📅 ${order.fecha}</p>
-          </div>
+      <div class="order-card-row__left">
+          <h3 class="order-card-row__title">Pedido #${order.id}</h3>
+          <p class="order-card-row__subtitle">📅 ${order.fecha}</p>
+      </div>
+      <div class="order-card-row__right">
           <span class="badge ${badgeClass}">${order.estado}</span>
-      </div>
-      
-      <div class="client-order-preview">
-          ${itemsPreviewHtml}
-      </div>
-
-      <div class="order-card__footer">
-          <span>📦 ${productsCount} producto(s)</span>
-          <span class="order-card__total">$${totalFinal.toFixed(2)}</span>
+          <span class="order-card-row__subtitle">📦 ${productsCount} producto(s)</span>
+          <span class="order-card-row__total">${formatPrice(totalFinal)}</span>
       </div>
     `;
     
@@ -168,9 +188,9 @@ const renderClientOrders = (ordersToRender: IOrder[]): void => {
   });
 };
 
-/**
- * Orquesta la solicitud HTTP para recuperar el historial transaccional del cliente autenticado.
- */
+/* ============================================================================
+   SECCIÓN 6: CONSUMO DE API REST Y FILTRADO OPERATIVO
+   ============================================================================ */
 const fetchOrders = async (): Promise<void> => {
     try {
         const userString = getUser();
@@ -178,8 +198,6 @@ const fetchOrders = async (): Promise<void> => {
         const user = JSON.parse(userString);
         
         const orders: IOrder[] = await apiFetch(`/orders/user/${user.id}`);
-        
-        // Se ordenan los pedidos para mostrar los más recientes primero
         currentOrders = orders.sort((a, b) => b.id - a.id);
         renderClientOrders(currentOrders);
     } catch (error) {
@@ -188,9 +206,6 @@ const fetchOrders = async (): Promise<void> => {
     }
 };
 
-/**
- * Interceptor de eventos para aplicar el filtrado visual de pedidos basado en su estado.
- */
 orderFilter?.addEventListener("change", (e: Event) => {
     const filterValue = (e.target as HTMLSelectElement).value.toLowerCase();
     
@@ -199,9 +214,14 @@ orderFilter?.addEventListener("change", (e: Event) => {
         return;
     }
     
-    const filteredOrders = currentOrders.filter(order => order.estado.toLowerCase() === filterValue);
+    const filteredOrders = currentOrders.filter(order => {
+        if (filterValue === "completado") {
+            return order.estado.toLowerCase() === "completado" || order.estado.toLowerCase() === "entregado" || order.estado.toLowerCase() === "terminado";
+        }
+        return order.estado.toLowerCase() === filterValue;
+    });
+    
     renderClientOrders(filteredOrders);
 });
 
-// Desencadenador inicial del ciclo de vida
 fetchOrders();

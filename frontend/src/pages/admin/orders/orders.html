@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="page-layout">
-        
         <header class="header">
             <h1 class="header__title">🍕 Food Store</h1>
             <nav class="header__nav">
@@ -28,84 +27,55 @@
                 <li class="sidebar__category-item"><a href="../products/products.html" class="nav__link">🍔 Productos</a></li>
                 <li class="sidebar__category-item"><a href="#" class="nav__link nav__link--active">📦 Pedidos</a></li>
             </ul>
-            <div class="sidebar__divider"></div>
-            <ul class="sidebar__categories">
-                <li class="sidebar__category-item"><a href="../../store/home/home.html" class="nav__link">🏪 Ver Tienda</a></li>
-            </ul>
         </aside>
 
         <main class="main-content">
             <section class="crud-section">
                 <header class="crud-section__header">
                     <h2 class="crud-section__title">Gestión de Pedidos</h2>
-                    <select id="order-filter" class="form-input" style="width: auto; background-color: #e5e7eb; border: none; font-weight: 600;">
-                        <option value="all">Todos los pedidos</option>
-                        <option value="pendiente">Pendientes</option>
-                        <option value="completado">Completados</option>
-                    </select>
                 </header>
-
-                <div class="orders-grid" id="orders-container">
-                    </div>
+                <div class="orders-list-view" id="orders-container"></div>
             </section>
         </main>
     </div>
 
     <div class="modal" id="order-modal" aria-hidden="true">
         <div class="modal__overlay" id="modal-overlay"></div>
-        <div class="modal__content modal__content--scrollable">
+        <div class="modal__content modal__content--scrollable" style="max-width: 600px;">
             <header class="modal__header">
                 <h2 class="modal__title" id="modal-title">Detalle del Pedido</h2>
                 <button class="modal__close-btn" id="modal-close">&times;</button>
             </header>
             
             <div class="modal__body">
-                <div class="order-info">
-                    <div class="order-info__header">
-                        <div class="order-info__details">
-                            <p><strong>Cliente:</strong> <span id="detail-customer"></span></p>
-                            <p><strong>Fecha:</strong> <span id="detail-date"></span></p>
-                            <p><strong>Teléfono:</strong> <span id="detail-phone"></span></p>
-                            <p><strong>Dirección:</strong> <span id="detail-address"></span></p>
-                            <p><strong>Método de pago:</strong> <span id="detail-payment"></span></p>
-                        </div>
-                        <div class="order-info__status">
-                            <span class="badge" id="detail-status-badge"></span>
-                        </div>
-                    </div>
+                <div class="order-info-grid">
+                    <div class="order-info-group"><span class="order-info-label">Cliente</span><span class="order-info-value" id="detail-customer"></span></div>
+                    <div class="order-info-group"><span class="order-info-label">Fecha</span><span class="order-info-value" id="detail-date"></span></div>
+                    <div class="order-info-group"><span class="order-info-label">Teléfono</span><span class="order-info-value" id="detail-phone"></span></div>
+                    <div class="order-info-group"><span class="order-info-label">Dirección</span><span class="order-info-value" id="detail-address"></span></div>
+                    <div class="order-info-group"><span class="order-info-label">Método de Pago</span><span class="order-info-value" id="detail-payment"></span></div>
+                    <div class="order-info-group"><span class="order-info-label">Notas</span><span class="order-info-value" id="detail-notes"></span></div>
                 </div>
 
                 <div class="order-items">
-                    <h3 class="order-items__title">Productos:</h3>
-                    <ul class="order-items__list" id="detail-items-list">
-                        </ul>
+                    <h3 class="order-items__title">🛍️ Productos</h3>
+                    <ul class="order-items__list" id="detail-items"></ul>
                 </div>
 
                 <div class="order-totals">
-                    <div class="order-totals__row">
-                        <span>Subtotal:</span>
-                        <span id="detail-subtotal"></span>
-                    </div>
-                    <div class="order-totals__row">
-                        <span>Envío:</span>
-                        <span id="detail-shipping"></span>
-                    </div>
-                    <div class="order-totals__row order-totals__row--grand">
-                        <span>Total:</span>
-                        <span id="detail-total" style="color: #ff6347;"></span>
-                    </div>
+                    <div class="order-totals__row"><span>Subtotal:</span><span id="detail-subtotal"></span></div>
+                    <div class="order-totals__row"><span>Envío:</span><span id="detail-shipping"></span></div>
+                    <div class="order-totals__row order-totals__row--grand"><span>Total:</span><span id="detail-total"></span></div>
                 </div>
 
                 <form class="order-action-form" id="order-action-form">
-                    <input type="hidden" id="order-id">
-                    <div class="form-group form-group--inline" style="justify-content: flex-start; margin-bottom: 1rem;">
+                    <div class="form-group form-group--inline" style="justify-content: flex-start; margin-bottom: 1rem; gap: 1rem;">
                         <label for="order-status-select" class="form-label">Cambiar Estado:</label>
                         <select id="order-status-select" class="form-input" style="width: auto; padding: 0.25rem 0.5rem;" required>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="En preparación">En preparación</option>
-                            <option value="En camino">En camino</option>
-                            <option value="Entregado">Entregado</option>
-                            <option value="Cancelado">Cancelado</option>
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="CONFIRMADO">Confirmado</option>
+                            <option value="TERMINADO">Terminado</option>
+                            <option value="CANCELADO">Cancelado</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn--success btn--block" style="background-color: #10b981;">Actualizar Estado</button>
@@ -113,7 +83,6 @@
             </div>
         </div>
     </div>
-
     <script type="module" src="./orders.ts"></script>
 </body>
 </html>

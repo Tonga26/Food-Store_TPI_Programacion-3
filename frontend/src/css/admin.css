@@ -63,12 +63,25 @@ body {
     transition: background-color 0.2s;
 }
 
-.stat-card__link:hover { background-color: rgba(255, 255, 255, 0.3); }
+.stat-card__link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
 
-.stat-card--purple { background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%); }
-.stat-card--pink { background: linear-gradient(135deg, #d53f8c 0%, #f687b3 100%); }
-.stat-card--blue { background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%); }
-.stat-card--green { background: linear-gradient(135deg, #38a169 0%, #68d391 100%); }
+.stat-card--purple {
+    background: linear-gradient(135deg, #6b46c1 0%, #9f7aea 100%);
+}
+
+.stat-card--pink {
+    background: linear-gradient(135deg, #d53f8c 0%, #f687b3 100%);
+}
+
+.stat-card--blue {
+    background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
+}
+
+.stat-card--green {
+    background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+}
 
 .dashboard-summary {
     margin-top: 1.5rem;
@@ -97,12 +110,12 @@ section {
     background-color: var(--color-blanco);
     padding: 20px 25px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 25px;
 }
 
 h2 {
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
     color: var(--color-texto);
     padding-bottom: 0;
     font-size: 1.5rem;
@@ -113,24 +126,26 @@ h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0px;
-    padding-bottom: 10px; 
+    padding-bottom: 10px;
 }
 
 .table-container {
     background: var(--color-blanco);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    overflow: hidden; 
+    overflow: hidden;
     width: 100%;
 }
 
-.admin-table, .data-table {
+.admin-table,
+.data-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
-.admin-table th, .data-table th {
+.admin-table th,
+.data-table th {
     background-color: #f8f9fa;
     color: #1f2937;
     padding: 15px;
@@ -144,7 +159,8 @@ h2 {
     font-weight: 600;
 }
 
-.admin-table td, .data-table td {
+.admin-table td,
+.data-table td {
     padding: 15px;
     border-bottom: 1px solid var(--color-borde);
     vertical-align: middle;
@@ -156,7 +172,8 @@ h2 {
     border-bottom: none;
 }
 
-.admin-table img, .data-table__img {
+.admin-table img,
+.data-table__img {
     width: 48px;
     height: 48px;
     border-radius: 6px;
@@ -184,13 +201,18 @@ h2 {
     transition: all 0.2s ease;
 }
 
-.btn-action--edit { background-color: var(--color-edit); }
-.btn-action--delete { background-color: var(--color-delete); }
+.btn-action--edit {
+    background-color: var(--color-edit);
+}
+
+.btn-action--delete {
+    background-color: var(--color-delete);
+}
 
 .btn-action:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .btn-main {
@@ -215,8 +237,8 @@ h2 {
     font-size: 0.9rem;
 }
 
-.admin-form input, 
-.admin-form select, 
+.admin-form input,
+.admin-form select,
 .admin-form textarea {
     width: 100%;
     padding: 10px;
@@ -247,14 +269,149 @@ footer {
     body {
         padding: 12px;
     }
-    .admin-table, .data-table {
+
+    .admin-table,
+    .data-table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
+
     .admin-form input,
     .admin-form select,
     .admin-form textarea {
         font-size: 16px;
     }
+}
+
+/* ============================================================================
+   SECCIÓN: NUEVO FORMATO DE LISTADO DE PEDIDOS Y MODALES
+   ============================================================================ */
+.orders-list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.order-card-row {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.order-card-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-card-row__left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.order-card-row__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.order-card-row__title {
+    font-size: 1.15rem;
+    color: var(--color-texto);
+    font-weight: 700;
+    margin: 0;
+}
+
+.order-card-row__subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.order-card-row__total {
+    color: var(--color-primario);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background-color: #f8f9fa;
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.order-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.order-info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.order-info-value {
+    font-size: 0.95rem;
+    color: #212529;
+    font-weight: 500;
+}
+
+.order-items__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.order-items__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.95rem;
+}
+
+.order-totals {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.order-totals__row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+.order-totals__row--grand {
+    border-top: 1px dashed #dee2e6;
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #212529;
 }
