@@ -47,9 +47,9 @@ El sistema resuelve la necesidad de digitalizar la toma de pedidos, ofreciendo u
 
 | Catálogo de Tienda | Panel Administrativo |
 | :---: | :---: |
-| *![Tienda](./assets/tienda-principal.png)* | *![Admin](./assets/dashboard-admin.png)* |
+| *![Tienda](./assets/tienda-principal.PNG)* | *![Admin](./assets/dashboard-admin.PNG)* |
 | **Carrito y Checkout** | **Gestión de Pedidos** |
-| *![Carrito](./assets/carrito.png)* | *![Pedidos](./assets/pedidos-admin.png)* |
+| *![Carrito](./assets/carrito.PNG)* | *![Pedidos](./assets/pedidos-admin.PNG)* |
 
 ---
 
