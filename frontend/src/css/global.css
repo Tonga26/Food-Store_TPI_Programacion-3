@@ -593,7 +593,7 @@ body {
 }
 
 /* ============================================================================
-   SECCIÓN: SOBREESCRITURAS QUIRÚRGICAS (PANEL Y ESTADOS)
+   SECCIÓN: SOBREESCRITURAS ESPECÍFICAS (PANEL Y ESTADOS)
    ============================================================================ */
 .sidebar__header {
     display: flex !important;
@@ -610,7 +610,6 @@ body {
 .sidebar__header .sidebar__subtitle {
     margin: 0 !important;
     text-transform: none !important;
-    /* Permite que se lea "Panel de Control" */
     font-size: 0.85rem !important;
     color: var(--color-texto-suave) !important;
 }

@@ -11,11 +11,16 @@
     <div class="page-layout">
         
         <header class="header">
-            <h1 class="header__title">🍔 Food Store</h1>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button id="mobile-sidebar-toggle" class="sidebar-toggle" aria-label="Abrir menú de categorías">☰</button>
+                <h1 class="header__title">🍔 Food Store</h1>
+            </div>
             <nav class="header__nav">
                 <ul class="nav__menu" id="nav-menu"></ul>
             </nav>
         </header>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
         <aside class="sidebar">
             <h2 class="sidebar__title">Categorías</h2>

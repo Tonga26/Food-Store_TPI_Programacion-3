@@ -1137,3 +1137,65 @@
 .search-dropdown-filter:hover {
     color: #ff6347;
 }
+
+/* ============================================================================
+   SECCIÓN: MEJORAS VISUALES PARA EL TOGGLE MÓVIL
+   ============================================================================ */
+.sidebar-toggle {
+    display: none; /* Oculto por defecto en pantallas grandes */
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--color-primario);
+    padding: 0.5rem;
+    line-height: 1;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.sidebar-toggle:hover {
+    background-color: #fff0ed;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+}
+
+@media (max-width: 1024px) {
+    .sidebar-toggle {
+        display: flex; /* Se vuelve visible y centra su contenido solo en móviles */
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header__title {
+        margin: 0;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        width: 280px;
+        z-index: 999;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 15px rgba(0,0,0,0.15);
+        background-color: var(--color-blanco) !important;
+        padding-top: 2rem !important;
+    }
+    
+    .sidebar--active {
+        left: 0 !important;
+    }
+    
+    .sidebar-overlay--active {
+        display: block;
+    }
+}

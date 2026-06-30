@@ -8,10 +8,6 @@ import type { ICategory } from "../../../types/ICategory";
 /* ============================================================================
    SECCIÓN: CONTROL DE ACCESO E INICIALIZACIÓN
    ============================================================================ */
-/**
- * Valida la sesión activa del usuario y determina sus permisos de acceso.
- * Si la validación falla, redirecciona al controlador correspondiente.
- */
 const initPage = (): void => {
   checkAuthUser(
     "/src/pages/auth/login/login.html",
@@ -28,10 +24,6 @@ setupMenu("store", "#nav-menu");
 let allProducts: IProduct[] = [];
 let allCategories: ICategory[] = [];
 
-/**
- * Máquina de estado para el motor de búsqueda. Almacena los criterios activos
- * que se aplicarán de forma concurrente sobre el catálogo de productos.
- */
 const filterState = {
     search: "",
     categoryId: "all",
@@ -48,7 +40,7 @@ const categorySelect = document.getElementById("categoriaProductoSelect") as HTM
 const searchForm = document.getElementById("search-form") as HTMLFormElement;
 
 const btnToggleSidebar = document.getElementById("mobile-sidebar-toggle") as HTMLButtonElement;
-const sidebar = document.getElementById("sidebar") as HTMLElement;
+const sidebar = document.querySelector(".sidebar") as HTMLElement;
 const sidebarOverlay = document.getElementById("sidebar-overlay") as HTMLDivElement;
 
 /* ============================================================================
@@ -77,8 +69,10 @@ const getCategoryEmoji = (categoryName: string): string => {
  * barra lateral de navegación en resoluciones móviles.
  */
 const toggleMobileSidebar = (): void => {
-    sidebar.classList.toggle("sidebar--active");
-    sidebarOverlay.classList.toggle("sidebar-overlay--active");
+    if (sidebar && sidebarOverlay) {
+        sidebar.classList.toggle("sidebar--active");
+        sidebarOverlay.classList.toggle("sidebar-overlay--active");
+    }
 };
 
 btnToggleSidebar?.addEventListener("click", toggleMobileSidebar);
@@ -90,8 +84,9 @@ sidebarOverlay?.addEventListener("click", toggleMobileSidebar);
 
 /**
  * Extrae de forma segura el identificador de la categoría de un producto,
- * previniendo errores de tipado o variaciones en la estructura de la API.
- * * @param p - Instancia del producto a evaluar.
+ * preveniendo errores de tipado o variaciones en la estructura de la API.
+ *
+ * @param p - Instancia del producto a evaluar.
  * @returns Identificador numérico o cadena de la categoría vinculada.
  */
 const getProductCategoryId = (p: any): string | undefined => {
@@ -104,7 +99,6 @@ const getProductCategoryId = (p: any): string | undefined => {
 const applyCombinedFilters = (): void => {
     let result = [...allProducts];
 
-    // Fase 1: Coincidencia textual parcial
     if (filterState.search.trim() !== "") {
         const query = filterState.search.toLowerCase();
         result = result.filter(p => 
@@ -113,7 +107,6 @@ const applyCombinedFilters = (): void => {
         );
     }
 
-    // Fase 2: Reducción por identificador categórico
     if (filterState.categoryId !== "all") {
         result = result.filter(p => {
             const idCat = getProductCategoryId(p);
@@ -121,7 +114,6 @@ const applyCombinedFilters = (): void => {
         });
     }
 
-    // Fase 3: Reordenamiento del conjunto de datos resultante
     switch (filterState.sort) {
         case "az":
             result.sort((a, b) => a.nombre.localeCompare(b.nombre));
@@ -170,7 +162,6 @@ const renderProducts = (productsToRender: IProduct[]): void => {
         ? producto.imagen 
         : new URL(`../../../assets/img/${producto.imagen}`, import.meta.url).href;
 
-    // Resuelve el nombre semántico de la categoría cruzando los datos en memoria
     const idCat = getProductCategoryId(producto);
     const matchedCategory = allCategories.find(c => c.id.toString() === idCat);
     const categoryName = matchedCategory ? matchedCategory.nombre : 'Sin categoría';
@@ -178,9 +169,7 @@ const renderProducts = (productsToRender: IProduct[]): void => {
     article.innerHTML = `
       <img class="product-card__img" src="${imgPath}" alt="${producto.nombre}">
       <div class="product-card__body">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-            <span class="product-card__category">${categoryName}</span>
-        </div>
+        <span class="product-card__category">${categoryName}</span>
         <h3 class="product-card__name">${producto.nombre}</h3>
         <p class="product-card__description">${producto.descripcion}</p>
         <p class="product-card__price">$ ${producto.precio.toFixed(2)}</p>
