@@ -1089,3 +1089,51 @@
     font-size: 1.15rem;
     color: #212529;
 }
+
+/* ============================================================================
+   SECCIÓN: COMPONENTES DEL FILTRADO AVANZADO (SIN ALTERAR LAYOUT GLOBAL)
+   ============================================================================ */
+.search-form__group {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 5px 15px 5px 20px !important;
+}
+
+.search-form__input {
+    flex: 1 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0.5rem 0 !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.search-filters-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-internal-divider {
+    color: #e5e7eb;
+    font-weight: 300;
+    margin: 0 8px;
+    user-select: none;
+}
+
+.search-dropdown-filter {
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #636e72;
+    cursor: pointer;
+    outline: none;
+    padding: 0.3rem 0.5rem;
+    transition: color 0.2s;
+}
+
+.search-dropdown-filter:hover {
+    color: #ff6347;
+}

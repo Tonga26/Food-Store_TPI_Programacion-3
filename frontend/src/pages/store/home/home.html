@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="page-layout">
+        
         <header class="header">
             <h1 class="header__title">🍔 Food Store</h1>
             <nav class="header__nav">
@@ -27,7 +28,21 @@
             <section class="search-section">
                 <form class="search-form" id="search-form">
                     <div class="search-form__group">
-                        <input class="search-form__input" id="buscarProducto" type="text" placeholder="🔍 ¿Qué vas a comer hoy?">
+                        <input class="search-form__input" id="buscarProducto" type="text" placeholder="🔍 Buscar productos...">
+                        <div class="search-filters-container">
+                            <span class="search-internal-divider">|</span>
+                            <select id="ordenarProducto" class="search-dropdown-filter">
+                                <option value="default">Ordenar por</option>
+                                <option value="az">Nombre (A-Z)</option>
+                                <option value="za">Nombre (Z-A)</option>
+                                <option value="precioAsc">Menor precio</option>
+                                <option value="precioDesc">Mayor precio</option>
+                            </select>
+                            <span class="search-internal-divider">|</span>
+                            <select id="categoriaProductoSelect" class="search-dropdown-filter">
+                                <option value="all">Todas</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </section>
