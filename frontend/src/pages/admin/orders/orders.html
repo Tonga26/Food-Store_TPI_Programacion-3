@@ -41,7 +41,7 @@
 
     <div class="modal" id="order-modal" aria-hidden="true">
         <div class="modal__overlay" id="modal-overlay"></div>
-        <div class="modal__content modal__content--scrollable" style="max-width: 600px;">
+        <div class="modal__content modal__content--scrollable modal__content--large">
             <header class="modal__header">
                 <h2 class="modal__title" id="modal-title">Detalle del Pedido</h2>
                 <button class="modal__close-btn" id="modal-close">&times;</button>
@@ -69,16 +69,16 @@
                 </div>
 
                 <form class="order-action-form" id="order-action-form">
-                    <div class="form-group form-group--inline" style="justify-content: flex-start; margin-bottom: 1rem; gap: 1rem;">
+                    <div class="form-group form-group--inline order-action-form__group">
                         <label for="order-status-select" class="form-label">Cambiar Estado:</label>
-                        <select id="order-status-select" class="form-input" style="width: auto; padding: 0.25rem 0.5rem;" required>
+                        <select id="order-status-select" class="form-input order-action-form__select" required>
                             <option value="PENDIENTE">Pendiente</option>
                             <option value="CONFIRMADO">Confirmado</option>
                             <option value="TERMINADO">Terminado</option>
                             <option value="CANCELADO">Cancelado</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn--success btn--block" style="background-color: #10b981;">Actualizar Estado</button>
+                    <button type="submit" class="btn btn--success btn--block">Actualizar Estado</button>
                 </form>
             </div>
         </div>

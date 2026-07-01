@@ -131,7 +131,7 @@ const renderCategoriesTable = async (): Promise<void> => {
     if (categories.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align: center; color: #6b7280; padding: 2rem;">
+          <td colspan="5" class="data-table__empty">
             No hay categorías registradas en el sistema.
           </td>
         </tr>

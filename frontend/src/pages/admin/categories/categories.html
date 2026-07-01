@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,10 @@
     <link rel="stylesheet" href="../../../css/admin.css">
     <title>Food Store | Gestión de Categorías</title>
 </head>
+
 <body>
     <div class="page-layout">
-        
+
         <header class="header">
             <h1 class="header__title">🍕 Food Store</h1>
             <nav class="header__nav">
@@ -23,16 +25,20 @@
                 <h3 class="sidebar__subtitle">Panel de Control</h3>
             </div>
             <ul class="sidebar__categories">
-                <li class="sidebar__category-item"><a href="../adminHome/admin.html" class="nav__link">📊 Dashboard</a></li>
-                <li class="sidebar__category-item"><a href="#" class="nav__link nav__link--active">📁 Categorías</a></li>
-                <li class="sidebar__category-item"><a href="../products/products.html" class="nav__link">🍔 Productos</a></li>
+                <li class="sidebar__category-item"><a href="../adminHome/admin.html" class="nav__link">📊 Dashboard</a>
+                </li>
+                <li class="sidebar__category-item"><a href="#" class="nav__link nav__link--active">📁 Categorías</a>
+                </li>
+                <li class="sidebar__category-item"><a href="../products/products.html" class="nav__link">🍔
+                        Productos</a></li>
                 <li class="sidebar__category-item"><a href="../orders/orders.html" class="nav__link">📦 Pedidos</a></li>
             </ul>
-            
+
             <div class="sidebar__divider"></div>
-            
+
             <ul class="sidebar__categories">
-                <li class="sidebar__category-item"><a href="../../store/home/home.html" class="nav__link">🏪 Ver Tienda</a></li>
+                <li class="sidebar__category-item"><a href="../../store/home/home.html" class="nav__link">🏪 Ver
+                        Tienda</a></li>
             </ul>
         </aside>
 
@@ -55,66 +61,67 @@
                             </tr>
                         </thead>
                         <tbody id="categories-table-body">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </section>
         </main>
-        
+
     </div>
     <script type="module" src="./categories.ts"></script>
     <div class="modal" id="category-modal" aria-hidden="true">
-    
-    <div class="modal__overlay" id="modal-overlay" tabindex="-1"></div>
-    
-    <div class="modal__content" role="dialog" aria-modal="true">
-        
-        <header class="modal__header">
-            <h2 class="modal__title" id="modal-title">Nueva Categoría</h2>
-            <button class="modal__close-btn" id="modal-close" aria-label="Cerrar modal">&times;</button>
-        </header>
-        
-        <form class="modal__form" id="category-form">
-            
-            <input type="hidden" id="category-id">
-            
-            <div class="form-group">
-                <label for="category-name" class="form-label">Nombre</label>
-                <input type="text" id="category-name" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="category-desc" class="form-label">Descripción</label>
-                <textarea id="category-desc" class="form-textarea" rows="3" required></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="category-img" class="form-label">Nombre del archivo de imagen</label>
-                <input type="text" id="category-img" class="form-input" placeholder="ejemplo.png" required>
-            </div>
-            
-            <button type="submit" class="btn btn--primary btn--block">Guardar</button>
-        </form>
+
+        <div class="modal__overlay" id="modal-overlay" tabindex="-1"></div>
+
+        <div class="modal__content" role="dialog" aria-modal="true">
+
+            <header class="modal__header">
+                <h2 class="modal__title" id="modal-title">Nueva Categoría</h2>
+                <button class="modal__close-btn" id="modal-close" aria-label="Cerrar modal">&times;</button>
+            </header>
+
+            <form class="modal__form" id="category-form">
+
+                <input type="hidden" id="category-id">
+
+                <div class="form-group">
+                    <label for="category-name" class="form-label">Nombre</label>
+                    <input type="text" id="category-name" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category-desc" class="form-label">Descripción</label>
+                    <textarea id="category-desc" class="form-textarea" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category-img" class="form-label">Nombre del archivo de imagen</label>
+                    <input type="text" id="category-img" class="form-input" placeholder="ejemplo.png" required>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--block">Guardar</button>
+            </form>
+        </div>
     </div>
-</div>
-<div class="modal" id="delete-confirm-modal" aria-hidden="true">
+    <div class="modal" id="delete-confirm-modal" aria-hidden="true">
         <div class="modal__overlay" id="delete-modal-overlay" tabindex="-1"></div>
-        <div class="modal__content" role="dialog" aria-modal="true" style="max-width: 400px;">
+        <div class="modal__content modal__content--small" role="dialog" aria-modal="true">
             <header class="modal__header">
                 <h2 class="modal__title">Confirmar Eliminación</h2>
                 <button class="modal__close-btn" id="delete-modal-close" aria-label="Cerrar modal">&times;</button>
             </header>
-            
-            <div class="modal__body" style="padding: 1.5rem 0; text-align: center;">
-                <p style="font-size: 1.1rem; color: #374151;">¿Estás seguro de que deseas eliminar esta categoría?</p>
-                <p style="font-size: 0.9rem; color: #6b7280; margin-top: 0.5rem;">Esta acción realizará una baja lógica en el sistema.</p>
+
+            <div class="modal__body modal__body--centered">
+                <p class="modal__text-primary">¿Estás seguro de que deseas eliminar esta categoría?</p>
+                <p class="modal__text-secondary">Esta acción realizará una baja lógica en el sistema.</p>
             </div>
-            
-            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+
+            <div class="modal__footer">
                 <button class="btn btn--light" id="btn-cancel-delete">Cancelar</button>
                 <button class="btn btn--danger" id="btn-confirm-delete">Sí, Eliminar</button>
             </div>
         </div>
     </div>
 </body>
+
 </html>

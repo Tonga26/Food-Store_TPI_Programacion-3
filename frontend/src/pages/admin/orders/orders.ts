@@ -110,7 +110,7 @@ const renderOrders = (orders: IOrder[]): void => {
   ordersContainer.innerHTML = "";
 
   if (orders.length === 0) {
-    ordersContainer.innerHTML = `<p style="text-align: center; color: #6b7280;">No hay pedidos registrados.</p>`;
+    ordersContainer.innerHTML = `<p class="orders-list-view__empty">No hay pedidos registrados.</p>`;
     return;
   }
 

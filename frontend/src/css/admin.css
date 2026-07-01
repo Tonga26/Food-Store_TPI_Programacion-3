@@ -181,6 +181,12 @@ h2 {
     display: block;
 }
 
+.data-table__empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem;
+}
+
 /* ==========================================
    SECCIÓN: BOTONES Y FORMULARIOS ADMIN
    ========================================== */
@@ -414,4 +420,108 @@ footer {
     font-weight: 700;
     font-size: 1.15rem;
     color: #212529;
+}
+
+/* ============================================================================
+   SECCIÓN: PANELES DE RESUMEN DETALLADO (INYECTADOS DINÁMICAMENTE)
+   ============================================================================ */
+.dashboard-summary__title--large {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.dashboard-panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.dashboard-panel {
+    background: var(--color-blanco);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--color-borde);
+}
+
+.dashboard-panel__title {
+    margin-bottom: 1rem;
+    color: #1f2937;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 0.5rem;
+}
+
+.dashboard-panel__row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.dashboard-panel__row--dashed {
+    border-bottom: 1px dashed #e5e7eb;
+}
+
+.dashboard-panel__label {
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.dashboard-panel__value {
+    font-weight: 700;
+}
+
+.dashboard-panel__value--blue {
+    color: #3b82f6;
+}
+
+.dashboard-panel__value--green {
+    color: #10b981;
+}
+
+.dashboard-panel__value--red {
+    color: #ef4444;
+}
+
+.dashboard-panel__value--highlight {
+    color: var(--color-primario);
+    background: #fff0ed;
+    padding: 0.1rem 0.6rem;
+    border-radius: 20px;
+}
+
+.dashboard-panel__empty {
+    color: var(--color-texto-suave);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.dashboard-alert {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: 1px solid #fca5a5;
+}
+
+/* ============================================================================
+   SECCIÓN: MODIFICADORES DEL MODAL DE PEDIDOS Y ESTADOS VACÍOS
+   ============================================================================ */
+.orders-list-view__empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem;
+    font-weight: 500;
+}
+
+.order-action-form__group {
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.order-action-form__select {
+    width: auto;
+    padding: 0.25rem 0.5rem;
 }
