@@ -63,7 +63,7 @@ El sistema resuelve la necesidad de digitalizar la toma de pedidos, ofreciendo u
 
 Como parte de los entregables del proyecto, se elaboró un documento detallado que profundiza en el marco teórico, las decisiones de arquitectura (separación de responsabilidades, uso de DTOs, manejo de excepciones) y las soluciones a los desafíos técnicos encontrados durante los sprints de desarrollo.
 
-[🔗 **Ver Informe Técnico de Food Store (PDF)**](https://drive.google.com/file/d/1Lf-PWcXKP7xMcTlBakD_45UftuBHfdpZ/view?usp=sharing)
+[🔗 **Ver Informe Técnico de Food Store (PDF)**](https://drive.google.com/file/d/1vBg_i2ZDcSsgVoBx38GuMVxQ0Yj2aYxY/view?usp=sharing)
 
 ---
 
