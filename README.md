@@ -53,20 +53,6 @@ El sistema resuelve la necesidad de digitalizar la toma de pedidos, ofreciendo u
 
 ---
 
-## 🎥 Presentación en Video
-
-[![Video Explicativo](https://img.shields.io/badge/Ver_Video_Explicativo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/wq4uZYX408g)
-
----
-
-## 📄 Documentación Académica y Técnica
-
-Como parte de los entregables del proyecto, se elaboró un documento detallado que profundiza en el marco teórico, las decisiones de arquitectura (separación de responsabilidades, uso de DTOs, manejo de excepciones) y las soluciones a los desafíos técnicos encontrados durante los sprints de desarrollo.
-
-[🔗 **Ver Informe Técnico de Food Store (PDF)**](https://drive.google.com/file/d/1vBg_i2ZDcSsgVoBx38GuMVxQ0Yj2aYxY/view?usp=sharing)
-
----
-
 ## 📋 Requisitos Previos (Prerequisites)
 
 Para ejecutar este proyecto en un entorno local, necesitas tener instalado:
