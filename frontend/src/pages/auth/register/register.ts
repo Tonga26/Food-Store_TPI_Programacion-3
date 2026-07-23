@@ -33,7 +33,7 @@ formRegistro?.addEventListener("submit", async (event: Event) => {
     };
 
     try {
-        const nuevoUsuario = await apiFetch("/users", {
+        const nuevoUsuario = await apiFetch("/auth/register", {
             method: "POST",
             body: JSON.stringify(payload)
         });
@@ -48,7 +48,8 @@ formRegistro?.addEventListener("submit", async (event: Event) => {
             celular: nuevoUsuario.celular,
             role: nuevoUsuario.rol === "ADMIN" ? "admin" : "client" as Rol,
             loggedIn: true,
-            password: "" 
+            password: "",
+            token: nuevoUsuario.token || ""
         };
 
         saveUser(sesionUsuario);

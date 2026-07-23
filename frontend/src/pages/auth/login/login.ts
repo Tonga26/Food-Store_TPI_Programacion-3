@@ -17,7 +17,7 @@ const formLogin = document.getElementById("login-form") as HTMLFormElement | nul
    ============================================================================ */
 formLogin?.addEventListener("submit", async (e: Event) => {
     e.preventDefault();
-    
+
     console.log("1. Formulario interceptado. Capturando inputs...");
 
     const emailElement = document.getElementById("email") as HTMLInputElement | null;
@@ -33,12 +33,12 @@ formLogin?.addEventListener("submit", async (e: Event) => {
         email: emailElement.value.trim(),
         password: passwordElement.value.trim()
     };
-    
+
     console.log("2. Datos empaquetados para enviar:", payload);
 
     try {
         console.log("3. Enviando petición a Spring Boot...");
-        const usuarioLogueado = await apiFetch("/users/login", {
+        const usuarioLogueado = await apiFetch("/auth/login", {
             method: "POST",
             body: JSON.stringify(payload)
         });
@@ -53,7 +53,8 @@ formLogin?.addEventListener("submit", async (e: Event) => {
             celular: usuarioLogueado.celular,
             role: usuarioLogueado.rol === "ADMIN" ? "admin" : "client" as Rol,
             loggedIn: true,
-            password: ""
+            password: "",
+            token: usuarioLogueado.token || ""
         };
 
         saveUser(sesionUsuario);

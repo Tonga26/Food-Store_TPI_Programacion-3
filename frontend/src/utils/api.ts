@@ -3,9 +3,18 @@ export const API_URL = "http://localhost:8080/api";
 
 // SECCIÓN 2: FUNCIÓN ENVOLTORIO (WRAPPER) PARA FETCH
 export const apiFetch = async (endpoint: string, options: RequestInit = {}): Promise<any> => {
-    
+
+    let token = "";
+    const userStorage = localStorage.getItem("user");
+
+    if (userStorage) {
+        const parsedUser = JSON.parse(userStorage);
+        token = parsedUser.token || "";
+    }
+
     const headers = {
         "Content-Type": "application/json",
+        ...(token ? { "Authorization": `Bearer ${token}` } : {}),
         ...(options.headers as Record<string, string>),
     } as Record<string, string>;
 
@@ -26,7 +35,7 @@ export const apiFetch = async (endpoint: string, options: RequestInit = {}): Pro
         }
 
         return await response.json();
-        
+
     } catch (error) {
         console.error(`[apiFetch] Fallo en la petición a ${endpoint}:`, error);
         throw error;

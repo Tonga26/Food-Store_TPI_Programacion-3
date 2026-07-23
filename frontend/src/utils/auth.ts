@@ -7,36 +7,32 @@ import { navigate } from "./navigate";
    SECCIÓN: CONTROL DE ACCESO Y AUTENTICACIÓN MULTIROL
    ============================================================================ */
 export const checkAuthUser = (
-  redireccion1: string,
-  redireccion2: string,
-  rolesPermitidos: Rol | Rol[]
+    redireccion1: string,
+    redireccion2: string,
+    rolesPermitidos: Rol | Rol[]
 ) => {
- 
-  // Obtenemos el userData del localStorage
-  const userString = getUser();
 
-  // Si no hay nadie registrado en la base de datos
-  if (!userString) {
-    navigate(redireccion1);
-    // Redirigimos al login
-    return; 
-  } 
+    const userString = getUser();
 
-  const parseUser: IUser = JSON.parse(userString);
+    if (!userString) {
+        navigate(redireccion1);
+        // Redirigimos al login
+        return;
+    }
 
-  // Revisamos si el usuario cerró sesión
-  if (parseUser.loggedIn === false){
-    navigate(redireccion1);
-    return;
-  }
+    const parseUser: IUser = JSON.parse(userString);
 
-  const rolesArray = Array.isArray(rolesPermitidos) ? rolesPermitidos : [rolesPermitidos];
+    if (parseUser.loggedIn === false){
+        navigate(redireccion1);
+        return;
+    }
 
-  // Revisa si tiene el rol correcto para ingresar
-  if (!rolesArray.includes(parseUser.role as Rol)){
-    navigate(redireccion2);
-    return;
-  }
+    const rolesArray = Array.isArray(rolesPermitidos) ? rolesPermitidos : [rolesPermitidos];
+
+    if (!rolesArray.includes(parseUser.role as Rol)){
+        navigate(redireccion2);
+        return;
+    }
 };
 
 /* ============================================================================
@@ -44,22 +40,14 @@ export const checkAuthUser = (
    ============================================================================ */
 export const logout = () => {
 
-  // Buscamos al usuario en la base de datos
-  const userString = getUser();
+    const userString = getUser();
 
-  // Si existe, seteamos el loggedIn a false, y guardamos sus datos
-  if (userString){
+    if (userString){
+        const user: IUser = JSON.parse(userString);
+        user.loggedIn = false;
+        user.token = "";
+        saveUser(user);
+    }
 
-    // Pasamos de string a objeto js
-    const user: IUser = JSON.parse(userString);
-
-    // Cerramos la sesión
-    user.loggedIn = false;
-
-    // Guardamos en localStorage
-    saveUser(user);
-  }
-  
-  // Lo reenviamos al login
-  navigate("/src/pages/auth/login/login.html");
+    navigate("/src/pages/auth/login/login.html");
 };
