@@ -119,13 +119,14 @@ public class Usuario extends Base implements UserDetails {
 
     /**
      * Retorna los permisos o roles otorgados al usuario.
-     * Adaptado para cumplir con el formato requerido por Spring Security.
+     * Adaptado para coincidir exactamente con las reglas de autorización (hasAuthority)
+     * definidas en la cadena de filtros de seguridad.
      *
      * @return Una colección que contiene el rol del usuario encapsulado en {@link SimpleGrantedAuthority}.
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.rol.name()));
+        return List.of(new SimpleGrantedAuthority(this.rol.name()));
     }
 
     /**

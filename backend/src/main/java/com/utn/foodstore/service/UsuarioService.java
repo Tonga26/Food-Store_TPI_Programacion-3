@@ -8,6 +8,7 @@ import com.utn.foodstore.enums.Rol;
 import com.utn.foodstore.exception.BusinessException;
 import com.utn.foodstore.model.Usuario;
 import com.utn.foodstore.repository.UsuarioRepository;
+import com.utn.foodstore.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
  * Gestiona el ciclo de vida de las cuentas de usuario, garantizando la unicidad de las
  * credenciales (email), la asignación de roles, la encriptación unidireccional de contraseñas
  * y la correcta transformación de la información hacia la capa de presentación mediante DTOs.
+ * Incluye la delegación de emisión de JSON Web Tokens (JWT) para operaciones de autenticación.
  */
 @Service
 @RequiredArgsConstructor
@@ -27,15 +29,16 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     /**
      * Recupera el listado completo de usuarios activos en el sistema.
      *
-     * @return Una colección de {@link UsuarioDto} con la información pública de los usuarios.
+     * @return Una colección de {@link UsuarioDto} con la información pública de los usuarios (sin token).
      */
     public List<UsuarioDto> findAll() {
         return usuarioRepository.findAll().stream()
-                .map(this::mapToDto)
+                .map(usuario -> mapToDto(usuario, null))
                 .toList();
     }
 
@@ -43,20 +46,20 @@ public class UsuarioService {
      * Busca un usuario específico mediante su identificador único.
      *
      * @param id El identificador de la entidad a recuperar.
-     * @return El registro {@link UsuarioDto} correspondiente.
+     * @return El registro {@link UsuarioDto} correspondiente (sin token).
      */
     public UsuarioDto findById(Long id) {
         Usuario usuarioEncontrado = usuarioRepository.findByIdOrThrow(id);
-        return mapToDto(usuarioEncontrado);
+        return mapToDto(usuarioEncontrado, null);
     }
 
     /**
      * Autentica a un usuario mediante su correo electrónico y contraseña en texto plano.
      * Valida la existencia del usuario activo y compara el hash almacenado utilizando
-     * el algoritmo de encriptación configurado.
+     * el algoritmo de encriptación configurado. Si es exitoso, genera un token de sesión.
      *
      * @param dto El objeto {@link LoginDto} con las credenciales suministradas.
-     * @return El {@link UsuarioDto} del usuario si la validación es exitosa.
+     * @return El {@link UsuarioDto} del usuario incluyendo el JWT generado.
      * @throws BusinessException Si las credenciales no coinciden o el usuario fue eliminado (HTTP 400).
      */
     public UsuarioDto login(LoginDto dto) {
@@ -66,16 +69,18 @@ public class UsuarioService {
         if (!passwordEncoder.matches(dto.password(), usuario.getContrasena())) {
             throw new BusinessException("Credenciales incorrectas");
         }
-        return mapToDto(usuario);
+
+        String jwtToken = jwtService.generateToken(usuario);
+        return mapToDto(usuario, jwtToken);
     }
 
     /**
      * Registra un nuevo usuario en el sistema.
-     * Valida la unicidad del correo electrónico, aplica hashing sobre la contraseña
-     * y asigna el rol estándar de acceso.
+     * Valida la unicidad del correo electrónico, aplica hashing sobre la contraseña,
+     * asigna el rol estándar de acceso y emite el token de sesión inicial.
      *
      * @param dto El objeto {@link UsuarioCreate} con los datos de registro validados.
-     * @return El {@link UsuarioDto} del usuario recién creado.
+     * @return El {@link UsuarioDto} del usuario recién creado incluyendo el JWT.
      * @throws BusinessException Si el email proporcionado ya se encuentra registrado (Dispara HTTP 400).
      */
     public UsuarioDto create(UsuarioCreate dto) {
@@ -94,7 +99,8 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
 
-        return mapToDto(usuarioGuardado);
+        String jwtToken = jwtService.generateToken(usuarioGuardado);
+        return mapToDto(usuarioGuardado, jwtToken);
     }
 
     /**
@@ -104,7 +110,7 @@ public class UsuarioService {
      *
      * @param id  El identificador del usuario a modificar.
      * @param dto El objeto {@link UsuarioEdit} con los campos a sobrescribir.
-     * @return El {@link UsuarioDto} con el estado final de la cuenta.
+     * @return El {@link UsuarioDto} con el estado final de la cuenta (sin token).
      * @throws BusinessException Si el nuevo email colisiona con el de otro usuario registrado (Dispara HTTP 400).
      */
     public UsuarioDto update(Long id, UsuarioEdit dto) {
@@ -124,7 +130,7 @@ public class UsuarioService {
 
         Usuario usuarioActualizado = usuarioRepository.save(usuarioEncontrado);
 
-        return mapToDto(usuarioActualizado);
+        return mapToDto(usuarioActualizado, null);
     }
 
     /**
@@ -139,12 +145,14 @@ public class UsuarioService {
 
     /**
      * Transforma una entidad de dominio en un DTO de respuesta seguro,
-     * excluyendo intencionalmente campos de infraestructura y credenciales de acceso.
+     * excluyendo intencionalmente campos de infraestructura e incorporando
+     * dinámicamente el token de seguridad cuando corresponde.
      *
      * @param usuario La entidad original.
+     * @param token   El JWT emitido (o nulo si es una consulta de solo lectura).
      * @return El registro {@link UsuarioDto} seguro para exponer.
      */
-    private UsuarioDto mapToDto(Usuario usuario) {
+    private UsuarioDto mapToDto(Usuario usuario, String token) {
         return UsuarioDto.builder()
                 .id(usuario.getId())
                 .nombre(usuario.getNombre())
@@ -152,6 +160,7 @@ public class UsuarioService {
                 .email(usuario.getEmail())
                 .celular(usuario.getCelular())
                 .rol(usuario.getRol())
+                .token(token)
                 .build();
     }
 }
