@@ -1,13 +1,10 @@
 package com.utn.foodstore.controller;
 
-import com.utn.foodstore.dto.LoginDto;
-import com.utn.foodstore.dto.UsuarioCreate;
 import com.utn.foodstore.dto.UsuarioDto;
 import com.utn.foodstore.dto.UsuarioEdit;
 import com.utn.foodstore.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,30 +46,6 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> findById(@PathVariable Long id) {
         UsuarioDto usuarioEncontrado = usuarioService.findById(id);
         return ResponseEntity.ok(usuarioEncontrado);
-    }
-
-    /**
-     * Endpoint para autenticar un usuario existente en el sistema.
-     *
-     * @param dto El paquete de datos JSON con las credenciales de acceso, ya validado.
-     * @return Una respuesta HTTP 200 (OK) con el DTO del usuario autenticado de forma segura.
-     */
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioDto> login(@Valid @RequestBody LoginDto dto) {
-        UsuarioDto usuarioLogueado = usuarioService.login(dto);
-        return ResponseEntity.ok(usuarioLogueado);
-    }
-
-    /**
-     * Endpoint para registrar un nuevo usuario en el sistema.
-     *
-     * @param dto El paquete de datos JSON que envía el cliente, ya validado.
-     * @return Una respuesta HTTP 201 (CREATED) con el DTO del usuario recién creado.
-     */
-    @PostMapping
-    public ResponseEntity<UsuarioDto> create(@Valid @RequestBody UsuarioCreate dto) {
-        UsuarioDto nuevoUsuario = usuarioService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
 
     /**
