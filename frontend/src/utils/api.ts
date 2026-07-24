@@ -1,11 +1,14 @@
+import { getUser } from "./localStorage";
+
 // SECCIÓN 1: CONFIGURACIÓN BASE Y VARIABLES GLOBALES
 export const API_URL = "http://localhost:8080/api";
 
 // SECCIÓN 2: FUNCIÓN ENVOLTORIO (WRAPPER) PARA FETCH
+
 export const apiFetch = async (endpoint: string, options: RequestInit = {}): Promise<any> => {
 
     let token = "";
-    const userStorage = localStorage.getItem("user");
+    const userStorage = getUser();
 
     if (userStorage) {
         const parsedUser = JSON.parse(userStorage);

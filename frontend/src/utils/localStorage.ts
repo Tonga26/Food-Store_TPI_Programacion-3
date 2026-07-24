@@ -25,9 +25,10 @@ export const saveUser = (user: IUser) => {
 };
 
 export const getUser = () => {
-  return localStorage.getItem("userData");
+  return localStorage.getItem("userData") || localStorage.getItem("user");
 };
 
 export const removeUser = () => {
   localStorage.removeItem("userData");
+  localStorage.removeItem("user");
 };
