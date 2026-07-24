@@ -9,7 +9,9 @@
 
 ## 📌 Descripción
 
-**Food Store** es un sistema integral de e-commerce Full-Stack orientado a la venta de comida rápida, desarrollado como proyecto final para la materia Programación III. 
+**Food Store** nació originalmente como el proyecto final para la materia Programación III de la UTN. Sin embargo, no quise limitarme solo a cumplir con los requisitos académicos. Tras aprobar la materia, decidí seguir escalando el proyecto por mi cuenta para acercarlo lo más posible a un entorno real de producción. 
+
+Recientemente, refactoricé el backend para implementar una arquitectura de seguridad robusta desde cero utilizando **Spring Security 6 y JWT (JSON Web Tokens)**. Hoy, el sistema es una plataforma integral de e-commerce Full-Stack que opera bajo una API RESTful Stateless, separando completamente las responsabilidades del cliente (Frontend) y el servidor (Backend), y protegiendo los recursos mediante un sistema de autenticación y autorización por roles.
 
 El sistema resuelve la necesidad de digitalizar la toma de pedidos, ofreciendo una experiencia fluida tanto para los clientes (catálogo, filtros cruzados, carrito de compras) como para los administradores del negocio (panel de control, métricas en vivo, gestión de stock y estados de pedidos). Esta aplicación opera bajo una arquitectura API RESTful **Stateless**, separando completamente las responsabilidades del cliente (Frontend) y el servidor (Backend), y protegiendo los recursos mediante un sistema robusto de autenticación y autorización basado en tokens.
 
