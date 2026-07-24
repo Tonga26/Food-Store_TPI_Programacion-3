@@ -23,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
