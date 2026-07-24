@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,16 +15,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 /**
  * Configuración central de seguridad de la aplicación.
  * <p>
- * Esta clase define la arquitectura de seguridad basada en Spring Security 6.
- * Utiliza la anotación {@link Configuration} para declarar beans de Spring,
- * {@link EnableWebSecurity} para habilitar la seguridad web personalizada, y
- * {@link RequiredArgsConstructor} de Lombok para la inyección de dependencias.
- * Gestiona la cadena de filtros HTTP, la política de sesiones Stateless,
- * y los componentes necesarios para la autenticación y encriptación.
+ * Define la arquitectura de seguridad basada en Spring Security 6.
+ * Utiliza la anotación {@link Configuration} para declarar beans de infraestructura,
+ * {@link EnableWebSecurity} para habilitar la personalización de seguridad web, y
+ * {@link RequiredArgsConstructor} para la inyección de dependencias obligatorias.
+ * Gestiona la cadena de filtros HTTP, la política de sesiones, la configuración de
+ * orígenes cruzados (CORS) y los componentes de autenticación.
  */
 @Configuration
 @EnableWebSecurity
@@ -34,25 +37,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     /**
-     * Filtro personalizado que intercepta las peticiones HTTP para extraer y validar
-     * el token JWT antes de permitir el acceso a los recursos protegidos.
+     * Filtro personalizado encargado de interceptar las peticiones HTTP para extraer
+     * y validar los tokens JWT previo al acceso de recursos protegidos.
      */
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     /**
-     * Servicio central de Spring Security utilizado para recuperar los datos del usuario
-     * (credenciales y roles) desde la base de datos durante el proceso de autenticación.
+     * Servicio de Spring Security utilizado para recuperar los detalles y autoridades
+     * de los usuarios desde la capa de persistencia.
      */
     private final UserDetailsService userDetailsService;
 
     /**
-     * Registra el algoritmo de encriptación utilizado en el sistema.
+     * Configura y expone el algoritmo criptográfico del sistema.
      * <p>
-     * Instancia y devuelve un {@link BCryptPasswordEncoder}, que implementa la interfaz
-     * {@link PasswordEncoder}. Este algoritmo aplica una función hash fuerte para almacenar
-     * y validar contraseñas de forma segura.
+     * Provee una implementación basada en BCrypt para el cifrado unidireccional
+     * y la validación segura de contraseñas.
      *
-     * @return Implementación de {@link PasswordEncoder} basada en BCrypt.
+     * @return Instancia de {@link PasswordEncoder} configurada.
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,32 +62,16 @@ public class SecurityConfig {
     }
 
     /**
-     * Configura y provee el motor de validación de credenciales (Data Access Object Provider).
-     * <p>
-     * Crea una instancia de {@link DaoAuthenticationProvider}, inyectándole el
-     * {@link UserDetailsService} para la búsqueda de usuarios y el {@link PasswordEncoder}
-     * para la validación de la contraseña cifrada contra la proporcionada por el cliente.
-     *
-     * @return {@link AuthenticationProvider} completamente configurado para la validación de usuarios.
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    /**
      * Expone el administrador principal de autenticación de Spring Security.
      * <p>
-     * Este bean es requerido por los controladores (ej. AuthController) para iniciar
-     * de forma programática el proceso de login. Se obtiene directamente de la
-     * configuración de seguridad exportada de la aplicación.
+     * NOTA ARQUITECTÓNICA: En versiones modernas de Spring Security, no es necesario
+     * declarar explícitamente el DaoAuthenticationProvider. Al invocar este bean,
+     * el AuthenticationConfiguration escanea el contexto de la aplicación, detecta
+     * nuestros beans de UserDetailsService y PasswordEncoder, y ensambla automáticamente
+     * el proveedor de autenticación por detrás, inyectándolo en la cadena de filtros.
      *
      * @param config Objeto {@link AuthenticationConfiguration} que provee la configuración actual.
      * @return El {@link AuthenticationManager} global de la aplicación.
-     * @throws Exception Si ocurre un error al construir o recuperar el administrador.
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -93,49 +79,66 @@ public class SecurityConfig {
     }
 
     /**
-     * Define la cadena de filtros de seguridad (Security Filter Chain) para las peticiones HTTP.
+     * Consolida y define la cadena de filtros de seguridad (Security Filter Chain).
      * <p>
-     * Configura de manera fluida las siguientes políticas:
+     * Establece las políticas fundamentales de protección para el tráfico HTTP:
      * <ul>
-     *   <li>Desactiva la protección CSRF (necesario en arquitecturas REST Stateless con JWT).</li>
-     *   <li>Define las reglas de autorización (Access Control) por ruta y verbo HTTP, desde las
-     *       rutas públicas de acceso global, hasta las operaciones restringidas según los permisos
-     *       "USUARIO" y "ADMIN".</li>
-     *   <li>Establece una política de creación de sesiones {@link SessionCreationPolicy#STATELESS},
-     *       indicando que no se utilizarán HttpSession del lado del servidor.</li>
-     *   <li>Inyecta el {@link AuthenticationProvider} definido en la clase.</li>
-     *   <li>Registra el {@link JwtAuthenticationFilter} para que se ejecute antes del filtro
-     *       estándar de validación de usuario y contraseña.</li>
+     *   <li>Inhabilita la protección CSRF en favor de esquemas basados en tokens.</li>
+     *   <li>Aplica las políticas CORS establecidas en el contexto.</li>
+     *   <li>Implementa Control de Acceso Basado en Roles (RBAC) con coincidencia estricta de rutas.</li>
+     *   <li>Fuerza la gestión de sesiones bajo la política {@link SessionCreationPolicy#STATELESS}.</li>
+     *   <li>Registra el filtro JWT en la jerarquía para ejecutarse antes del filtro de validación estándar.</li>
      * </ul>
      *
-     * @param http Objeto {@link HttpSecurity} utilizado para construir las políticas de seguridad web.
-     * @return La configuración consolidada en un objeto {@link SecurityFilterChain}.
-     * @throws Exception Si existe algún error en la declaración de las reglas de seguridad.
+     * @param http Instancia de {@link HttpSecurity} para construir el flujo de seguridad.
+     * @return Objeto {@link SecurityFilterChain} configurado.
+     * @throws Exception Si se presenta un error estructural durante la configuración.
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api-docs/**", "/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/categories/**", "/api/products/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/categories/**", "/api/products/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/**", "/api/products", "/api/products/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/categories", "/api/categories/**", "/api/products", "/api/products/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/categories/**", "/api/products/**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/**", "/api/products/**").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/orders/**").hasAnyAuthority("USUARIO", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/orders", "/api/orders/**").hasAnyAuthority("USUARIO", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/orders/user/**", "/api/orders/{id}").hasAnyAuthority("USUARIO", "ADMIN")
 
-                        .requestMatchers("/api/orders/**").hasAuthority("ADMIN")
-                        .requestMatchers("/api/users/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/orders", "/api/orders/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/users", "/api/users/**").hasAuthority("ADMIN")
 
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    /**
+     * Define las directivas de Intercambio de Recursos de Origen Cruzado (CORS).
+     * <p>
+     * Autoriza explícitamente orígenes cliente, métodos de interacción HTTP,
+     * y la transmisión de cabeceras de autorización necesarias para el flujo JWT.
+     *
+     * @return Implementación de {@link CorsConfigurationSource} con las reglas definidas.
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
