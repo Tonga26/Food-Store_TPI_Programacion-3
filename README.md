@@ -196,6 +196,20 @@ El proyecto superó rigurosas pruebas de seguridad (Negative Testing) comproband
 
 [x] Fase 6: Implementación de Seguridad (Spring Security 6, JWT, BCrypt) y refactorización arquitectónica para sesiones Stateless.
 
+## 🧠 Aprendizajes y Habilidades Adquiridas (Key Takeaways)
+
+El desarrollo de Food Store representó un desafío integral que me permitió consolidar conocimientos tanto en el ecosistema Java como en el desarrollo Frontend nativo. Entre los aprendizajes técnicos más destacables se encuentran:
+
+* **Arquitectura de Seguridad:** Comprendí profundamente el ciclo de vida de una petición HTTP al implementar **Spring Security 6**. Pasé de tener controladores públicos a configurar un *Security Filter Chain* desde cero, manejando políticas CORS, deshabilitando CSRF para entornos de API REST y gestionando sesiones **Stateless** (sin estado).
+
+* **Gestión de Identidad (JWT):** Aprendí a construir e interceptar JSON Web Tokens mediante la implementación de un `OncePerRequestFilter`. Comprendí la importancia del cifrado criptográfico con BCrypt y el principio *Fail-Secure* ante la manipulación de credenciales en el lado del cliente.
+
+* **Integración E2E y Depuración:** Desarrollé una fuerte capacidad de *troubleshooting* (resolución de problemas) al conectar el Frontend con el Backend. Superé los clásicos errores `403 Forbidden` y `CORS preflight` analizando las cabeceras de red y centralizando la inyección del token mediante un *Fetch Wrapper* (Patrón Adaptador).
+
+* **Single Source of Truth (Única Fuente de Verdad):** Refactoricé el manejo del `localStorage` en TypeScript para evitar los "Magic Strings", centralizando la sesión del usuario en un único módulo para garantizar la consistencia en toda la aplicación.
+
+* **Buenas Prácticas y Git Flow:** Adopté el uso de *Conventional Commits* (commits atómicos) y el manejo de ramas (*feature branches*) para aislar el desarrollo de nuevas características (como el módulo de seguridad) antes de integrarlas a la rama principal, simulando un entorno de trabajo corporativo.
+
 ## ✉️ Contacto y Autor
 👨‍💻 Gastón Armando Giorgio
 
