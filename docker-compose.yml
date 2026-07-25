@@ -1,0 +1,59 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: foodstore-mysql
+    environment:
+      MYSQL_DATABASE: foodstore
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - foodstore_net
+
+    # Espera a que MySQL acepte conexiones antes de iniciar los servicios dependientes.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    
+  backend:
+    build:
+      context: ./backend
+    container_name: foodstore-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/foodstore?serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+    ports:
+      - "8080:8080"
+    networks:
+      - foodstore_net
+    
+    # Inicia el backend únicamente cuando MySQL esté disponible.
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: foodstore-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - foodstore_net
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  foodstore_net:
+    driver: bridge
+    name: foodstore_network
