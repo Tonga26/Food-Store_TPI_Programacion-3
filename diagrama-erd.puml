@@ -1,0 +1,146 @@
+@startuml
+title Food Store - Domain Model
+
+'==========================
+' Estilo
+'==========================
+skinparam dpi 200
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam classAttributeIconSize 0
+
+skinparam class {
+    BackgroundColor White
+    BorderColor #444444
+    HeaderBackgroundColor #F5F5F5
+    ArrowColor #555555
+}
+
+hide empty members
+
+'==========================
+' Interfaces
+'==========================
+
+interface Calculable {
+    + calcularTotal()
+}
+
+'==========================
+' Clase Base
+'==========================
+
+abstract class Base <<MappedSuperclass>> {
+    + id : Long
+    + eliminado : boolean
+    + createdAt : LocalDateTime
+    + updatedAt : LocalDateTime
+    + version : Integer
+}
+
+'==========================
+' Entidades
+'==========================
+
+class Usuario <<Entity>> {
+    + nombre : String
+    + apellido : String
+    + email : String
+    + celular : String
+    + contrasena : String
+    + rol : Rol
+}
+
+class Categoria <<Entity>> {
+    + nombre : String
+    + descripcion : String
+    + imagen : String
+}
+
+class Producto <<Entity>> {
+    + nombre : String
+    + descripcion : String
+    + precio : Double
+    + stock : int
+    + imagen : String
+    + disponible : boolean
+
+    --
+    + reducirStock(cantidad)
+    + tieneStockSuficiente(cantidad)
+}
+
+class Pedido <<Entity>> {
+    + fecha : LocalDate
+    + estado : Estado
+    + formaPago : FormaPago
+    + direccion : String
+    + telefono : String
+    + notas : String
+    + total : Double
+
+    --
+    + calcularTotal()
+}
+
+class DetallePedido <<Entity>> {
+    + cantidad : int
+    + subtotal : Double
+}
+
+'==========================
+' Enumeraciones
+'==========================
+
+enum Estado {
+    PENDIENTE
+    CONFIRMADO
+    TERMINADO
+    CANCELADO
+}
+
+enum FormaPago {
+    TARJETA
+    TRANSFERENCIA
+    EFECTIVO
+}
+
+enum Rol {
+    ADMIN
+    USUARIO
+}
+
+'==========================
+' Herencia
+'==========================
+
+Base <|-- Usuario
+Base <|-- Categoria
+Base <|-- Producto
+Base <|-- Pedido
+Base <|-- DetallePedido
+
+Calculable <|.. Pedido
+
+'==========================
+' Relaciones
+'==========================
+
+Categoria "1" -- "0..*" Producto
+
+Usuario "1" -- "0..*" Pedido
+
+Pedido "1" *-- "1..*" DetallePedido
+
+Producto "1" <-- "0..*" DetallePedido
+
+'==========================
+' Dependencias con Enums
+'==========================
+
+Pedido ..> Estado
+Pedido ..> FormaPago
+Usuario ..> Rol
+
+@enduml
