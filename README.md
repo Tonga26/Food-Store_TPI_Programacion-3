@@ -259,7 +259,7 @@ Start-Process -FilePath "C:\Program Files\Docker\Docker\Docker Desktop.exe" -Win
 #### 1- Clonar el repositorio:
 
 ```bash
-git clone https://github.com/Tonga26/Food-Store_TPI_Programacion-3.git
+git clone https://github.com/gastongiorgio/Food-Store_TPI_Programacion-3.git
 
 cd Food-Store_TPI_Programacion-3
 ```
