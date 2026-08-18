@@ -240,7 +240,8 @@ La API RESTful está documentada con OpenAPI (Swagger). A continuación se detal
 
 ## 🐳 Despliegue y Ejecución (Docker)
 
-El proyecto está preparado para levantar toda su infraestructura (Backend, Frontend y Base de Datos) de forma automatizada mediante contenedores, asegurando que funcione exactamente igual en cualquier entorno de producción o desarrollo.
+El proyecto está preparado para levantar toda su infraestructura (Backend, Frontend y Base de Datos) de forma automatizada mediante contenedores, facilitando la configuración del entorno y proporcionando una ejecución reproducible entre distintos entornos de desarrollo.
+
 
 ### Requisitos
 
@@ -266,7 +267,8 @@ cd Food-Store_TPI_Programacion-3
 
 #### 2- Configurar el entorno:
 
-Crea el archivo de variables a partir del ejemplo (ya contiene las credenciales seguras por defecto para pruebas locales):
+Crea el archivo de variables a partir del ejemplo. El archivo `.env.example` contiene valores de configuración destinados exclusivamente al desarrollo local, que deben reemplazarse antes de utilizar la aplicación en otros entornos:
+
 
 ```bash
 cp .env.example .env
@@ -318,7 +320,8 @@ El desarrollo de Food Store me permitió profundizar en distintas áreas del des
 
 Gastón Armando Giorgio
 
-Desarrollador orientado a Backend | Estudiante de la Tecnicatura Universitaria en Programación (UTN).
+Full Stack Developer con mayor experiencia práctica en Backend | Estudiante de la Tecnicatura Universitaria en Programación (UTN).
+
 
 📍 Mendoza, Argentina.
 
